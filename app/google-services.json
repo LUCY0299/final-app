@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "143867493491",
+    "project_id": "stroketest1-57715",
+    "storage_bucket": "stroketest1-57715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143867493491:android:3add1076277802c9833e06",
+        "android_client_info": {
+          "package_name": "com.example.strokepatientsvoicerecoveryapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143867493491-m787smdsumj10j2mrjtsf3uqiu4omkuj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClyWobnqmUTgrhX3POZ5-EZzR9M8CAc5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143867493491-m787smdsumj10j2mrjtsf3uqiu4omkuj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

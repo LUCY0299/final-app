@@ -1,2 +1,2 @@
-# final-app
-final-app
+# Strokepatientsvoicerecoveryapp
+Student Graduation Project

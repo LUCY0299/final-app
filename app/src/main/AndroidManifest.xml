@@ -37,6 +37,9 @@
         <activity android:name=".itemPracriceActivity" />
         <activity android:name=".chooseTypeActivity" />
         <activity android:name=".SetTimeActivity"/>
+        <activity android:name=".ChoosesentenceActivity"/>
+        <activity android:name=".SpeechActivity"/>
+        <activity android:name=".SpeechimageActivity"/>
     </application>
 
 </manifest>

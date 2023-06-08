@@ -10,10 +10,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginRight="70dp"
         android:layout_marginTop="120dp"
         android:text="想練習的方面"
+        android:gravity="center"
         android:textColor="#7B7B7B"
         android:textSize="30sp"
         android:textStyle="bold"

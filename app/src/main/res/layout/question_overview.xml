@@ -16,7 +16,7 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="700dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,7 +26,7 @@
             android:orientation="horizontal">
 
             <include
-                android:id="@+id/food"
+                android:id="@+id/q_speech"
                 layout="@layout/speech"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -41,7 +41,7 @@
             android:orientation="horizontal">
 
             <include
-                android:id="@+id/food"
+                android:id="@+id/q_speech_image"
                 layout="@layout/speech_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,9 +55,8 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
             <include
-                android:id="@+id/food"
+                android:id="@+id/q_choose_image"
                 layout="@layout/choose_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -71,9 +70,8 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
             <include
-                android:id="@+id/food"
+                android:id="@+id/q_drag_text"
                 layout="@layout/drag_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -87,9 +85,8 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
             <include
-                android:id="@+id/food"
+                android:id="@+id/q_describe_image"
                 layout="@layout/describe_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -103,9 +100,8 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
             <include
-                android:id="@+id/food"
+                android:id="@+id/q_choose_sentence"
                 layout="@layout/choose_sentence"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -123,6 +119,7 @@
         android:gravity="center">
 
         <Button
+            android:id="@+id/hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提示"
@@ -131,6 +128,7 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="下一題"

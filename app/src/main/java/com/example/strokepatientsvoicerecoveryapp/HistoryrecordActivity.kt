@@ -13,7 +13,7 @@ class HistoryrecordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.history_record)
+        setContentView(R.layout.history_record_detail)
 
         btn_see.setOnClickListener {
             val   intent = Intent(this,QuestiondetailActivity::class.java);

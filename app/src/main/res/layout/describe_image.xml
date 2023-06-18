@@ -19,11 +19,22 @@
 
 
 
+        <TextView
+            android:id="@+id/tv_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="請描述圖片中的句子"
+            android:layout_marginBottom="20dp"
+            android:textColor="#363A43"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <ImageView
-            android:id="@+id/tv_image2"
+            android:id="@+id/tv_image3"
             android:layout_width="300dp"
             android:layout_height="200dp"
-            android:src="@drawable/animal1"/>
+            android:src="@drawable/image4"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,8 +46,20 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_text3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:text="圖片中的膚色衣服男子正在___"
+            android:textColor="#363A43"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <Button
-            android:id="@+id/tv_speech1"
+            android:id="@+id/tv_speech2"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_margin="20dp"
@@ -48,16 +71,6 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv_text1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="輸入上方圖片內的物品名稱"
-            android:textColor="#363A43"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
 
 

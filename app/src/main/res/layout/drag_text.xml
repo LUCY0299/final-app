@@ -17,9 +17,6 @@
 
 
 
-
-
-
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,21 +26,21 @@
             <TableRow>
 
                 <ImageView
-                    android:id="@+id/tv_image4"
+                    android:id="@+id/tv_image8"
                     android:layout_width="115dp"
                     android:layout_height="115dp"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/images6" />
 
                 <ImageView
-                    android:id="@+id/tv_image5"
+                    android:id="@+id/tv_image9"
                     android:layout_width="115dp"
                     android:layout_height="115dp"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/image1" />
 
                 <ImageView
-                    android:id="@+id/tv_image6"
+                    android:id="@+id/tv_image10"
                     android:layout_width="115dp"
                     android:layout_height="115dp"
                     android:src="@drawable/image2" />

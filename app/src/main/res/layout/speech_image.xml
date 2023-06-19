@@ -15,10 +15,6 @@
         android:gravity="center"
         android:padding="16dp">
 
-
-
-
-
         <ImageView
             android:id="@+id/tv_image2"
             android:layout_width="300dp"
@@ -60,14 +56,6 @@
             android:textStyle="bold" />
 
 
-
-
-
-
     </LinearLayout>
-
-
-
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

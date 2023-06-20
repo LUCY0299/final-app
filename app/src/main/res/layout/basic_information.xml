@@ -49,7 +49,6 @@
        app:layout_constraintEnd_toEndOf="parent"
        android:layout_height="wrap_content">
 
-
       <EditText
           android:id="@+id/editAge"
           android:layout_width="match_parent"
@@ -88,8 +87,6 @@
        app:layout_constraintEnd_toEndOf="parent"
        android:layout_height="wrap_content">
 
-
-
       <EditText
           android:id="@+id/editmember"
           android:layout_width="match_parent"
@@ -97,6 +94,7 @@
           android:background="#408080"
           android:hint="   地址" />
    </com.google.android.material.textfield.TextInputLayout>
+
    <com.google.android.material.textfield.TextInputLayout
        android:id="@+id/textmember"
        android:layout_width="match_parent"
@@ -107,15 +105,15 @@
        app:layout_constraintEnd_toEndOf="parent"
        android:layout_height="wrap_content">
 
-
       <EditText
           android:id="@+id/editmembername"
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="   家庭成員1" />
+          android:hint="家庭成員稱謂" />
 
    </com.google.android.material.textfield.TextInputLayout>
+
    <com.google.android.material.textfield.TextInputLayout
        android:id="@+id/textmembername"
        android:layout_width="match_parent"
@@ -126,15 +124,12 @@
        app:layout_constraintEnd_toEndOf="parent"
        android:layout_height="wrap_content">
 
-
-
-
       <EditText
           android:id="@+id/editmem"
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="   家人姓名1" />
+          android:hint="家人姓名" />
 
       <TextView
           android:id="@+id/item"

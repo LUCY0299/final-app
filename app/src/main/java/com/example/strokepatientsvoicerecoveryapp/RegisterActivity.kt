@@ -14,10 +14,6 @@ import com.google.firebase.database.FirebaseDatabase
 
 // 註冊畫面
 class RegisterActivity : AppCompatActivity() {
-//    private lateinit var t_username : EditText
-//    private lateinit var t_password : EditText
-//    private lateinit var btn_login : Button
-//    private lateinit var btn_createUser : Button
 
     // firebase
     private lateinit var dbRef : DatabaseReference
@@ -27,10 +23,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = RegisterloginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        setContentView(R.layout.registerlogin)
-
-//        t_username = findViewById(R.id.t_username)
-//        t_password = findViewById(R.id.t_password)
 
         dbRef = FirebaseDatabase.getInstance().getReference("Users")
 
@@ -52,26 +44,34 @@ class RegisterActivity : AppCompatActivity() {
 
         if(username.isEmpty()) {
             binding.tUsername.error = "記得填寫你的用戶名稱"
+            Toast.makeText(this, "記得填寫你的用戶名稱", Toast.LENGTH_SHORT).show()
         }
-        if(password.isEmpty()) {
+        else if(password.isEmpty()) {
             binding.tPassword.error = "記得填寫你的密碼"
+            Toast.makeText(this, "記得填寫你的密碼", Toast.LENGTH_SHORT).show()
         }
+        else if(binding.tComfirmPassword != binding.tPassword){
+            binding.tPassword.error = "確認密碼與你的密碼不一致"
+            Toast.makeText(this, "確認密碼與你的密碼不一致", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            // 註冊 存進資料庫
+            val UserId = dbRef.push().key!!
+            val User = UserModel(UserId, username, password)
 
-        // 註冊 存進資料庫
-        val UserId = dbRef.push().key!!
-        val User = UserModel(UserId, username, password)
-        dbRef.child(username).setValue(User)
-            .addOnCompleteListener {
-                Toast.makeText(this, "註冊成功!", Toast.LENGTH_LONG).show()
-                binding.tUsername.text.clear()
-                binding.tPassword.text.clear()
+            dbRef.child(username).setValue(User)
+                .addOnCompleteListener {
+                    Toast.makeText(this, "註冊成功!", Toast.LENGTH_LONG).show()
+                    binding.tUsername.text.clear()
+                    binding.tPassword.text.clear()
 
-                // 要不要直接註冊完直接跳到登入畫面?
-                val intent = Intent(this,userloginActivity::class.java);
-                startActivity(intent)
-            }.addOnFailureListener {
-                Toast.makeText(this, "註冊失敗", Toast.LENGTH_LONG).show()
-            }
+                    // 註冊完直接跳到登入畫面
+                    val intent = Intent(this,userloginActivity::class.java);
+                    startActivity(intent)
+                }.addOnFailureListener {
+                    Toast.makeText(this, "註冊失敗", Toast.LENGTH_LONG).show()
+                }
+        }
     }
 
 }

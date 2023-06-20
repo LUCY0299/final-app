@@ -76,7 +76,7 @@
         android:hint="">
 
         <EditText
-            android:id="@+id/t_password1"
+            android:id="@+id/t_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#408080"
@@ -97,12 +97,13 @@
         app:endIconMode="password_toggle">
 
         <EditText
-            android:id="@+id/t_password"
+            android:id="@+id/t_comfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#408080"
             android:hint="確認密碼"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            tools:ignore="DuplicateIds" />
 
         <Button
             android:id="@+id/btn_createUser"

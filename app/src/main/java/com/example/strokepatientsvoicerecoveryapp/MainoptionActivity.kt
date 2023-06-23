@@ -3,23 +3,33 @@ package com.example.strokepatientsvoicerecoveryapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import com.example.strokepatientsvoicerecoveryapp.databinding.MainoptionBinding
 
 class MainoptionActivity : AppCompatActivity() {
-    private lateinit var btn_itemPracrice : Button
-    private lateinit var btn_chooseType : Button
+    private lateinit var binding: MainoptionBinding
+    private lateinit var username: String
+    private lateinit var sp1Selection: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.mainoption)
+        binding = MainoptionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btn_itemPracrice.setOnClickListener {
-            val   intent = Intent(this,itemPracriceActivity::class.java);
-            startActivity(intent)
-        }//當按下類型選擇鍵就會跳轉到類型選擇畫面
-        btn_chooseType.setOnClickListener {
-            val   intent = Intent(this,chooseTypeActivity::class.java);
-            startActivity(intent)
-        }//當按下加強練習鍵就會跳轉到加強練習畫面
+        //當按下類型選擇鍵就會跳轉到類型選擇畫面
+        binding.btnItemPracrice.setOnClickListener {
+            navigateToNextPage(itemPracriceActivity::class.java)
+        }
+
+        //當按下加強練習鍵就會跳轉到加強練習畫面
+        binding.btnChooseType.setOnClickListener {
+            navigateToNextPage(chooseTypeActivity::class.java)
+        }
+    }
+
+    private fun navigateToNextPage(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        intent.putExtra("username", username)
+        intent.putExtra("sp1Selection", sp1Selection)
+        startActivity(intent)
     }
 }

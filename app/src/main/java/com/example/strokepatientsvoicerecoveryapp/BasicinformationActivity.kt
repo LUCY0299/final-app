@@ -13,7 +13,6 @@ class BasicinformationActivity : AppCompatActivity() {
     private lateinit var binding : BasicInformationBinding
     private lateinit var dbRef : DatabaseReference
     private lateinit var checkUserDatabase: Query
-
     private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +25,6 @@ class BasicinformationActivity : AppCompatActivity() {
         //當按下送出鍵就會跳轉到主題選擇畫面
         binding.send.setOnClickListener {
             saveUserData()
-
-            val intent = Intent(this,MainoptionActivity::class.java);
-            startActivity(intent)
         }
     }
 
@@ -58,7 +54,7 @@ class BasicinformationActivity : AppCompatActivity() {
     }
 
     // 儲存帳號資料到FireBase
-    private fun saveUserData() {
+    private fun saveUserData() : Boolean{
         val realName = binding.textUsername.editText?.text.toString()
         val age = binding.textAge.editText?.text.toString()
         val address = binding.textaddr.editText?.text.toString()
@@ -71,30 +67,37 @@ class BasicinformationActivity : AppCompatActivity() {
         if(realName.isEmpty()) {
             binding.textUsername.error = "記得填寫你的真實名稱"
             Toast.makeText(this, "記得填寫你的真實名稱", Toast.LENGTH_SHORT).show()
+            return false
         }
         else if(age.isEmpty()) {
             binding.textAge.error = "記得填寫你的年齡"
             Toast.makeText(this, "記得填寫你的年齡", Toast.LENGTH_SHORT).show()
+            return false
         }
         else if(address.isEmpty()) {
             binding.textaddr.error = "記得填寫你的地址"
             Toast.makeText(this, "記得填寫你的地址", Toast.LENGTH_SHORT).show()
+            return false
         }
         else if(member.isEmpty()) {
             binding.textmember.error = "記得填寫你的家庭成員稱謂"
             Toast.makeText(this, "記得填寫你的家庭成員稱謂", Toast.LENGTH_SHORT).show()
+            return false
         }
         else if(memberName.isEmpty()) {
             binding.textmembername.error = "記得填寫你的家庭成員姓名"
             Toast.makeText(this, "記得填寫你的家庭成員姓名", Toast.LENGTH_SHORT).show()
+            return false
         }
         else if(spSelection.isEmpty()) {
             binding.sp.requestFocus()
             Toast.makeText(this, "請選擇一個選項", Toast.LENGTH_SHORT).show()
+            return false
         }
         else if(sp1Selection.isEmpty()) {
             binding.sp1.requestFocus()
             Toast.makeText(this, "請選擇一個選項", Toast.LENGTH_SHORT).show()
+            return false
         }
         else{
             val userData = HashMap<String, Any>()
@@ -107,39 +110,49 @@ class BasicinformationActivity : AppCompatActivity() {
             userData["sp1Selection"] = sp1Selection
 
             val dbRef = FirebaseDatabase.getInstance().getReference("Users")
-            val userRef = dbRef.child("user") // 這裡使用特定的用戶名
+            val userRef = dbRef.child(username) // 這裡使用特定的用戶名
             userRef.updateChildren(userData)
                 .addOnSuccessListener {
                     // 更新成功
                     Toast.makeText(this@BasicinformationActivity, "資料保存成功", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this@BasicinformationActivity, MainoptionActivity::class.java)
+                    intent.putExtra("username", username)
+                    intent.putExtra("sp1Selection", sp1Selection)
+                    startActivity(intent)
+                    // passUserData(username)
                 }
                 .addOnFailureListener { e ->
                     // 更新失败
                     Toast.makeText(this@BasicinformationActivity, "資料保存失敗，請再試一次", Toast.LENGTH_SHORT).show()
                 }
-            passUserData(username)
+            return true
         }
     }
 
-
+/*
     // 帳號資料傳到下一頁
     private fun passUserData(username: String) {
         val dbRef = FirebaseDatabase.getInstance().getReference("Users")
-        val query = dbRef.orderByChild("username").equalTo(username)
+        val userRef = dbRef.child(username)
 
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val nameFromDB = snapshot.child(username).child("name").getValue(String::class.java)
-                    val intent = Intent(this@BasicinformationActivity, itemPracriceActivity::class.java)
-                    intent.putExtra("name", nameFromDB)
+                    val sp1Selection = snapshot.child("sp1Selection").getValue(String::class.java)
+
+                    val intent = Intent(this@BasicinformationActivity, MainoptionActivity::class.java)
                     intent.putExtra("username", username)
+                    intent.putExtra("sp1Selection", sp1Selection)
                     startActivity(intent)
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
-                // 如果需要，處理 onCancelled 事件
+                // 处理 onCancelled 事件
             }
         })
     }
+
+ */
 }

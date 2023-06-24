@@ -2,6 +2,11 @@ package com.example.strokepatientsvoicerecoveryapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.BasicInformationBinding
@@ -20,14 +25,27 @@ class BasicinformationActivity : AppCompatActivity() {
         binding = BasicInformationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 接收上一頁傳來的user
         getPassedUser()
 
         //當按下送出鍵就會跳轉到主題選擇畫面
         binding.send.setOnClickListener {
             saveUserData()
         }
-    }
 
+        // Age那邊Date格式限制
+        setupDateInput()
+
+        // 選到病症程度 給建議
+        binding.sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                spSuggestion()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // 什麼都沒選
+            }
+        }
+    }
     // ========================function======================================
     // 上一個頁面傳過來的帳號
     // 現在登入的帳號
@@ -42,7 +60,21 @@ class BasicinformationActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val nameFromDB = snapshot.child("username").child("name").getValue(String::class.java)
+                    // 有資料就放出來
                     // 在這裡處理從數據庫中獲取的名稱 nameFromDB
+                    val userSnapshot = snapshot.children.first()
+                    val realnameFromDB = userSnapshot.child("realName").getValue(String::class.java)
+                    val ageFromDB = userSnapshot.child("age").getValue(String::class.java)
+                    val addrFromDB = userSnapshot.child("age").getValue(String::class.java)
+                    val memberFromDB = userSnapshot.child("age").getValue(String::class.java)
+                    val membernameFromDB = userSnapshot.child("age").getValue(String::class.java)
+
+                    // 設EditText的文字
+                    binding.textUsername.editText?.setText(realnameFromDB)
+                    binding.textAge.editText?.setText(ageFromDB)
+                    binding.textaddr.editText?.setText(addrFromDB)
+                    binding.textmember.editText?.setText(memberFromDB)
+                    binding.textmembername.editText?.setText(membernameFromDB)
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -89,14 +121,14 @@ class BasicinformationActivity : AppCompatActivity() {
             Toast.makeText(this, "記得填寫你的家庭成員姓名", Toast.LENGTH_SHORT).show()
             return false
         }
-        else if(spSelection.isEmpty()) {
+        else if(spSelection == "請選擇症狀程度名稱") {
             binding.sp.requestFocus()
-            Toast.makeText(this, "請選擇一個選項", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "請選擇一個症狀程度名稱", Toast.LENGTH_SHORT).show()
             return false
         }
-        else if(sp1Selection.isEmpty()) {
+        else if(sp1Selection == "請選擇難度") {
             binding.sp1.requestFocus()
-            Toast.makeText(this, "請選擇一個選項", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "請選擇一個難度", Toast.LENGTH_SHORT).show()
             return false
         }
         else{
@@ -130,6 +162,58 @@ class BasicinformationActivity : AppCompatActivity() {
         }
     }
 
+    private fun spSuggestion() {
+        val suggestions = resources.getStringArray(R.array.suggestions)
+        val suggestionIndex = binding.sp.selectedItemPosition
+        if (suggestionIndex != AdapterView.INVALID_POSITION) {
+            val suggestionText = suggestions[suggestionIndex]
+            binding.suggestion.text = suggestionText
+        }
+    }
+
+    private fun setupDateInput() {
+        val dateTextWatcher = object : TextWatcher {
+            private var currentText = ""
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 在文本改变前的操作，不需要做任何处理
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 在文本改变时的操作，不需要做任何处理
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                s?.let { editable ->
+                    val inputText = editable.toString()
+                    val formattedText = formatDateString(inputText)
+                    if (formattedText != inputText) {
+                        editable.replace(0, editable.length, formattedText)
+                    }
+                    currentText = formattedText
+                }
+            }
+
+            private fun formatDateString(inputText: String): String {
+                val digitsOnly = inputText.replace("[^\\d]".toRegex(), "")
+
+                val formattedText = buildString {
+                    for (i in digitsOnly.indices) {
+                        append(digitsOnly[i])
+                        if (i == 3 || i == 5) {
+                            append("/")
+                        }
+                    }
+                }
+
+                return formattedText
+            }
+        }
+
+        binding.textAge.editText?.addTextChangedListener(dateTextWatcher)
+    }
+
+}
 /*
     // 帳號資料傳到下一頁
     private fun passUserData(username: String) {
@@ -155,4 +239,3 @@ class BasicinformationActivity : AppCompatActivity() {
     }
 
  */
-}

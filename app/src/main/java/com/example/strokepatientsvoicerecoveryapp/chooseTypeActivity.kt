@@ -36,6 +36,7 @@ class chooseTypeActivity: AppCompatActivity() {
         dataList= arrayListOf<Dataclass>()
         getDate()
     }
+
     private fun getDate(){
         for(i in imageList.indices){
             val dataclass=Dataclass(imageList[i],titleList[i])

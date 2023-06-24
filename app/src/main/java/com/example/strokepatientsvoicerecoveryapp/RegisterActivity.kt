@@ -41,6 +41,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUserData() {
         val username = binding.tUsername.text.toString()
         val password = binding.tPassword.text.toString()
+        val ComfirmPassword = binding.tComfirmPassword.text.toString()
 
         if(username.isEmpty()) {
             binding.tUsername.error = "記得填寫你的用戶名稱"
@@ -50,7 +51,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.tPassword.error = "記得填寫你的密碼"
             Toast.makeText(this, "記得填寫你的密碼", Toast.LENGTH_SHORT).show()
         }
-        else if(binding.tComfirmPassword != binding.tPassword){
+        else if(ComfirmPassword != password){
             binding.tPassword.error = "確認密碼與你的密碼不一致"
             Toast.makeText(this, "確認密碼與你的密碼不一致", Toast.LENGTH_SHORT).show()
         }

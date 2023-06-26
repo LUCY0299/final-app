@@ -14,6 +14,8 @@ class itemPracriceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ItemPracriceBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        username = intent.getStringExtra("username") ?: ""
+        sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
 
         //當按下流暢鍵就會跳轉到設定時間畫面
         binding.btnFluent.setOnClickListener {

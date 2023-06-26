@@ -1,21 +1,26 @@
 package com.example.strokepatientsvoicerecoveryapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class chooseTypeActivity: AppCompatActivity() {
-
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var dataList: ArrayList<Dataclass>
     lateinit var imageList:Array<Int>
     lateinit var titleList:Array<String>
 
+    private lateinit var username: String
+    private lateinit var sp1Selection: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.choose_type)
+
+        username = intent.getStringExtra("username") ?: ""
+        sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
 
         imageList= arrayOf(
             R.drawable.image1,
@@ -43,6 +48,13 @@ class chooseTypeActivity: AppCompatActivity() {
             dataList.add(dataclass)
         }//獲得索引的資訊，有另創一個Dataclass
         recyclerView.adapter=Adapterclass(dataList)
+    }
+
+    private fun navigateToNextPage(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        intent.putExtra("username", username)
+        intent.putExtra("sp1Selection", sp1Selection)
+        startActivity(intent)
     }
 
 }

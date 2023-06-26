@@ -15,6 +15,9 @@ class MainoptionActivity : AppCompatActivity() {
         binding = MainoptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        username = intent.getStringExtra("username") ?: ""
+        sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
+
         //當按下類型選擇鍵就會跳轉到類型選擇畫面
         binding.btnItemPracrice.setOnClickListener {
             navigateToNextPage(itemPracriceActivity::class.java)

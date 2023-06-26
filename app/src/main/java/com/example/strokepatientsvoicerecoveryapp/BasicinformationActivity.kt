@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.BasicInformationBinding
@@ -65,9 +66,11 @@ class BasicinformationActivity : AppCompatActivity() {
                     val userSnapshot = snapshot.children.first()
                     val realnameFromDB = userSnapshot.child("realName").getValue(String::class.java)
                     val ageFromDB = userSnapshot.child("age").getValue(String::class.java)
-                    val addrFromDB = userSnapshot.child("age").getValue(String::class.java)
-                    val memberFromDB = userSnapshot.child("age").getValue(String::class.java)
-                    val membernameFromDB = userSnapshot.child("age").getValue(String::class.java)
+                    val addrFromDB = userSnapshot.child("address").getValue(String::class.java)
+                    val memberFromDB = userSnapshot.child("member").getValue(String::class.java)
+                    val membernameFromDB = userSnapshot.child("memberName").getValue(String::class.java)
+                    val spSelectionFromDB = userSnapshot.child("spSelection").getValue(String::class.java)
+                    val sp1SelectionFromDB = userSnapshot.child("sp1Selection").getValue(String::class.java)
 
                     // 設EditText的文字
                     binding.textUsername.editText?.setText(realnameFromDB)
@@ -75,6 +78,11 @@ class BasicinformationActivity : AppCompatActivity() {
                     binding.textaddr.editText?.setText(addrFromDB)
                     binding.textmember.editText?.setText(memberFromDB)
                     binding.textmembername.editText?.setText(membernameFromDB)
+                    val spSelectionIndex = getIndexFromSpinner(binding.sp, spSelectionFromDB)
+                    binding.sp.setSelection(spSelectionIndex)
+
+                    val sp1SelectionIndex = getIndexFromSpinner(binding.sp1, sp1SelectionFromDB)
+                    binding.sp1.setSelection(sp1SelectionIndex)
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -176,11 +184,11 @@ class BasicinformationActivity : AppCompatActivity() {
             private var currentText = ""
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 在文本改变前的操作，不需要做任何处理
+                // 在文字改變前
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // 在文本改变时的操作，不需要做任何处理
+                // 在文字改變時
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -213,6 +221,10 @@ class BasicinformationActivity : AppCompatActivity() {
         binding.textAge.editText?.addTextChangedListener(dateTextWatcher)
     }
 
+    private fun getIndexFromSpinner(spinner: Spinner, selection: String?): Int {
+        val adapter = spinner.adapter as ArrayAdapter<String>
+        return adapter.getPosition(selection)
+    }
 }
 /*
     // 帳號資料傳到下一頁

@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/q1"
+            android:id="@+id/q1_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -34,7 +34,7 @@
                 android:visibility="visible" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/q2"
+            android:id="@+id/q2_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -49,7 +49,7 @@
                 android:visibility="visible" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/q3"
+            android:id="@+id/q3_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -64,7 +64,7 @@
                 android:visibility="invisible" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/q4"
+            android:id="@+id/q4_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -79,7 +79,7 @@
                 android:visibility="invisible" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/q5"
+            android:id="@+id/q5_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -94,7 +94,7 @@
                 android:visibility="invisible" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/q6"
+            android:id="@+id/q6_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">

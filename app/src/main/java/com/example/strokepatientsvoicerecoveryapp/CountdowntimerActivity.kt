@@ -13,8 +13,11 @@ class CountdowntimerActivity : AppCompatActivity() {
         setContentView(R.layout.countdown_timer)
 
         val textView = findViewById<TextView>(R.id.countdown_timer)
-        val timeDuration = TimeUnit.MINUTES.toMillis(15)//設定倒數時間長短
-        val tickInterval: Long = 10//沿途接收回調的間隔
+
+        val timeValue = intent.getIntExtra("timeValue", 0) // 從Intent中檢索時間值
+        val timeDuration = TimeUnit.MINUTES.toMillis(timeValue.toLong()) // 設定倒數時間
+        val tickInterval: Long = 10 //接收回調的間隔
+
 
         object : CountDownTimer(timeDuration, tickInterval) {
             var millis: Long = 1000 //1000=1秒

@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class chooseTypeActivity: AppCompatActivity() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var dataList: ArrayList<Dataclass>
-    lateinit var imageList:Array<Int>
-    lateinit var titleList:Array<String>
-
+    private lateinit var myAdapter: Adapterclass
+    lateinit var imageList: Array<Int>
+    lateinit var titleList: Array<String>
     private lateinit var username: String
     private lateinit var sp1Selection: String
 
@@ -21,6 +22,7 @@ class chooseTypeActivity: AppCompatActivity() {
 
         username = intent.getStringExtra("username") ?: ""
         sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
+
 
         imageList= arrayOf(
             R.drawable.image1,
@@ -34,27 +36,34 @@ class chooseTypeActivity: AppCompatActivity() {
         titleList= arrayOf(
             "節慶","食物","飲料","衣服","身體部位","心情","住所"
         )//標題按照順序
-        recyclerView=findViewById(R.id.rv_Type)
-        recyclerView.layoutManager=LinearLayoutManager(this)//LayoutManager 來指定 RecyclerView 排列的方式
+        recyclerView = findViewById(R.id.rv_Type)
+        recyclerView.layoutManager = LinearLayoutManager(this)//LayoutManager 來指定 RecyclerView 排列的方式
         recyclerView.setHasFixedSize(true)
 
-        dataList= arrayListOf<Dataclass>()
+        dataList = arrayListOf<Dataclass>()
         getDate()
+
+        myAdapter.onItemClick = { title ->
+            navigateToNextPage(SetTimeActivity::class.java,title)
+        }
     }
 
-    private fun getDate(){
-        for(i in imageList.indices){
-            val dataclass=Dataclass(imageList[i],titleList[i])
+    private fun getDate() {
+        for (i in imageList.indices) {
+            val dataclass = Dataclass(imageList[i], titleList[i])
             dataList.add(dataclass)
         }//獲得索引的資訊，有另創一個Dataclass
-        recyclerView.adapter=Adapterclass(dataList)
+
+        myAdapter = Adapterclass(dataList)
+        recyclerView.adapter = myAdapter
     }
 
-    private fun navigateToNextPage(activityClass: Class<*>) {
+    private fun navigateToNextPage(activityClass: Class<*>, selectedTitle: Dataclass) {
         val intent = Intent(this, activityClass)
         intent.putExtra("username", username)
         intent.putExtra("sp1Selection", sp1Selection)
+        intent.putExtra("selectedTitle", selectedTitle)
         startActivity(intent)
     }
-
 }
+

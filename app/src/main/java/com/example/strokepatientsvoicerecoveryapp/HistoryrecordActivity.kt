@@ -15,13 +15,15 @@ class HistoryrecordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.history_record_detail)
 
+        //當按下查看鍵就會跳轉到題目紀錄畫面
         btn_see.setOnClickListener {
             val   intent = Intent(this,QuestiondetailActivity::class.java);
             startActivity(intent)
-        }//當按下查看鍵就會跳轉到題目紀錄畫面
+        }
+        //當按下查看鍵就會跳轉到題目紀錄畫面
         btn_see1.setOnClickListener {
             val   intent = Intent(this,QuestiondetailActivity::class.java);
             startActivity(intent)
-        }//當按下查看鍵就會跳轉到題目紀錄畫面
+        }
     }
 }

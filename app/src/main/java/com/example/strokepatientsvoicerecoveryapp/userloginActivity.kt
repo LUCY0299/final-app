@@ -21,7 +21,6 @@ class userloginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = UserloginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        setContentView(R.layout.userlogin)
 
         binding.btnUserLogin.setOnClickListener {
             searchUser()

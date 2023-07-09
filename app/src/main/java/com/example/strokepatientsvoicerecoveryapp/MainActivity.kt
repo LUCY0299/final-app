@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        FirebaseApp.initializeApp(this)
 
         binding.btnLogin.setOnClickListener {
             val   intent = Intent(this,userloginActivity::class.java);
@@ -25,7 +29,3 @@ class MainActivity : AppCompatActivity() {
         }//當按下註冊鍵就會跳轉到使用者註冊畫面
     }
 }
-
-
-//    private lateinit var btn_login : Button
-//    private lateinit var btn_signin : Button

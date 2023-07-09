@@ -40,6 +40,7 @@
         <activity android:name=".ChoosesentenceActivity"/>
         <activity android:name=".SpeechActivity"/>
         <activity android:name=".SpeechimageActivity"/>
+        <activity android:name=".QuestionOverviewActivity"/>
     </application>
 
 </manifest>

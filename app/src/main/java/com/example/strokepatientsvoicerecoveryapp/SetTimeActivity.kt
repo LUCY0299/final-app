@@ -21,8 +21,7 @@ class SetTimeActivity : AppCompatActivity() {
                 val time = timeValue.toInt()
                 if (time in 1..99) {
                     val intent = Intent(this, CountdowntimerActivity::class.java)
-                    intent.putExtra("username", intent.getStringExtra("username"))
-                    intent.putExtra("sp1Selection", intent.getStringExtra("sp1Selection"))
+                    intent.putExtra("timeValue", time) // Pass the time value as an extra
                     startActivity(intent)
                     finish()
                 } else {

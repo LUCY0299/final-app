@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 class CountdowntimerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.countdown_timer)
+        setContentView(R.layout.question_overview)
 
         val textView = findViewById<TextView>(R.id.countdown_timer)
 

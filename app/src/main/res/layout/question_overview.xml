@@ -29,6 +29,7 @@
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/all_q"
         android:layout_width="match_parent"
         android:layout_height="650dp"
         android:orientation="vertical">
@@ -37,21 +38,22 @@
             android:id="@+id/q1_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="100">
 
             <include
                 android:id="@+id/q_speech"
                 layout="@layout/speech"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="100"
-                android:visibility="visible" />
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/q2_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="100">
 
             <include
                 android:id="@+id/q_speech_image"
@@ -59,68 +61,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:layout_weight="100"
-                android:visibility="visible" />
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/q3_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="100">
 
             <include
                 android:id="@+id/q_choose_image"
                 layout="@layout/choose_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_weight="100"
-                android:visibility="invisible" />
+                android:layout_marginStart="10dp" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/q4_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="100">
 
             <include
                 android:id="@+id/q_drag_text"
                 layout="@layout/drag_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_weight="100"
-                android:visibility="invisible" />
+                android:layout_marginStart="10dp" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/q5_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="100">
 
             <include
                 android:id="@+id/q_describe_image"
                 layout="@layout/describe_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_weight="100"
-                android:visibility="invisible" />
+                android:layout_marginStart="10dp" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/q6_evdashimg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="100">
 
             <include
                 android:id="@+id/q_choose_sentence"
                 layout="@layout/choose_sentence"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_weight="100"
-                android:visibility="invisible" />
+                android:layout_marginStart="10dp" />
         </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

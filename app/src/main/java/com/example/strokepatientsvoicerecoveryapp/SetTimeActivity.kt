@@ -20,7 +20,7 @@ class SetTimeActivity : AppCompatActivity() {
             if (timeValue.isNotEmpty()) {
                 val time = timeValue.toInt()
                 if (time in 1..99) {
-                    val intent = Intent(this, CountdowntimerActivity::class.java)
+                    val intent = Intent(this, QuestionOverviewActivity::class.java)
                     intent.putExtra("timeValue", time) // Pass the time value as an extra
                     startActivity(intent)
                     finish()

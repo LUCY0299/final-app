@@ -33,7 +33,6 @@
         <activity android:name=".BasicinformationActivity"/>
         <activity android:name=".MainoptionActivity" />
         <activity android:name=".timerActivity" />
-        <activity android:name=".CountdowntimerActivity" />
         <activity android:name=".itemPracriceActivity" />
         <activity android:name=".chooseTypeActivity" />
         <activity android:name=".SetTimeActivity"/>

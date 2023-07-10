@@ -7,12 +7,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        layout="@layout/countdown_timer"
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/countdown_timer"
+        android:layout_gravity="start"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_baseline_timer_24" />
+
+    <TextView
+        android:id="@+id/countdown_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_gravity="start"
+        android:layout_marginStart="11dp"
+        android:text="00:00"
+        android:textColor="#000"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

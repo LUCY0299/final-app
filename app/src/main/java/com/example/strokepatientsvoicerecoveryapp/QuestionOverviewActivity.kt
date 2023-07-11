@@ -25,7 +25,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
 
         initView()
-        // binding.q1Evdashimg.layout
+
 
 //      ======================timer=====================================
         val textView = findViewById<TextView>(R.id.countdown_timer)
@@ -52,25 +52,38 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 )
                 textView.text = timerText
             }
-
+            // 倒數完畢時
             override fun onFinish() {
                 textView.text = "時間到"
-            }//倒數完畢時
+            }
         }.start()
 //      ======================timer end=====================================
-
     }
 
 
     // =========================function=======================================
-
+    // 初始畫面，全部隱藏
     private fun initView(){
-        // binding.qSpeech.root.visibility = View.INVISIBLE
-        binding.qChooseImage.root.visibility = View.INVISIBLE
-        binding.qChooseSentence.root.visibility = View.INVISIBLE
-        binding.qDragText.root.visibility = View.INVISIBLE
-        binding.qDescribeImage.root.visibility = View.INVISIBLE
-        binding.qSpeechImage.root.visibility = View.INVISIBLE
+        binding.q1Evdashimg.visibility = View.GONE
+        binding.q2Evdashimg.visibility = View.GONE
+        binding.q3Evdashimg.visibility = View.GONE
+        binding.q4Evdashimg.visibility = View.GONE
+        binding.q5Evdashimg.visibility = View.GONE
+        binding.q6Evdashimg.visibility = View.GONE
+    }
+
+    // 打開正確的難度、類型的題目集合
+    private fun getTheQuizFromSheet(){
 
     }
+    // 挑選題目，放上畫面
+    private fun pickQuiz(){
+
+    }
+
+    private fun showHint(){
+
+    }
+
+
 }

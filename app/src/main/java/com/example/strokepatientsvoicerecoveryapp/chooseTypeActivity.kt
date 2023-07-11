@@ -44,7 +44,7 @@ class chooseTypeActivity: AppCompatActivity() {
         getDate()
 
         myAdapter.onItemClick = { title ->
-            navigateToNextPage(SetTimeActivity::class.java,title)
+            navigateToNextPage(SetTimeActivity::class.java, title)
         }
     }
 

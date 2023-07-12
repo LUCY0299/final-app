@@ -23,7 +23,9 @@ class chooseTypeActivity: AppCompatActivity() {
         username = intent.getStringExtra("username") ?: ""
         sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
 
-        imageList = arrayOf(
+        myAdapter = Adapterclass(ArrayList()) // 初始化myAdapter
+
+        imageList= arrayOf(
             R.drawable.image1,
             R.drawable.image2,
             R.drawable.images3,
@@ -31,38 +33,31 @@ class chooseTypeActivity: AppCompatActivity() {
             R.drawable.images6,
             R.drawable.images7,
             R.drawable.images9,
-        ) // Images in order
-        titleList = arrayOf(
+        )//圖片按照順序
+        titleList= arrayOf(
             "節慶","食物","飲料","衣服","身體部位","心情","住所"
-        ) // Titles in order
+        )//標題按照順序
         recyclerView = findViewById(R.id.rv_Type)
-        recyclerView.layoutManager = LinearLayoutManager(this) // Use LayoutManager to specify the arrangement of RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)//LayoutManager 來指定 RecyclerView 排列的方式
         recyclerView.setHasFixedSize(true)
 
         dataList = arrayListOf<Dataclass>()
         getDate()
-
-        myAdapter = Adapterclass(dataList)
-
-        myAdapter.onItemClick = { data ->
-            when (data.dataTitle) {
-                "節慶" -> navigateToNextPage(TraditionalActivity::class.java, data.dataTitle)
-                "食物" -> navigateToNextPage(FoodActivity::class.java, data.dataTitle)
-                "飲料" -> navigateToNextPage(DrinkActivity::class.java, data.dataTitle)
-                "衣服" -> navigateToNextPage(ClothesActivity::class.java, data.dataTitle)
-                "身體部位" -> navigateToNextPage(BodypartsActivity::class.java, data.dataTitle)
-                "心情" -> navigateToNextPage(FeelingActivity::class.java, data.dataTitle)
-                "住所" -> navigateToNextPage(ResidenceActivity::class.java, data.dataTitle)
-            }
-        }
-        recyclerView.adapter = myAdapter
     }
 
+    //獲得索引的資訊，有另創一個Dataclass
     private fun getDate() {
         for (i in imageList.indices) {
             val dataclass = Dataclass(imageList[i], titleList[i])
             dataList.add(dataclass)
-        } // Get information of the index, create another Dataclass
+        }
+
+        myAdapter = Adapterclass(dataList)
+        myAdapter.setOnItemClickListener { selectedTitle ->
+            navigateToNextPage(SetTimeActivity::class.java, selectedTitle.dataTitle)
+        }
+
+        recyclerView.adapter = myAdapter
     }
 
     private fun navigateToNextPage(activityClass: Class<*>, selectedTitle: String) {
@@ -73,4 +68,6 @@ class chooseTypeActivity: AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+
 

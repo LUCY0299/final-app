@@ -15,18 +15,23 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private lateinit var binding: QuestionOverviewBinding
     private lateinit var username: String
     private lateinit var sp1Selection: String
+    private lateinit var selectedTitle: String
+
+    private lateinit var QuizSheet : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = QuestionOverviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        QuizSheet = "1Cjet_xxbV9EqxhUpAAl40YLharHsV_wT5JFd8OIXCdA"
         username = intent.getStringExtra("username") ?: ""
         sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
+        selectedTitle = intent.getStringExtra("selectedTitle") ?: ""
 
 
         initView()
-
+        binding.test.text = selectedTitle
 
 //      ======================timer=====================================
         val textView = findViewById<TextView>(R.id.countdown_timer)

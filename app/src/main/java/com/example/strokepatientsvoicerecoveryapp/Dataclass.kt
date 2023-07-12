@@ -6,6 +6,9 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Dataclass(var dataImage: Int, var dataTitle: String):Parcelable {
+
+    var onItemClick: ((String) -> Unit)? = null
+
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString()!!

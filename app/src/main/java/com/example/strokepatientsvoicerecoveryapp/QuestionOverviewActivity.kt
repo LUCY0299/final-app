@@ -1,5 +1,6 @@
 package com.example.strokepatientsvoicerecoveryapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
@@ -60,6 +61,8 @@ class QuestionOverviewActivity : AppCompatActivity() {
             // 倒數完畢時
             override fun onFinish() {
                 textView.text = "時間到"
+                val intent = Intent(this@QuestionOverviewActivity, TimesupOverviewActivity::class.java)
+                startActivity(intent)
             }
         }.start()
 //      ======================timer end=====================================

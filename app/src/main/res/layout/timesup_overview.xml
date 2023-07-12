@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:textColor="#000"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textSize="25dp"
+        android:text="測驗1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="50dp"
+        android:background="#000"/>
+
+    <TextView
+        android:id="@+id/testtime"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:textColor="#000"
+        android:layout_marginEnd="50dp"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_marginTop="70dp"
+        android:textSize="25dp"
+        android:text="測驗時間"/>
+
+    <TextView
+        android:id="@+id/test_time"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_marginStart="85dp"
+       android:gravity="center_horizontal"
+        android:layout_marginTop="70dp"
+        android:text="12"/>
+
+    <TextView
+        android:id="@+id/minute"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:textColor="#000"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="150dp"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_marginTop="70dp"
+        android:text="分"/>
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="250dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="550dp"
+                android:background="@drawable/bg" />
+
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="-500dp"
+                android:layout_marginHorizontal="120dp"
+                android:background="@drawable/round_back_bg"
+                android:padding="20dp"
+                android:elevation="10dp">
+
+                <TextView
+                    android:id="@+id/Correct_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="#8E8E8E"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:text="正確率"/>
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="#0000C6"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:textStyle="bold"
+                    android:textSize="50dp"
+                    android:text="85"/>
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:textColor="#8E8E8E"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="40dp"
+                    android:textStyle="bold"
+                    android:textSize="35dp"
+                    android:text="%"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:textColor="#000"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_marginTop="230dp"
+            android:textSize="25dp"
+            android:text="做的很棒呦!"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/ic_baseline_check_24"/>
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/ic_baseline_close_24"/>
+
+
+        <ProgressBar
+            android:id="@+id/pro_true"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="300dp"
+            android:scaleY="2.5"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+          />
+
+        <ProgressBar
+            android:id="@+id/pro_false"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="350dp"
+            android:scaleY="2.5"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="200dp"
+            android:rating="4"/>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="720dp"
+        android:background="@drawable/text_timesup_bg"
+        android:text="返回"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_tryagain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="210dp"
+        android:background="@drawable/text_timesup_bg"
+        android:text="再次測驗"
+        android:layout_marginTop="720dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

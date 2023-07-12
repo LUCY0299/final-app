@@ -27,6 +27,11 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/all_q"
@@ -35,7 +40,7 @@
         android:orientation="vertical"
         >
 
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/q1_evdashimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

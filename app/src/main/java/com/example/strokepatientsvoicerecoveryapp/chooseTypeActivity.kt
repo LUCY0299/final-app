@@ -23,6 +23,7 @@ class chooseTypeActivity: AppCompatActivity() {
         username = intent.getStringExtra("username") ?: ""
         sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
 
+        myAdapter = Adapterclass(ArrayList()) // 初始化myAdapter
 
         imageList= arrayOf(
             R.drawable.image1,
@@ -42,23 +43,24 @@ class chooseTypeActivity: AppCompatActivity() {
 
         dataList = arrayListOf<Dataclass>()
         getDate()
-
-        myAdapter.onItemClick = { title ->
-            navigateToNextPage(SetTimeActivity::class.java, title)
-        }
     }
 
+    //獲得索引的資訊，有另創一個Dataclass
     private fun getDate() {
         for (i in imageList.indices) {
             val dataclass = Dataclass(imageList[i], titleList[i])
             dataList.add(dataclass)
-        }//獲得索引的資訊，有另創一個Dataclass
+        }
 
         myAdapter = Adapterclass(dataList)
+        myAdapter.setOnItemClickListener { selectedTitle ->
+            navigateToNextPage(SetTimeActivity::class.java, selectedTitle.dataTitle)
+        }
+
         recyclerView.adapter = myAdapter
     }
 
-    private fun navigateToNextPage(activityClass: Class<*>, selectedTitle: Dataclass) {
+    private fun navigateToNextPage(activityClass: Class<*>, selectedTitle: String) {
         val intent = Intent(this, activityClass)
         intent.putExtra("username", username)
         intent.putExtra("sp1Selection", sp1Selection)
@@ -66,4 +68,6 @@ class chooseTypeActivity: AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+
 

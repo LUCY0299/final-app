@@ -52,10 +52,9 @@
             layout="@layout/speech"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             />
-    </LinearLayout>
-    <LinearLayout
+        </LinearLayout>
+        <LinearLayout
         android:id="@+id/q2_evdashimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,8 +68,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             />
-    </LinearLayout>
-    <LinearLayout
+        </LinearLayout>
+        <LinearLayout
         android:id="@+id/q3_evdashimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -83,8 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp" />
-    </LinearLayout>
-    <LinearLayout
+        </LinearLayout>
+        <LinearLayout
         android:id="@+id/q4_evdashimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -97,8 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp" />
-    </LinearLayout>
-    <LinearLayout
+        </LinearLayout>
+        <LinearLayout
         android:id="@+id/q5_evdashimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -111,8 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp" />
-    </LinearLayout>
-    <LinearLayout
+        </LinearLayout>
+        <LinearLayout
         android:id="@+id/q6_evdashimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -125,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp" />
-    </LinearLayout>
+        </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

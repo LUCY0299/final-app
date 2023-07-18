@@ -10,6 +10,8 @@ class SetTimeActivity : AppCompatActivity() {
     private lateinit var binding: SetTimeBinding
     private lateinit var username: String
     private lateinit var sp1Selection: String
+    private lateinit var  selectedTitle: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +20,9 @@ class SetTimeActivity : AppCompatActivity() {
 
         username = intent.getStringExtra("username") ?: ""
         sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
+        selectedTitle = intent.getStringExtra("selectedTitle")?:""
+
+
 
         //當按下確定鍵就會跳轉到倒數畫面
         binding.sure.setOnClickListener {
@@ -27,9 +32,9 @@ class SetTimeActivity : AppCompatActivity() {
                 if (time in 1..99) {
                     val intent = Intent(this, QuestionOverviewActivity::class.java)
                     intent.putExtra("timeValue", time) // Pass the time value as an extra
-
                     intent.putExtra("username", username)
                     intent.putExtra("sp1Selection", sp1Selection)
+                    intent.putExtra("selectedTitle", selectedTitle)
                     startActivity(intent)
                     finish()
                 } else {
@@ -43,6 +48,7 @@ class SetTimeActivity : AppCompatActivity() {
                 Toast.makeText(this, "請輸入數字", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 }
 

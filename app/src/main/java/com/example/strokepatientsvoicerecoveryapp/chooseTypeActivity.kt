@@ -66,6 +66,7 @@ class chooseTypeActivity: AppCompatActivity() {
         intent.putExtra("sp1Selection", sp1Selection)
         intent.putExtra("selectedTitle", selectedTitle)
         startActivity(intent)
+
     }
 }
 

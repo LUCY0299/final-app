@@ -3,6 +3,7 @@ package com.example.strokepatientsvoicerecoveryapp
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private var QuizTotalSum : Int = 0
     private var currentHintIndex: Int = 0
     private val hints: MutableList<String> = mutableListOf()
+    private var score: Int = 10
+    private var TotalScore: Int = 0
+    private var TotalAnsSum: Int = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +59,13 @@ class QuestionOverviewActivity : AppCompatActivity() {
         getTheQuizFromSheet()
 
         binding.hint.setOnClickListener{
-            showHint()
+             showHint()
+        }
+        binding.next.setOnClickListener{
+            TotalScore += score
+            TotalAnsSum += 10
+            score = 10
+            // 把選題放進來
         }
 
 //      ======================timer=====================================
@@ -90,8 +100,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
         }.start()
 //      ======================timer end=====================================
     }
-
-
     // =========================function=======================================
     // 初始畫面，全部隱藏
     private fun initView(){
@@ -121,7 +129,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
     // 打開正確的難度、類型的題目View
     private fun getTheQuizFromSheet() {
-        val questionNumber = "17" // 之後放到()裡變函式的數
+        val questionNumber = "25" // 之後放到()裡變函式的數
 
         readQuestionContent(questionNumber) { dataSnapshot ->
             val currQuestion = dataSnapshot.value as? Map<*, *> ?: return@readQuestionContent
@@ -130,11 +138,11 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
             when (type) {
                 "複誦句子" -> binding.q1Evdashimg.visibility = View.VISIBLE
-                "A" -> binding.q2Evdashimg.visibility = View.VISIBLE
-                "B" -> binding.q3Evdashimg.visibility = View.VISIBLE
-                "C" -> binding.q4Evdashimg.visibility = View.VISIBLE
+                "簡單應答" -> binding.q2Evdashimg.visibility = View.VISIBLE
+                "聽覺理解" -> binding.q3Evdashimg.visibility = View.VISIBLE
+                "圖物配對" -> binding.q4Evdashimg.visibility = View.VISIBLE
                 "口語描述" -> binding.q5Evdashimg.visibility = View.VISIBLE
-                "E" -> binding.q6Evdashimg.visibility = View.VISIBLE
+                "詞語表達" -> binding.q6Evdashimg.visibility = View.VISIBLE
             }
 
             when (type) {
@@ -142,13 +150,16 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     val tvImage1 = binding.qSpeech.tvImage1
                     tvImage1.text = currQuestion["題目"].toString()
                 }
-                "A" -> {
+                "簡單應答" -> {
+                    val imageUrl = currQuestion["圖片1"].toString()
+                    LoadImage(imageUrl) { drawable ->
+                        binding.qSpeechImage.tvImage2.setImageDrawable(drawable)
+                    }
+                }
+                "聽覺理解" -> {
                     // Set the question content to the appropriate TextView
                 }
-                "B" -> {
-                    // Set the question content to the appropriate TextView
-                }
-                "C" -> {
+                "圖物配對" -> {
                     // Set the question content to the appropriate TextView
                 }
                 "口語描述" -> {
@@ -159,7 +170,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     val tvText3 = binding.qDescribeImage.tvText3
                     tvText3.text = currQuestion["題目"].toString()
                 }
-                "E" -> {
+                "詞語表達" -> {
                     // Set the question content to the appropriate TextView
                 }
             }
@@ -194,14 +205,21 @@ class QuestionOverviewActivity : AppCompatActivity() {
     }
 
 
-    private fun showHint(){
-        if (currentHintIndex < hints.size) {
-            val hintToShow = hints[currentHintIndex]
-            Toast.makeText(this@QuestionOverviewActivity, hintToShow, Toast.LENGTH_SHORT).show()
-            currentHintIndex++
+    private fun showHint() {
+        if (hints.isEmpty()) {
+            Toast.makeText(this@QuestionOverviewActivity, "沒有提示囉~", Toast.LENGTH_SHORT).show()
+        } else {
+            val hintToShow = hints.removeAt(0)
+            score--
+            runOnUiThread {
+                Toast.makeText(this@QuestionOverviewActivity, hintToShow, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (hints.isEmpty()) {
+            score = 6
         }
     }
-
 
 }
 

@@ -25,6 +25,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private lateinit var selectedTitle: String
 
     private lateinit var QuizSheet : String
+    private var QuizTotalSum : Int = 0
     private var currentHintIndex: Int = 0
     private val hints: MutableList<String> = mutableListOf()
 
@@ -40,6 +41,17 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
         initView()
         binding.test.text = selectedTitle
+
+        // 選題目
+        when (selectedTitle) {
+            "食物" -> QuizTotalSum = 148
+            "生活" -> QuizTotalSum = 107
+            "流暢" -> QuizTotalSum = 141
+            "理解" -> QuizTotalSum = 114
+            "重述-簡單" -> QuizTotalSum = 27
+            "重述-困難" -> QuizTotalSum = 22
+        }
+        val randomQnum = (0..QuizTotalSum).random()
         getTheQuizFromSheet()
 
         binding.hint.setOnClickListener{
@@ -109,7 +121,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
     // 打開正確的難度、類型的題目View
     private fun getTheQuizFromSheet() {
-        val questionNumber = "17" // 改 隨機題目
+        val questionNumber = "17" // 之後放到()裡變函式的數
 
         readQuestionContent(questionNumber) { dataSnapshot ->
             val currQuestion = dataSnapshot.value as? Map<*, *> ?: return@readQuestionContent

@@ -42,13 +42,13 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginRight="30dp"
-                    android:src="@drawable/images6" />
+                     />
 
                 <ImageView
                     android:id="@+id/tv_image5"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/image1" />
+                     />
 
             </TableRow>
             <TableRow>
@@ -59,13 +59,13 @@
                     android:layout_height="150dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginRight="30dp"
-                    android:src="@drawable/images3" />
+                     />
                 <ImageView
                     android:id="@+id/tv_image7"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="30dp"
-                    android:src="@drawable/image2" />
+                     />
             </TableRow>
 
 

@@ -33,9 +33,10 @@ class chooseTypeActivity: AppCompatActivity() {
             R.drawable.images6,
             R.drawable.images7,
             R.drawable.images9,
+            R.drawable.image5
         )//圖片按照順序
         titleList= arrayOf(
-            "節慶","食物","飲料","衣服","身體部位","心情","住所"
+            "節慶","食物","飲料","衣服","身體部位","心情","住所","生活"
         )//標題按照順序
         recyclerView = findViewById(R.id.rv_Type)
         recyclerView.layoutManager = LinearLayoutManager(this)//LayoutManager 來指定 RecyclerView 排列的方式

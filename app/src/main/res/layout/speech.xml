@@ -60,6 +60,12 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/edit_word3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="新增文字輸入" />
+
     </LinearLayout>
 
 

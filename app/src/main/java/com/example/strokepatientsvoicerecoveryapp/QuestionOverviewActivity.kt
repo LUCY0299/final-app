@@ -44,7 +44,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
         selectedTitle = intent.getStringExtra("selectedTitle") ?: ""
 
         initView()
-        binding.test.text = selectedTitle
 
         // 選題目
         when (selectedTitle) {
@@ -55,17 +54,19 @@ class QuestionOverviewActivity : AppCompatActivity() {
             "重述-簡單" -> QuizTotalSum = 27
             "重述-困難" -> QuizTotalSum = 22
         }
-        val randomQnum = (0..QuizTotalSum).random()
-        getTheQuizFromSheet()
+        val randomQnum = (1..QuizTotalSum).random()
+        getTheQuizFromSheet(randomQnum)
 
         binding.hint.setOnClickListener{
              showHint()
         }
         binding.next.setOnClickListener{
+            initView()
             TotalScore += score
             TotalAnsSum += 10
             score = 10
-            // 把選題放進來
+            val randomQnum = (1..QuizTotalSum).random()
+            getTheQuizFromSheet(randomQnum)
         }
 
 //      ======================timer=====================================
@@ -114,7 +115,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     // 開資料庫
     fun readQuestionContent(questionNumber: String, callback: (DataSnapshot) -> Unit) {
         val databaseReference = FirebaseDatabase.getInstance().getReference(QuizSheet)
-            .child("流暢")// 換成傳來的selectedTitle
+            .child(selectedTitle)
             .child(questionNumber)
 
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -128,8 +129,8 @@ class QuestionOverviewActivity : AppCompatActivity() {
     }
 
     // 打開正確的難度、類型的題目View
-    private fun getTheQuizFromSheet() {
-        val questionNumber = "25" // 之後放到()裡變函式的數
+    private fun getTheQuizFromSheet(questionNumber : Int) {
+        val questionNumber = questionNumber.toString()
 
         readQuestionContent(questionNumber) { dataSnapshot ->
             val currQuestion = dataSnapshot.value as? Map<*, *> ?: return@readQuestionContent

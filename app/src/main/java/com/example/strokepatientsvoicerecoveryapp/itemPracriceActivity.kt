@@ -19,24 +19,30 @@ class itemPracriceActivity : AppCompatActivity() {
 
         //當按下流暢鍵就會跳轉到設定時間畫面
         binding.btnFluent.setOnClickListener {
-            navigateToNextPage(SetTimeActivity::class.java)
+            navigateToNextPage(SetTimeActivity::class.java, "流暢")
         }
 
         //當按下理解鍵就會跳轉到設定時間畫面
         binding.btnUnderstand.setOnClickListener {
-            navigateToNextPage(SetTimeActivity::class.java)
+            navigateToNextPage(SetTimeActivity::class.java, "理解")
         }
 
         //當按下重述鍵就會跳轉到設定時間畫面
         binding.btnRestate.setOnClickListener {
-            navigateToNextPage(SetTimeActivity::class.java)
+            if(sp1Selection == "簡單"){
+                navigateToNextPage(SetTimeActivity::class.java, "重述-簡單")
+            }else if(sp1Selection == "困難"){
+                navigateToNextPage(SetTimeActivity::class.java, "重述-困難")
+            }
         }
     }
 
-    private fun navigateToNextPage(activityClass: Class<*>) {
+    private fun navigateToNextPage(activityClass: Class<*>, selectedTitle: String) {
         val intent = Intent(this, activityClass)
         intent.putExtra("username", username)
         intent.putExtra("sp1Selection", sp1Selection)
+        intent.putExtra("selectedTitle", selectedTitle)
         startActivity(intent)
+
     }
 }

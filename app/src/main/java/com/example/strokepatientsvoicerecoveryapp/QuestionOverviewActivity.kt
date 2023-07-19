@@ -27,7 +27,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
     private lateinit var QuizSheet : String
     private var QuizTotalSum : Int = 0
-    private var currentHintIndex: Int = 0
+    private var Ans : String =""
     private val hints: MutableList<String> = mutableListOf()
     private var score: Int = 10
     private var TotalScore: Int = 0
@@ -158,10 +158,43 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     }
                 }
                 "聽覺理解" -> {
-                    // Set the question content to the appropriate TextView
+                    val imageUrl1 = currQuestion["圖片1"].toString()
+                    LoadImage(imageUrl1) { drawable ->
+                        binding.qChooseImage.tvImage4.setImageDrawable(drawable)
+                    }
+                    val imageUrl2 = currQuestion["圖片2"].toString()
+                    LoadImage(imageUrl2) { drawable ->
+                        binding.qChooseImage.tvImage5.setImageDrawable(drawable)
+                    }
+                    val imageUrl3 = currQuestion["圖片3"].toString()
+                    LoadImage(imageUrl3) { drawable ->
+                        binding.qChooseImage.tvImage6.setImageDrawable(drawable)
+                    }
+                    val imageUrl4 = currQuestion["圖片4"].toString()
+                    LoadImage(imageUrl4) { drawable ->
+                        binding.qChooseImage.tvImage7.setImageDrawable(drawable)
+                    }
+
                 }
                 "圖物配對" -> {
-                    // Set the question content to the appropriate TextView
+                    val imageUrl1 = currQuestion["圖片1"].toString()
+                    LoadImage(imageUrl1) { drawable ->
+                        binding.qDragText.tvImage8.setImageDrawable(drawable)
+                    }
+                    val imageUrl2 = currQuestion["圖片2"].toString()
+                    LoadImage(imageUrl2) { drawable ->
+                        binding.qDragText.tvImage9.setImageDrawable(drawable)
+                    }
+                    val imageUrl3 = currQuestion["圖片3"].toString()
+                    LoadImage(imageUrl3) { drawable ->
+                        binding.qDragText.tvImage10.setImageDrawable(drawable)
+                    }
+                    val tvOption1 = binding.qDragText.tvOption1
+                    tvOption1.text = currQuestion["答案1"].toString()
+                    val tvOption2 = binding.qDragText.tvOption2
+                    tvOption2.text = currQuestion["答案2"].toString()
+                    val tvOption3 = binding.qDragText.tvOption3
+                    tvOption3.text = currQuestion["答案3"].toString()
                 }
                 "口語描述" -> {
                     val imageUrl = currQuestion["圖片1"].toString()

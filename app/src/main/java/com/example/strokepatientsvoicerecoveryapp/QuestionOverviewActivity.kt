@@ -172,7 +172,16 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     tvText3.text = currQuestion["題目"].toString()
                 }
                 "詞語表達" -> {
-                    // Set the question content to the appropriate TextView
+                    val imageUrl = currQuestion["圖片1"].toString()
+                    LoadImage(imageUrl) { drawable ->
+                        binding.qChooseSentence.tvImage.setImageDrawable(drawable)
+                    }
+                    val tvOptionOne = binding.qChooseSentence.tvOptionOne
+                    tvOptionOne.text = currQuestion["選項1"].toString()
+                    val tvOptionTwo = binding.qChooseSentence.tvOptionTwo
+                    tvOptionTwo.text = currQuestion["選項2"].toString()
+                    val tvOptionThree = binding.qChooseSentence.tvOptionThree
+                    tvOptionThree.text = currQuestion["選項3"].toString()
                 }
             }
 

@@ -3,7 +3,6 @@ package com.example.strokepatientsvoicerecoveryapp
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +27,8 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private lateinit var QuizSheet : String
     private var QuizTotalSum : Int = 0
     private var Ans : String =""
+    private var type: String = ""
+
     private val hints: MutableList<String> = mutableListOf()
     private var score: Int = 10
     private var TotalScore: Int = 0
@@ -67,6 +68,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             score = 10
             val randomQnum = (1..QuizTotalSum).random()
             getTheQuizFromSheet(randomQnum)
+            isAnsCorrect()
         }
 
 //      ======================timer=====================================
@@ -135,7 +137,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         readQuestionContent(questionNumber) { dataSnapshot ->
             val currQuestion = dataSnapshot.value as? Map<*, *> ?: return@readQuestionContent
 
-            val type = currQuestion["題型"].toString()
+            type = currQuestion["題型"].toString()
 
             when (type) {
                 "複誦句子" -> binding.q1Evdashimg.visibility = View.VISIBLE
@@ -228,6 +230,8 @@ class QuestionOverviewActivity : AppCompatActivity() {
             if (hint1.isNotEmpty()) hints.add(hint1)
             if (hint2.isNotEmpty()) hints.add(hint2)
             if (hint3.isNotEmpty()) hints.add(hint3)
+
+            Ans = currQuestion["答案1"].toString()
         }
     }
 
@@ -258,12 +262,43 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 Toast.makeText(this@QuestionOverviewActivity, hintToShow, Toast.LENGTH_SHORT).show()
             }
         }
-
         if (hints.isEmpty()) {
             score = 6
         }
     }
 
+    private fun isAnsCorrect(){
+        when (type) {
+            "複誦句子" -> {
+                val userAnswer = binding.qSpeech.editWord3.toString().trim()
+                if(Ans != userAnswer){ score-- }
+            }
+            "簡單應答" -> {
+                val userAnswer = binding.qSpeechImage.tvText4.toString().trim()
+                if(Ans != userAnswer){ score-- }
+            }
+            "聽覺理解" -> {
+
+            }
+            "圖物配對" -> {
+
+            }
+            "口語描述" -> {
+                val userAnswer = binding.qDescribeImage.editWord2.toString().trim()
+                if(Ans != userAnswer){ score-- }
+            }
+            "詞語表達" -> {
+                val selectedOption = when {
+                    binding.qChooseSentence.tvOptionOne.isSelected -> binding.qChooseSentence.tvOptionOne.text.toString()
+                    binding.qChooseSentence.tvOptionTwo.isSelected -> binding.qChooseSentence.tvOptionTwo.text.toString()
+                    binding.qChooseSentence.tvOptionThree.isSelected -> binding.qChooseSentence.tvOptionThree.text.toString()
+                    else -> ""
+                }
+                if (selectedOption != Ans) { score-- }
+            }
+        }
+
+    }
 }
 
 

@@ -3,16 +3,15 @@ package com.example.strokepatientsvoicerecoveryapp
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.QuestionOverviewBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import java.io.InputStream
 import java.net.URL
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -33,6 +32,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private var score: Int = 10
     private var TotalScore: Int = 0
     private var TotalAnsSum: Int = 10
+
+    private val randomQnum : Int = 0
+    private val recordList: MutableList<RecordData> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,13 +64,13 @@ class QuestionOverviewActivity : AppCompatActivity() {
              showHint()
         }
         binding.next.setOnClickListener{
-            initView()
+            isAnsCorrect()
             TotalScore += score
             TotalAnsSum += 10
             score = 10
+            initView()
             val randomQnum = (1..QuizTotalSum).random()
             getTheQuizFromSheet(randomQnum)
-            isAnsCorrect()
         }
 
 //      ======================timer=====================================
@@ -272,20 +274,23 @@ class QuestionOverviewActivity : AppCompatActivity() {
             "複誦句子" -> {
                 val userAnswer = binding.qSpeech.editWord3.toString().trim()
                 if(Ans != userAnswer){ score-- }
+                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
             }
             "簡單應答" -> {
                 val userAnswer = binding.qSpeechImage.tvText4.toString().trim()
                 if(Ans != userAnswer){ score-- }
+                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
             }
             "聽覺理解" -> {
-
+                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
             }
             "圖物配對" -> {
-
+                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
             }
             "口語描述" -> {
                 val userAnswer = binding.qDescribeImage.editWord2.toString().trim()
                 if(Ans != userAnswer){ score-- }
+                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
             }
             "詞語表達" -> {
                 val selectedOption = when {
@@ -295,10 +300,39 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     else -> ""
                 }
                 if (selectedOption != Ans) { score-- }
+                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
             }
         }
 
     }
+
+    private fun SaveRecData(randomQnum: Int, ans: String) {
+        val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+
+        val recordData = RecordData(currentTime, randomQnum, ans)
+
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val recordRef: DatabaseReference = database.getReference("紀錄")
+        val userRef: DatabaseReference = recordRef.child(username)
+        val timeRef: DatabaseReference = userRef.child(currentTime)
+
+        timeRef.setValue(recordData)
+            .addOnSuccessListener {
+                Log.d("SaveRecData", "資料儲存成功")
+            }
+            .addOnFailureListener {
+                Log.e("SaveRecData", "資料儲存失敗")
+            }
+    }
+
+    private fun getCurrentDateTime(): String {
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+    }
 }
 
+data class RecordData(
+    val time: String = "",
+    val questionNumber: Int = 0,
+    val answer: String = ""
+)
 

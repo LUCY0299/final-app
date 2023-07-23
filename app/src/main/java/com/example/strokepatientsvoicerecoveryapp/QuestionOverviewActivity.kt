@@ -68,6 +68,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         binding.next.setOnClickListener{
             isAnsCorrect()
             TotalScore += score
+            Log.d("isAnsCorrect", "score: $score, Total: $TotalScore, Ans: $TotalAnsSum")
             TotalAnsSum += 10
             score = 10
             SaveRecData(randomQnum, Ans, score)
@@ -103,11 +104,13 @@ class QuestionOverviewActivity : AppCompatActivity() {
             }
             // 倒數完畢時
             override fun onFinish() {
-                textView.text = "時間到" // 補切換畫面 結算成績
+                textView.text = "時間到" // 補切換畫面
+                // 結算成績
+                val result = (TotalScore.toDouble() / TotalAnsSum.toDouble() * 100).toInt()
                 val intent = Intent(this@QuestionOverviewActivity, TimesupOverviewActivity::class.java)
                 intent.putExtra("username", username)
                 intent.putExtra("sp1Selection", sp1Selection)
-                intent.putExtra("Score", TotalScore)
+                intent.putExtra("Score", result)
                 intent.putExtra("timeValue", timeValue)
                 startActivity(intent)
             }
@@ -316,9 +319,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
     }
 
     private fun SaveRecData(randomQnum: Int, ans: String, score: Int) {
-        val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+        val currentTime = getCurrentDateTime()
 
-        val recordData = RecordData(currentTime, randomQnum, ans)
+        val recordData = RecordData(currentTime, randomQnum, ans, score)
 
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val recordRef: DatabaseReference = database.getReference("紀錄")

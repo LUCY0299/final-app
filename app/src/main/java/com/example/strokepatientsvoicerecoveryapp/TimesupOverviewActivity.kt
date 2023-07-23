@@ -27,7 +27,7 @@ class TimesupOverviewActivity : AppCompatActivity() {
         Score = intent.getIntExtra("Score", 0)
         timeValue = intent.getIntExtra("timeValue", 0)
 
-        binding.testtime.text = timeValue.toString()
+        binding.testTime.text = timeValue.toString()
         binding.num.text = Score.toString()
 
         //當按下返回鍵就會跳轉到領域選擇畫面

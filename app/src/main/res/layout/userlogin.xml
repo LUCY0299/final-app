@@ -60,7 +60,8 @@
             android:layout_height="wrap_content"
             android:background="#408080"
             android:hint="使用者名稱"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -82,7 +83,8 @@
             android:layout_height="wrap_content"
             android:background="#408080"
             android:hint="密碼"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:singleLine="true"/>
 
         <Button
             android:id="@+id/btn_userLogin"

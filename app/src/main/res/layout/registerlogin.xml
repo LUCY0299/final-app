@@ -58,7 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#408080"
-            android:hint="使用者名稱" />
+            android:hint="使用者名稱"
+            android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#408080"
-            android:hint="密碼" />
+            android:hint="密碼"
+            android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -103,7 +105,8 @@
             android:background="#408080"
             android:hint="確認密碼"
             android:inputType="textPassword"
-            tools:ignore="DuplicateIds" />
+            tools:ignore="DuplicateIds"
+            android:singleLine="true"/>
 
         <Button
             android:id="@+id/btn_createUser"

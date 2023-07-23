@@ -32,7 +32,6 @@
         <activity android:name=".userloginActivity" />
         <activity android:name=".BasicinformationActivity"/>
         <activity android:name=".MainoptionActivity" />
-        <activity android:name=".timerActivity" />
         <activity android:name=".itemPracriceActivity" />
         <activity android:name=".chooseTypeActivity" />
         <activity android:name=".SetTimeActivity"/>
@@ -40,14 +39,13 @@
         <activity android:name=".SpeechActivity"/>
         <activity android:name=".SpeechimageActivity"/>
         <activity android:name=".QuestionOverviewActivity"/>
+        <activity android:name=".QuestiondetailActivity"/>
         <activity android:name=".TimesupOverviewActivity"/>
-        <activity android:name=".FoodActivity"/>
-        <activity android:name=".TraditionalActivity"/>
-        <activity android:name=".ResidenceActivity"/>
-        <activity android:name=".ClothesActivity"/>
-        <activity android:name=".FeelingActivity"/>
-        <activity android:name=".DrinkActivity"/>
-        <activity android:name=".BodypartsActivity"/>
+        <activity android:name=".HistoryrecordActivity"/>
+        <activity android:name=".Editpassword"/>
+        <activity android:name=".Feedback"/>
+        <activity android:name=".Modify"/>
+        <activity android:name=".Profile"/>
 
     </application>
 

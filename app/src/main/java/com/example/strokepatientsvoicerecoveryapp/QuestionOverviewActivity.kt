@@ -108,6 +108,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 intent.putExtra("username", username)
                 intent.putExtra("sp1Selection", sp1Selection)
                 intent.putExtra("Score", TotalScore)
+                intent.putExtra("timeValue", timeValue)
                 startActivity(intent)
             }
         }.start()

@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/images"
-            android:src="@drawable/image1"
+            android:src="@drawable/images5"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
@@ -27,7 +27,7 @@
         
         <TextView
             android:id="@+id/Title1"
-            android:text="節慶"
+            android:text="生活"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#000"

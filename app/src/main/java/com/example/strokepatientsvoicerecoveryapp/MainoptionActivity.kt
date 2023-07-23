@@ -3,7 +3,6 @@ package com.example.strokepatientsvoicerecoveryapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
 import com.example.strokepatientsvoicerecoveryapp.databinding.MainoptionBinding
 
 class MainoptionActivity : AppCompatActivity() {
@@ -19,8 +18,6 @@ class MainoptionActivity : AppCompatActivity() {
         username = intent.getStringExtra("username") ?: ""
         sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
 
-
-
         //當按下類型選擇鍵就會跳轉到類型選擇畫面
         binding.btnItemPracrice.setOnClickListener {
             navigateToNextPage(itemPracriceActivity::class.java)
@@ -33,7 +30,7 @@ class MainoptionActivity : AppCompatActivity() {
 
         //當按下個人資料就會跳轉到個人資料畫面
         binding.btnGotoProfile.setOnClickListener {
-            navigateToNextPage(ContactsContract.Profile::class.java)
+            navigateToNextPage(Profile::class.java)
         }
     }
 

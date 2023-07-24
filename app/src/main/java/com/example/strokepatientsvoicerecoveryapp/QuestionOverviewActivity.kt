@@ -300,6 +300,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 }
                 if (selectedOption != Ans) { score-- }
                 recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
+                binding.qChooseSentence.tvOptionOne.setOnClickListener { binding.next.performClick() }
+                binding.qChooseSentence.tvOptionTwo.setOnClickListener { binding.next.performClick() }
+                binding.qChooseSentence.tvOptionThree.setOnClickListener { binding.next.performClick() }
             }
         }
 

@@ -164,73 +164,56 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
             when (type) {
                 "複誦句子" -> {
-                    val tvImage1 = binding.qSpeech.tvImage1
-                    tvImage1.text = currQuestion["題目"].toString()
+                    binding.qSpeech.tvImage1.text = currQuestion["題目"].toString()
                 }
                 "簡單應答" -> {
-                    val imageUrl = currQuestion["圖片1"].toString()
-                    LoadImage(imageUrl) { drawable ->
+                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
                         binding.qSpeechImage.tvImage2.setImageDrawable(drawable)
                     }
                 }
                 "聽覺理解" -> {
-                    val imageUrl1 = currQuestion["圖片1"].toString()
-                    LoadImage(imageUrl1) { drawable ->
+                    binding.qChooseImage.tvText2.text = currQuestion["題目"].toString()
+                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
                         binding.qChooseImage.tvImage4.setImageDrawable(drawable)
                     }
-                    val imageUrl2 = currQuestion["圖片2"].toString()
-                    LoadImage(imageUrl2) { drawable ->
+                    LoadImage(currQuestion["圖片2"].toString()) { drawable ->
                         binding.qChooseImage.tvImage5.setImageDrawable(drawable)
                     }
-                    val imageUrl3 = currQuestion["圖片3"].toString()
-                    LoadImage(imageUrl3) { drawable ->
+                    LoadImage(currQuestion["圖片3"].toString()) { drawable ->
                         binding.qChooseImage.tvImage6.setImageDrawable(drawable)
                     }
-                    val imageUrl4 = currQuestion["圖片4"].toString()
-                    LoadImage(imageUrl4) { drawable ->
+                    LoadImage(currQuestion["圖片4"].toString()) { drawable ->
                         binding.qChooseImage.tvImage7.setImageDrawable(drawable)
                     }
 
                 }
                 "圖物配對" -> {
-                    val imageUrl1 = currQuestion["圖片1"].toString()
-                    LoadImage(imageUrl1) { drawable ->
+                    binding.qDragText.tvOption4.text = currQuestion["答案1"].toString()
+                    binding.qDragText.tvOption5.text = currQuestion["答案2"].toString()
+                    binding.qDragText.tvOption6.text = currQuestion["答案3"].toString()
+                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
                         binding.qDragText.tvImage8.setImageDrawable(drawable)
                     }
-                    val imageUrl2 = currQuestion["圖片2"].toString()
-                    LoadImage(imageUrl2) { drawable ->
+                    LoadImage(currQuestion["圖片2"].toString()) { drawable ->
                         binding.qDragText.tvImage9.setImageDrawable(drawable)
                     }
-                    val imageUrl3 = currQuestion["圖片3"].toString()
-                    LoadImage(imageUrl3) { drawable ->
+                    LoadImage(currQuestion["圖片3"].toString()) { drawable ->
                         binding.qDragText.tvImage10.setImageDrawable(drawable)
                     }
-                    val tvOption1 = binding.qDragText.tvOption1
-                    tvOption1.text = currQuestion["答案1"].toString()
-                    val tvOption2 = binding.qDragText.tvOption2
-                    tvOption2.text = currQuestion["答案2"].toString()
-                    val tvOption3 = binding.qDragText.tvOption3
-                    tvOption3.text = currQuestion["答案3"].toString()
                 }
                 "口語描述" -> {
-                    val imageUrl = currQuestion["圖片1"].toString()
-                    LoadImage(imageUrl) { drawable ->
+                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
                         binding.qDescribeImage.tvImage3.setImageDrawable(drawable)
                     }
-                    val tvText3 = binding.qDescribeImage.tvText3
-                    tvText3.text = currQuestion["題目"].toString()
+                    binding.qDescribeImage.tvText3.text = currQuestion["題目"].toString()
                 }
                 "詞語表達" -> {
-                    val imageUrl = currQuestion["圖片1"].toString()
-                    LoadImage(imageUrl) { drawable ->
+                    binding.qChooseSentence.tvOptionOne.text = currQuestion["選項1"].toString()
+                    binding.qChooseSentence.tvOptionTwo.text = currQuestion["選項2"].toString()
+                    binding.qChooseSentence.tvOptionThree.text = currQuestion["選項3"].toString()
+                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
                         binding.qChooseSentence.tvImage.setImageDrawable(drawable)
                     }
-                    val tvOptionOne = binding.qChooseSentence.tvOptionOne
-                    tvOptionOne.text = currQuestion["選項1"].toString()
-                    val tvOptionTwo = binding.qChooseSentence.tvOptionTwo
-                    tvOptionTwo.text = currQuestion["選項2"].toString()
-                    val tvOptionThree = binding.qChooseSentence.tvOptionThree
-                    tvOptionThree.text = currQuestion["選項3"].toString()
                 }
             }
 
@@ -295,6 +278,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
             }
             "聽覺理解" -> {
                 recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
+                binding.qChooseImage.tvImage4.setOnClickListener { binding.next.performClick() }
+                binding.qChooseImage.tvImage5.setOnClickListener { binding.next.performClick() }
+                binding.qChooseImage.tvImage6.setOnClickListener { binding.next.performClick() }
+                binding.qChooseImage.tvImage7.setOnClickListener { binding.next.performClick() }
             }
             "圖物配對" -> {
                 recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))

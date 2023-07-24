@@ -1,11 +1,14 @@
 package com.example.strokepatientsvoicerecoveryapp
 
 import android.content.Intent
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.QuestionOverviewBinding
@@ -200,7 +203,16 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     LoadImage(currQuestion["圖片3"].toString()) { drawable ->
                         binding.qDragText.tvImage10.setImageDrawable(drawable)
                     }
+
+                    val tvOption4 = binding.qDragText.tvOption4
+                    val tvOption5 = binding.qDragText.tvOption5
+                    val tvOption6 = binding.qDragText.tvOption6
+
+                    tvOption4.setOnTouchListener(DragTouchListener())
+                    tvOption5.setOnTouchListener(DragTouchListener())
+                    tvOption6.setOnTouchListener(DragTouchListener())
                 }
+
                 "口語描述" -> {
                     LoadImage(currQuestion["圖片1"].toString()) { drawable ->
                         binding.qDescribeImage.tvImage3.setImageDrawable(drawable)
@@ -232,6 +244,29 @@ class QuestionOverviewActivity : AppCompatActivity() {
         }
     }
 
+    //拖曳按鈕
+    private class DragTouchListener : View.OnTouchListener {
+        private var offsetX = 0
+        private var offsetY = 0
+
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // 記錄觸摸點的偏移量，用於在拖動過程中保持位置
+                    offsetX = motionEvent.rawX.toInt() - view.x.toInt()
+                    offsetY = motionEvent.rawY.toInt() - view.y.toInt()
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    // 更新TextView的位置
+                    val newX = motionEvent.rawX.toInt() - offsetX
+                    val newY = motionEvent.rawY.toInt() - offsetY
+                    view.x = newX.toFloat()
+                    view.y = newY.toFloat()
+                }
+            }
+            return true
+        }
+    }
     fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
         Thread {
             try {

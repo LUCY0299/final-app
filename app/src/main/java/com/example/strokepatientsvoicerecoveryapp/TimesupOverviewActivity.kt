@@ -37,12 +37,5 @@ class TimesupOverviewActivity : AppCompatActivity() {
             intent.putExtra("sp1Selection", sp1Selection)
             startActivity(intent)
         }
-        //當按下再次測驗鍵就會跳轉到itemPracriceActivity畫面
-        binding.btnTryagain.setOnClickListener {
-            val intent = Intent(this@TimesupOverviewActivity, itemPracriceActivity::class.java)
-            intent.putExtra("username", username)
-            intent.putExtra("sp1Selection", sp1Selection)
-            startActivity(intent)
-        }
     }
 }

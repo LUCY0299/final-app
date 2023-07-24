@@ -156,7 +156,7 @@ class BasicinformationActivity : AppCompatActivity() {
                     // 更新成功
                     Toast.makeText(this@BasicinformationActivity, "資料保存成功", Toast.LENGTH_SHORT).show()
 
-                    val intent = Intent(this@BasicinformationActivity, MainoptionActivity::class.java)
+                    val intent = Intent(this@BasicinformationActivity, Feedback::class.java)
                     intent.putExtra("username", username)
                     intent.putExtra("sp1Selection", sp1Selection)
                     startActivity(intent)

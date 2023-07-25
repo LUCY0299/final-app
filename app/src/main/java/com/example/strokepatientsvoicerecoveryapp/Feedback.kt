@@ -13,10 +13,5 @@ class Feedback : AppCompatActivity() {
         binding = FeedbackBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //當按下一頁鍵就會跳轉到MainoptionActivity畫面
-        binding.btnNextpage.setOnClickListener {
-            val intent = Intent(this@Feedback,MainoptionActivity::class.java);
-            startActivity(intent)
-        }
     }
 }

@@ -54,7 +54,8 @@
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="   名字" />
+          android:hint="   名字"
+          android:singleLine="true"/>
 
    </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +74,8 @@
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="   出生 yyyy/mm/dd" />
+          android:hint="   出生 yyyy/mm/dd"
+          android:singleLine="true"/>
    </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -110,7 +112,8 @@
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="家庭成員稱謂" />
+          android:hint="家庭成員稱謂"
+          android:singleLine="true"/>
 
    </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,7 +132,8 @@
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="家人姓名" />
+          android:hint="家人姓名"
+          android:singleLine="true"/>
 
       <TextView
           android:id="@+id/item"

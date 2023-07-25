@@ -1,14 +1,15 @@
 package com.example.strokepatientsvoicerecoveryapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.QuestionOverviewBinding
@@ -21,6 +22,9 @@ import java.util.concurrent.TimeUnit
 
 
 class QuestionOverviewActivity : AppCompatActivity() {
+
+    // for another thread
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     private lateinit var binding: QuestionOverviewBinding
     private lateinit var username: String
@@ -37,6 +41,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private var TotalScore: Int = 0
     private var TotalAnsSum: Int = 10
 
+    private lateinit var timer: CountDownTimer
     private val randomQnum : Int = 0
     private val recordList: MutableList<RecordData> = mutableListOf()
     private val DateTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
@@ -45,6 +50,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = QuestionOverviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        mainHandler.post {
+            startTimer()
+        }
 
         QuizSheet = "1Cjet_xxbV9EqxhUpAAl40YLharHsV_wT5JFd8OIXCdA"
         username = intent.getStringExtra("username") ?: ""
@@ -68,26 +77,33 @@ class QuestionOverviewActivity : AppCompatActivity() {
         binding.hint.setOnClickListener{
             showHint()
         }
+
         binding.next.setOnClickListener{
-            isAnsCorrect()
-            TotalScore += score
-            Log.d("isAnsCorrect", "score: $score, Total: $TotalScore, Ans: $TotalAnsSum")
-            TotalAnsSum += 10
-            score = 10
-            SaveRecData(randomQnum, Ans, score)
+            // 將操作放在非UI線程中
+            mainHandler.post {
+                isAnsCorrect()
+                TotalScore += score
+                Log.d("isAnsCorrect", "score: $score, Total: $TotalScore, Ans: $TotalAnsSum")
+                TotalAnsSum += 10
+                score = 10
+                SaveRecData(randomQnum, Ans, score)
+            }
+
             initView()
             val randomQnum = (1..QuizTotalSum).random()
             getTheQuizFromSheet(randomQnum)
         }
 
-//      ======================timer=====================================
+    }
+    // =========================function=======================================
+    private fun startTimer() {
         val textView = binding.countdownTimer
 
         val timeValue = intent.getIntExtra("timeValue", 0) // 從Intent中檢索時間值
         val timeDuration = TimeUnit.MINUTES.toMillis(timeValue.toLong()) // 設定倒數時間
-        val tickInterval: Long = 10 //接收回調的間隔
+        val tickInterval: Long = 10 // 接收回調的間隔
 
-        object : CountDownTimer(timeDuration, tickInterval) {
+        timer = object : CountDownTimer(timeDuration, tickInterval) {
             var millis: Long = 1000 //1000=1秒
             override fun onTick(millisUntilFinished: Long) {
                 millis -= tickInterval
@@ -103,14 +119,19 @@ class QuestionOverviewActivity : AppCompatActivity() {
                             ),
                     millis
                 )
-                textView.text = timerText
+                // 將計時的顯示更新放在主UI線程中
+                mainHandler.post {
+                    textView.text = timerText
+                }
             }
+
             // 倒數完畢時
             override fun onFinish() {
                 textView.text = "時間到" // 補切換畫面
                 // 結算成績
                 val result = (TotalScore.toDouble() / TotalAnsSum.toDouble() * 100).toInt()
-                val intent = Intent(this@QuestionOverviewActivity, TimesupOverviewActivity::class.java)
+                val intent =
+                    Intent(this@QuestionOverviewActivity, TimesupOverviewActivity::class.java)
                 intent.putExtra("username", username)
                 intent.putExtra("sp1Selection", sp1Selection)
                 intent.putExtra("Score", result)
@@ -118,9 +139,14 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }.start()
-//      ======================timer end=====================================
     }
-    // =========================function=======================================
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 確保在Activity被銷毀時停止計時
+        timer.cancel()
+    }
+
     // 初始畫面，全部隱藏
     private fun initView(){
         binding.q1Evdashimg.visibility = View.GONE
@@ -132,7 +158,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     }
 
     // 開資料庫
-    fun readQuestionContent(questionNumber: String, callback: (DataSnapshot) -> Unit) {
+    private fun readQuestionContent(questionNumber: String, callback: (DataSnapshot) -> Unit) {
         val databaseReference = FirebaseDatabase.getInstance().getReference(QuizSheet)
             .child(selectedTitle)
             .child(questionNumber)
@@ -148,6 +174,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     }
 
     // 打開正確的難度、類型的題目View
+    @SuppressLint("ClickableViewAccessibility")
     private fun getTheQuizFromSheet(questionNumber : Int) {
         val questionNumber = questionNumber.toString()
 
@@ -203,14 +230,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     LoadImage(currQuestion["圖片3"].toString()) { drawable ->
                         binding.qDragText.tvImage10.setImageDrawable(drawable)
                     }
-
-                    val tvOption4 = binding.qDragText.tvOption4
-                    val tvOption5 = binding.qDragText.tvOption5
-                    val tvOption6 = binding.qDragText.tvOption6
-
-                    tvOption4.setOnTouchListener(DragTouchListener())
-                    tvOption5.setOnTouchListener(DragTouchListener())
-                    tvOption6.setOnTouchListener(DragTouchListener())
+                    binding.qDragText.tvOption4.setOnTouchListener(DragTouchListener())
+                    binding.qDragText.tvOption5.setOnTouchListener(DragTouchListener())
+                    binding.qDragText.tvOption6.setOnTouchListener(DragTouchListener())
                 }
 
                 "口語描述" -> {
@@ -267,7 +289,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             return true
         }
     }
-    fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
+    private fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
         Thread {
             try {
                 val `is`: InputStream = URL(url).content as InputStream
@@ -282,7 +304,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
             }
         }.start()
     }
-
 
     private fun showHint() {
         if (hints.isEmpty()) {

@@ -46,6 +46,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private val recordList: MutableList<RecordData> = mutableListOf()
     private val DateTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
+    @Suppress("NAME_SHADOWING")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = QuestionOverviewBinding.inflate(layoutInflater)
@@ -289,6 +290,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             return true
         }
     }
+
     private fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
         Thread {
             try {

@@ -80,7 +80,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         }
 
         binding.next.setOnClickListener{
-            // 將操作放在非UI線程中
+            // 將操作放在非UI進程中
             mainHandler.post {
                 isAnsCorrect()
                 TotalScore += score

@@ -151,11 +151,24 @@
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
-
             </TableRow>
+            <Button
+                android:id="@+id/btn_seequiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="50dp"
+                android:background="#81C0C0"
+                android:text="查看測驗表現"
+                android:textColor="#000"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
 
         </TableLayout>
 
+
     </LinearLayout>
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

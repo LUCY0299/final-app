@@ -2,6 +2,7 @@ package com.example.strokepatientsvoicerecoveryapp
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -10,6 +11,8 @@ import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.QuestionOverviewBinding
@@ -30,6 +33,8 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private lateinit var username: String
     private lateinit var sp1Selection: String
     private lateinit var selectedTitle: String
+
+
 
     private lateinit var QuizSheet : String
     private var QuizTotalSum : Int = 0
@@ -80,7 +85,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         }
 
         binding.next.setOnClickListener{
-            // 將操作放在非UI進程中
+            // 將操作放在非UI線程中
             mainHandler.post {
                 isAnsCorrect()
                 TotalScore += score
@@ -234,6 +239,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     binding.qDragText.tvOption4.setOnTouchListener(DragTouchListener())
                     binding.qDragText.tvOption5.setOnTouchListener(DragTouchListener())
                     binding.qDragText.tvOption6.setOnTouchListener(DragTouchListener())
+
                 }
 
                 "口語描述" -> {
@@ -267,29 +273,107 @@ class QuestionOverviewActivity : AppCompatActivity() {
         }
     }
 
-    //拖曳按鈕
-    private class DragTouchListener : View.OnTouchListener {
+    private inner class DragTouchListener : View.OnTouchListener {
         private var offsetX = 0
         private var offsetY = 0
+        private var isMoved = false
+        private var originalX = 0f
+        private var originalY = 0f
 
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    // 記錄觸摸點的偏移量，用於在拖動過程中保持位置
+                    // Record the touch point's offset for maintaining position during drag
                     offsetX = motionEvent.rawX.toInt() - view.x.toInt()
                     offsetY = motionEvent.rawY.toInt() - view.y.toInt()
+                    isMoved = false
+                    originalX = view.x
+                    originalY = view.y
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    // 更新TextView的位置
+                    // Update the position of the view being dragged
                     val newX = motionEvent.rawX.toInt() - offsetX
                     val newY = motionEvent.rawY.toInt() - offsetY
                     view.x = newX.toFloat()
                     view.y = newY.toFloat()
+                    isMoved = true
+
+                    // Check if the dragged view is close to other views, and change border color accordingly
+                    val tvOptions = arrayOf(
+                        binding.qDragText.tvOption1,
+                        binding.qDragText.tvOption2,
+                        binding.qDragText.tvOption3,
+                        binding.qDragText.tvOption4,
+                        binding.qDragText.tvOption5,
+                        binding.qDragText.tvOption6
+                    )
+                    val margin = 50 // You can adjust this margin value to fit your needs
+                    var isAnyOverlapping = true
+                    tvOptions.forEach { tvOption ->
+                        if (tvOption != view && isViewCloseTo(view, tvOption, margin)) {
+                            view.setBackgroundResource(R.drawable.red_border)
+                            tvOption.setBackgroundResource(R.drawable.red_border)
+                            isAnyOverlapping = true
+                        } else {
+                            tvOption.setBackgroundResource(R.drawable.text_drag_bg)
+                        }
+                    }
+                    if (!isAnyOverlapping) {
+                        view.setBackgroundResource(R.drawable.text_drag_bg)
+                    }
                 }
+                MotionEvent.ACTION_UP -> {
+                    // On lifting the finger, check if there is an overlapping view and snap the dragged view to its position
+                    val tvOptions = arrayOf(
+                        binding.qDragText.tvOption4,
+                        binding.qDragText.tvOption5,
+                        binding.qDragText.tvOption6
+                    )
+                    var isOverlapping =true
+                    tvOptions.forEach { tvOption ->
+                        if (isViewOverlapping(view, tvOption)) {
+                            view.x = tvOption.x
+                            view.y = tvOption.y
+                            view.setBackgroundResource(R.drawable.blue_border)
+                            tvOption.setBackgroundResource(R.drawable.green_border)
+                            isOverlapping = true
+                        }
+                    }
+                    if (!isOverlapping && isMoved) {
+                        view.x = originalX
+                        view.y = originalY
+                    }
+                }
+
             }
             return true
         }
+
+
+        // 檢查兩個View是否重疊
+        private fun isViewOverlapping(view1: View, view2: View): Boolean {
+            val rect1 = Rect(view1.left, view1.top, view1.right, view1.bottom)
+            val rect2 = Rect(view2.left, view2.top, view2.right, view2.bottom)
+            return rect1.intersect(rect2)
+        }
+
+        // 檢查兩個View是否接近，可以根據自己的需求調整邊界值
+        private fun isViewCloseTo(view1: View, view2: View, margin: Int): Boolean {
+            val centerX1 = view1.x + view1.width / 2
+            val centerY1 = view1.y + view1.height / 2
+            val centerX2 = view2.x + view2.width / 2
+            val centerY2 = view2.y + view2.height / 2
+
+            val distanceX = Math.abs(centerX1 - centerX2)
+            val distanceY = Math.abs(centerY1 - centerY2)
+
+            return distanceX < margin && distanceY < margin
+        }
     }
+
+
+
+
 
     private fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
         Thread {
@@ -397,4 +481,5 @@ data class RecordData(
     val answer: String = "",
     val score: Int = 0
 )
+
 

@@ -1,12 +1,9 @@
 package com.example.strokepatientsvoicerecoveryapp
 
-
 import android.content.Intent
-import android.widget.Button
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.QuestionDetailBinding
-
 
 class QuestiondetailActivity : AppCompatActivity() {
 

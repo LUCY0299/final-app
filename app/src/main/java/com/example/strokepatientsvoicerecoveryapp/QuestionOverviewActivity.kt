@@ -11,8 +11,6 @@ import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.strokepatientsvoicerecoveryapp.databinding.QuestionOverviewBinding
@@ -23,7 +21,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 class QuestionOverviewActivity : AppCompatActivity() {
 
     // for another thread
@@ -33,9 +30,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private lateinit var username: String
     private lateinit var sp1Selection: String
     private lateinit var selectedTitle: String
+    private var timeValue: Int = 0
 
-
-
+    private var currQuestion: Map<*, *>? = null
     private lateinit var QuizSheet : String
     private var QuizTotalSum : Int = 0
     private var Ans : String =""
@@ -65,6 +62,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         username = intent.getStringExtra("username") ?: ""
         sp1Selection = intent.getStringExtra("sp1Selection") ?: ""
         selectedTitle = intent.getStringExtra("selectedTitle") ?: ""
+        timeValue = (intent.getIntExtra("timeValue", 0) ?: "") as Int
 
         initView()
 
@@ -92,7 +90,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 Log.d("isAnsCorrect", "score: $score, Total: $TotalScore, Ans: $TotalAnsSum")
                 TotalAnsSum += 10
                 score = 10
-                SaveRecData(randomQnum, Ans, score)
+                SaveRecData()
             }
 
             initView()
@@ -105,7 +103,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private fun startTimer() {
         val textView = binding.countdownTimer
 
-        val timeValue = intent.getIntExtra("timeValue", 0) // 從Intent中檢索時間值
         val timeDuration = TimeUnit.MINUTES.toMillis(timeValue.toLong()) // 設定倒數時間
         val tickInterval: Long = 10 // 接收回調的間隔
 
@@ -181,13 +178,13 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
     // 打開正確的難度、類型的題目View
     @SuppressLint("ClickableViewAccessibility")
-    private fun getTheQuizFromSheet(questionNumber : Int) {
-        val questionNumber = questionNumber.toString()
+    private fun getTheQuizFromSheet(questionNumber: Int) {
+        val questionNumberStr = questionNumber.toString()
 
-        readQuestionContent(questionNumber) { dataSnapshot ->
-            val currQuestion = dataSnapshot.value as? Map<*, *> ?: return@readQuestionContent
+        readQuestionContent(questionNumberStr) { dataSnapshot ->
+            currQuestion = dataSnapshot.value as? Map<*, *> ?: return@readQuestionContent
 
-            type = currQuestion["題型"].toString()
+            type = currQuestion?.get("題型")?.toString() ?: ""
 
             when (type) {
                 "複誦句子" -> binding.q1Evdashimg.visibility = View.VISIBLE
@@ -200,68 +197,65 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
             when (type) {
                 "複誦句子" -> {
-                    binding.qSpeech.tvImage1.text = currQuestion["題目"].toString()
+                    binding.qSpeech.tvImage1.text = currQuestion?.get("題目")?.toString() ?: ""
                 }
                 "簡單應答" -> {
-                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
+                    LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qSpeechImage.tvImage2.setImageDrawable(drawable)
                     }
                 }
                 "聽覺理解" -> {
-                    binding.qChooseImage.tvText2.text = currQuestion["題目"].toString()
-                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
+                    binding.qChooseImage.tvText2.text = currQuestion?.get("題目")?.toString() ?: ""
+                    LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qChooseImage.tvImage4.setImageDrawable(drawable)
                     }
-                    LoadImage(currQuestion["圖片2"].toString()) { drawable ->
+                    LoadImage(currQuestion?.get("圖片2")?.toString()) { drawable ->
                         binding.qChooseImage.tvImage5.setImageDrawable(drawable)
                     }
-                    LoadImage(currQuestion["圖片3"].toString()) { drawable ->
+                    LoadImage(currQuestion?.get("圖片3")?.toString()) { drawable ->
                         binding.qChooseImage.tvImage6.setImageDrawable(drawable)
                     }
-                    LoadImage(currQuestion["圖片4"].toString()) { drawable ->
+                    LoadImage(currQuestion?.get("圖片4")?.toString()) { drawable ->
                         binding.qChooseImage.tvImage7.setImageDrawable(drawable)
                     }
-
                 }
                 "圖物配對" -> {
-                    binding.qDragText.tvOption4.text = currQuestion["答案1"].toString()
-                    binding.qDragText.tvOption5.text = currQuestion["答案2"].toString()
-                    binding.qDragText.tvOption6.text = currQuestion["答案3"].toString()
-                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
+                    binding.qDragText.tvOption4.text = currQuestion?.get("答案1")?.toString() ?: ""
+                    binding.qDragText.tvOption5.text = currQuestion?.get("答案2")?.toString() ?: ""
+                    binding.qDragText.tvOption6.text = currQuestion?.get("答案3")?.toString() ?: ""
+                    LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qDragText.tvImage8.setImageDrawable(drawable)
                     }
-                    LoadImage(currQuestion["圖片2"].toString()) { drawable ->
+                    LoadImage(currQuestion?.get("圖片2")?.toString()) { drawable ->
                         binding.qDragText.tvImage9.setImageDrawable(drawable)
                     }
-                    LoadImage(currQuestion["圖片3"].toString()) { drawable ->
+                    LoadImage(currQuestion?.get("圖片3")?.toString()) { drawable ->
                         binding.qDragText.tvImage10.setImageDrawable(drawable)
                     }
                     binding.qDragText.tvOption4.setOnTouchListener(DragTouchListener())
                     binding.qDragText.tvOption5.setOnTouchListener(DragTouchListener())
                     binding.qDragText.tvOption6.setOnTouchListener(DragTouchListener())
-
                 }
-
                 "口語描述" -> {
-                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
+                    LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qDescribeImage.tvImage3.setImageDrawable(drawable)
                     }
-                    binding.qDescribeImage.tvText3.text = currQuestion["題目"].toString()
+                    binding.qDescribeImage.tvText3.text = currQuestion?.get("題目")?.toString() ?: ""
                 }
                 "詞語表達" -> {
-                    binding.qChooseSentence.tvOptionOne.text = currQuestion["選項1"].toString()
-                    binding.qChooseSentence.tvOptionTwo.text = currQuestion["選項2"].toString()
-                    binding.qChooseSentence.tvOptionThree.text = currQuestion["選項3"].toString()
-                    LoadImage(currQuestion["圖片1"].toString()) { drawable ->
+                    binding.qChooseSentence.tvOptionOne.text = currQuestion?.get("選項1")?.toString() ?: ""
+                    binding.qChooseSentence.tvOptionTwo.text = currQuestion?.get("選項2")?.toString() ?: ""
+                    binding.qChooseSentence.tvOptionThree.text = currQuestion?.get("選項3")?.toString() ?: ""
+                    LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qChooseSentence.tvImage.setImageDrawable(drawable)
                     }
                 }
             }
 
             // Get hints from the current question
-            val hint1 = currQuestion["提示1"].toString()
-            val hint2 = currQuestion["提示2"].toString()
-            val hint3 = currQuestion["提示3"].toString()
+            val hint1 = currQuestion?.get("提示1")?.toString() ?: ""
+            val hint2 = currQuestion?.get("提示2")?.toString() ?: ""
+            val hint3 = currQuestion?.get("提示3")?.toString() ?: ""
 
             // Update the hints list
             hints.clear()
@@ -269,7 +263,17 @@ class QuestionOverviewActivity : AppCompatActivity() {
             if (hint2.isNotEmpty()) hints.add(hint2)
             if (hint3.isNotEmpty()) hints.add(hint3)
 
-            Ans = currQuestion["答案1"].toString()
+            Ans = currQuestion?.get("答案1")?.toString() ?: ""
+            recordList.add(
+                RecordData(
+                    questionNumberStr,
+                    type,
+                    currQuestion?.get("題目")?.toString() ?: "",
+                    currQuestion?.get("圖片1")?.toString() ?: "",
+                    Ans,
+                    "" // 答案欄位暫時留空，等待用戶回答後填入
+                )
+            )
         }
     }
 
@@ -371,10 +375,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-
     private fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
         Thread {
             try {
@@ -409,29 +409,58 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private fun isAnsCorrect(){
         when (type) {
             "複誦句子" -> {
-                val userAnswer = binding.qSpeech.editWord3.toString().trim()
+                val userAnswer = binding.qSpeech.editWord3.text.toString().trim()
                 if(Ans != userAnswer){ score-- }
-                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
+                val recordData = recordList.lastOrNull {it.type == type }
+                if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "簡單應答" -> {
-                val userAnswer = binding.qSpeechImage.tvText4.toString().trim()
+                val userAnswer = binding.qSpeechImage.editWord.text.toString().trim()
                 if(Ans != userAnswer){ score-- }
-                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
+                val recordData = recordList.lastOrNull {it.type == type }
+                if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "聽覺理解" -> {
-                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
-                binding.qChooseImage.tvImage4.setOnClickListener { binding.next.performClick() }
-                binding.qChooseImage.tvImage5.setOnClickListener { binding.next.performClick() }
-                binding.qChooseImage.tvImage6.setOnClickListener { binding.next.performClick() }
-                binding.qChooseImage.tvImage7.setOnClickListener { binding.next.performClick() }
+                binding.qChooseImage.tvImage4.setOnClickListener {
+                    val selectedImageUrl = currQuestion?.get("圖片1").toString()
+                    val recordData = recordList.lastOrNull { it.type == type }
+                    if (recordData != null) {
+                        recordData.userAnswer = selectedImageUrl
+                    }
+                    binding.next.performClick()
+                }
+                binding.qChooseImage.tvImage5.setOnClickListener {
+                    val selectedImageUrl = currQuestion?.get("圖片2").toString()
+                    val recordData = recordList.lastOrNull { it.type == type }
+                    if (recordData != null) {
+                        recordData.userAnswer = selectedImageUrl
+                    }
+                    binding.next.performClick()
+                }
+                binding.qChooseImage.tvImage6.setOnClickListener {
+                    val selectedImageUrl = currQuestion?.get("圖片3").toString()
+                    val recordData = recordList.lastOrNull { it.type == type }
+                    if (recordData != null) {
+                        recordData.userAnswer = selectedImageUrl
+                    }
+                    binding.next.performClick()
+                }
+                binding.qChooseImage.tvImage7.setOnClickListener {
+                    val selectedImageUrl = currQuestion?.get("圖片4").toString()
+                    val recordData = recordList.lastOrNull { it.type == type }
+                    if (recordData != null) {
+                        recordData.userAnswer = selectedImageUrl
+                    }
+                    binding.next.performClick()
+                }
             }
             "圖物配對" -> {
-                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
             }
             "口語描述" -> {
-                val userAnswer = binding.qDescribeImage.editWord2.toString().trim()
+                val userAnswer = binding.qDescribeImage.editWord2.text.toString().trim()
                 if(Ans != userAnswer){ score-- }
-                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
+                val recordData = recordList.lastOrNull {it.type == type }
+                if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "詞語表達" -> {
                 val selectedOption = when {
@@ -441,45 +470,46 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     else -> ""
                 }
                 if (selectedOption != Ans) { score-- }
-                recordList.add(RecordData(getCurrentDateTime(), randomQnum, Ans))
+                val recordData = recordList.lastOrNull { it.type == type }
+                if (recordData != null) {
+                    recordData.userAnswer = selectedOption
+                }
                 binding.qChooseSentence.tvOptionOne.setOnClickListener { binding.next.performClick() }
                 binding.qChooseSentence.tvOptionTwo.setOnClickListener { binding.next.performClick() }
                 binding.qChooseSentence.tvOptionThree.setOnClickListener { binding.next.performClick() }
             }
+
         }
 
     }
 
-    private fun SaveRecData(randomQnum: Int, ans: String, score: Int) {
-        val currentTime = getCurrentDateTime()
-
-        val recordData = RecordData(currentTime, randomQnum, ans, score)
-
+    private fun SaveRecData() {
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val recordRef: DatabaseReference = database.getReference("紀錄")
         val userRef: DatabaseReference = recordRef.child(username)
         val dateTimeRef: DatabaseReference = userRef.child(DateTime)
-        val timeRef: DatabaseReference = dateTimeRef.child(currentTime)
+        val timeValueRef: DatabaseReference = dateTimeRef.child(timeValue.toString())
 
-        timeRef.setValue(recordData)
-            .addOnSuccessListener {
-                Log.d("SaveRecData", "資料儲存成功")
-            }
-            .addOnFailureListener {
-                Log.e("SaveRecData", "資料儲存失敗")
-            }
+        recordList.forEachIndexed { index, recordData ->
+            timeValueRef.child(index.toString()).setValue(recordData)
+                .addOnSuccessListener {
+                    Log.d("SaveRecData", "資料儲存成功")
+                }
+                .addOnFailureListener {
+                    Log.e("SaveRecData", "資料儲存失敗")
+                }
+        }
     }
 
-    private fun getCurrentDateTime(): String {
-        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-    }
 }
 
 data class RecordData(
-    val time: String = "",
-    val questionNumber: Int = 0,
-    val answer: String = "",
-    val score: Int = 0
+    val questionNumber: String = "",
+    val type: String = "",
+    val question: String = "",
+    val imageUrl: String = "",
+    val correctAnswer: String = "",
+    var userAnswer: String = ""
 )
 
 

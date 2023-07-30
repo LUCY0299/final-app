@@ -48,6 +48,17 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private val recordList: MutableList<RecordData> = mutableListOf()
     private val DateTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
+
+    private var originalXForOption4: Float = 0f
+    private var originalYForOption4: Float = 0f
+
+    private var originalXForOption5: Float = 0f
+    private var originalYForOption5: Float = 0f
+
+    private var originalXForOption6: Float = 0f
+    private var originalYForOption6: Float = 0f
+
+
     @Suppress("NAME_SHADOWING")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +102,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 TotalAnsSum += 10
                 score = 10
                 SaveRecData()
+                resetOptionsPosition()
             }
 
             initView()
@@ -220,9 +232,19 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     }
                 }
                 "圖物配對" -> {
-                    binding.qDragText.tvOption4.text = currQuestion?.get("答案1")?.toString() ?: ""
-                    binding.qDragText.tvOption5.text = currQuestion?.get("答案2")?.toString() ?: ""
-                    binding.qDragText.tvOption6.text = currQuestion?.get("答案3")?.toString() ?: ""
+                    val answerList = mutableListOf(
+                        currQuestion?.get("答案1").toString(),
+                        currQuestion?.get("答案2").toString(),
+                        currQuestion?.get("答案3").toString()
+                    )
+                    // 對答案列表進行隨機洗牌
+                    answerList.shuffle(Random(System.currentTimeMillis()))
+
+                    // 設置洗牌後的答案到相應的 TextView 中
+                    binding.qDragText.tvOption4.text = answerList[0]
+                    binding.qDragText.tvOption5.text = answerList[1]
+                    binding.qDragText.tvOption6.text = answerList[2]
+
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qDragText.tvImage8.setImageDrawable(drawable)
                     }
@@ -235,6 +257,21 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     binding.qDragText.tvOption4.setOnTouchListener(DragTouchListener())
                     binding.qDragText.tvOption5.setOnTouchListener(DragTouchListener())
                     binding.qDragText.tvOption6.setOnTouchListener(DragTouchListener())
+
+                    binding.qDragText.tvOption4.post {
+                        originalXForOption4 = binding.qDragText.tvOption4.x
+                        originalYForOption4 = binding.qDragText.tvOption4.y
+                    }
+
+                    binding.qDragText.tvOption5.post {
+                        originalXForOption5 = binding.qDragText.tvOption5.x
+                        originalYForOption5 = binding.qDragText.tvOption5.y
+                    }
+
+                    binding.qDragText.tvOption6.post {
+                        originalXForOption6 = binding.qDragText.tvOption6.x
+                        originalYForOption6 = binding.qDragText.tvOption6.y
+                    }
                 }
                 "口語描述" -> {
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
@@ -276,6 +313,27 @@ class QuestionOverviewActivity : AppCompatActivity() {
             )
         }
     }
+    private fun resetOptionsPosition() {
+        // 將選項移回它們的原始位置
+        binding.qDragText.tvOption4.x = originalXForOption4
+        binding.qDragText.tvOption4.y = originalYForOption4
+
+        binding.qDragText.tvOption5.x = originalXForOption5
+        binding.qDragText.tvOption5.y = originalYForOption5
+
+        binding.qDragText.tvOption6.x = originalXForOption6
+        binding.qDragText.tvOption6.y = originalYForOption6
+
+        // 重置選項的背景顏色
+        binding.qDragText.tvOption4.setBackgroundResource(R.drawable.text_drag_bg)
+        binding.qDragText.tvOption5.setBackgroundResource(R.drawable.text_drag_bg)
+        binding.qDragText.tvOption6.setBackgroundResource(R.drawable.text_drag_bg)
+
+        binding.qDragText.tvOption4.isSelected = false
+        binding.qDragText.tvOption5.isSelected = false
+        binding.qDragText.tvOption6.isSelected = false
+
+    }
 
     private inner class DragTouchListener : View.OnTouchListener {
         private var offsetX = 0
@@ -302,21 +360,24 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     view.y = newY.toFloat()
                     isMoved = true
 
-                    // Check if the dragged view is close to other views, and change border color accordingly
-                    val tvOptions = arrayOf(
-                        binding.qDragText.tvOption1,
-                        binding.qDragText.tvOption2,
-                        binding.qDragText.tvOption3,
+                    // Check if the dragged view is close to valid target options, and change border color accordingly
+                    val validTargetOptions = arrayOf(
                         binding.qDragText.tvOption4,
                         binding.qDragText.tvOption5,
                         binding.qDragText.tvOption6
                     )
-                    val margin = 50 // You can adjust this margin value to fit your needs
-                    var isAnyOverlapping = true
-                    tvOptions.forEach { tvOption ->
+                    val margin = 50
+                    var isAnyOverlapping = false
+                    validTargetOptions.forEach { tvOption ->
                         if (tvOption != view && isViewCloseTo(view, tvOption, margin)) {
-                            view.setBackgroundResource(R.drawable.red_border)
-                            tvOption.setBackgroundResource(R.drawable.red_border)
+                            val selectedOption = tvOption.text.toString()
+                            if (selectedOption == Ans) {
+                                view.setBackgroundResource(R.drawable.green_border)
+                                tvOption.setBackgroundResource(R.drawable.green_border)
+                            } else {
+                                view.setBackgroundResource(R.drawable.red_border)
+                                tvOption.setBackgroundResource(R.drawable.red_border)
+                            }
                             isAnyOverlapping = true
                         } else {
                             tvOption.setBackgroundResource(R.drawable.text_drag_bg)
@@ -328,32 +389,49 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP -> {
                     // On lifting the finger, check if there is an overlapping view and snap the dragged view to its position
-                    val tvOptions = arrayOf(
+                    val validTargetOptions = arrayOf(
                         binding.qDragText.tvOption4,
                         binding.qDragText.tvOption5,
                         binding.qDragText.tvOption6
                     )
-                    var isOverlapping =true
-                    tvOptions.forEach { tvOption ->
+                    var isOverlapping = false
+                    validTargetOptions.forEach { tvOption ->
                         if (isViewOverlapping(view, tvOption)) {
                             view.x = tvOption.x
                             view.y = tvOption.y
-                            view.setBackgroundResource(R.drawable.blue_border)
-                            tvOption.setBackgroundResource(R.drawable.green_border)
+
+                            // Check if the dragged option is correct
+                            val selectedOption = tvOption.text.toString()
+                            if (selectedOption == Ans) {
+                                view.setBackgroundResource(R.drawable.green_border)
+                                tvOption.setBackgroundResource(R.drawable.green_border)
+                            } else {
+                                view.setBackgroundResource(R.drawable.red_border)
+                                tvOption.setBackgroundResource(R.drawable.red_border)
+                            }
+
                             isOverlapping = true
                         }
                     }
                     if (!isOverlapping && isMoved) {
+                        // If the view is not overlapping any options and it was moved, reset it to the original position
                         view.x = originalX
                         view.y = originalY
+
+                        // Check if the dragged option is tvOption1, tvOption2, or tvOption3
+                        val nonTargetOptions = arrayOf(
+                            binding.qDragText.tvOption1,
+                            binding.qDragText.tvOption2,
+                            binding.qDragText.tvOption3
+                        )
+                        if (nonTargetOptions.contains(view)) {
+                            view.setBackgroundResource(R.drawable.red_border)
+                        }
                     }
                 }
-
             }
             return true
         }
-
-
         // 檢查兩個View是否重疊
         private fun isViewOverlapping(view1: View, view2: View): Boolean {
             val rect1 = Rect(view1.left, view1.top, view1.right, view1.bottom)
@@ -374,6 +452,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             return distanceX < margin && distanceY < margin
         }
     }
+
 
     private fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
         Thread {
@@ -455,7 +534,31 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 }
             }
             "圖物配對" -> {
+                val selectedOption = when {
+                    binding.qDragText.tvOption4.isSelected -> binding.qDragText.tvOption4.text.toString()
+                    binding.qDragText.tvOption5.isSelected -> binding.qDragText.tvOption5.text.toString()
+                    binding.qDragText.tvOption6.isSelected -> binding.qDragText.tvOption6.text.toString()
+                    else -> ""
+                }
+
+                Log.d("isAnsCorrect", "selectedOption: $selectedOption")
+
+                if (selectedOption == Ans) {
+                    binding.qDragText.tvOption4.setBackgroundResource(R.drawable.green_border)
+                    binding.qDragText.tvOption5.setBackgroundResource(R.drawable.green_border)
+                    binding.qDragText.tvOption6.setBackgroundResource(R.drawable.green_border)
+                } else {
+                    binding.qDragText.tvOption4.setBackgroundResource(R.drawable.red_border)
+                    binding.qDragText.tvOption5.setBackgroundResource(R.drawable.red_border)
+                    binding.qDragText.tvOption6.setBackgroundResource(R.drawable.red_border)
+                    score--
+                }
+                val recordData = recordList.lastOrNull { it.type == type }
+                if (recordData != null) {
+                    recordData.userAnswer = selectedOption
+                }
             }
+
             "口語描述" -> {
                 val userAnswer = binding.qDescribeImage.editWord2.text.toString().trim()
                 if(Ans != userAnswer){ score-- }
@@ -511,5 +614,4 @@ data class RecordData(
     val correctAnswer: String = "",
     var userAnswer: String = ""
 )
-
 

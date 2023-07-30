@@ -9,11 +9,14 @@ import com.example.strokepatientsvoicerecoveryapp.databinding.EditPasswordBindin
 class Profile : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
+    private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        username = intent.getStringExtra("username") ?: ""
 
         //當按下變更密碼鍵就會跳轉到變更密碼畫面
         binding.editPassword.setOnClickListener {

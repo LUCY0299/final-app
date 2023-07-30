@@ -226,28 +226,3 @@ class BasicinformationActivity : AppCompatActivity() {
         return adapter.getPosition(selection)
     }
 }
-/*
-    // 帳號資料傳到下一頁
-    private fun passUserData(username: String) {
-        val dbRef = FirebaseDatabase.getInstance().getReference("Users")
-        val userRef = dbRef.child(username)
-
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val sp1Selection = snapshot.child("sp1Selection").getValue(String::class.java)
-
-                    val intent = Intent(this@BasicinformationActivity, MainoptionActivity::class.java)
-                    intent.putExtra("username", username)
-                    intent.putExtra("sp1Selection", sp1Selection)
-                    startActivity(intent)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // 处理 onCancelled 事件
-            }
-        })
-    }
-
- */

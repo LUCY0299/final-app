@@ -591,10 +591,19 @@ class QuestionOverviewActivity : AppCompatActivity() {
         val recordRef: DatabaseReference = database.getReference("紀錄")
         val userRef: DatabaseReference = recordRef.child(username)
         val dateTimeRef: DatabaseReference = userRef.child(DateTime)
+
         val timeValueRef: DatabaseReference = dateTimeRef.child(timeValue.toString())
+        val degreeRef: DatabaseReference = dateTimeRef.child("難度")
+        val typeRef: DatabaseReference = dateTimeRef.child("選擇類型")
+        val commentRef: DatabaseReference = dateTimeRef.child("評語")
+        degreeRef.setValue(sp1Selection)
+        typeRef.setValue(selectedTitle)
+        commentRef.setValue("")
+
 
         recordList.forEachIndexed { index, recordData ->
-            timeValueRef.child(index.toString()).setValue(recordData)
+            val adjustedIndex = index + 1
+            timeValueRef.child(adjustedIndex.toString()).setValue(recordData)
                 .addOnSuccessListener {
                     Log.d("SaveRecData", "資料儲存成功")
                 }
@@ -612,6 +621,7 @@ data class RecordData(
     val question: String = "",
     val imageUrl: String = "",
     val correctAnswer: String = "",
-    var userAnswer: String = ""
+    var userAnswer: String = "",
+    val 評語: String = ""
 )
 

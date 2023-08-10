@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="登入"
             android:textColor="#408080"
-            android:textSize="70sp"
+            android:textSize="70dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/text_username"
             app:layout_constraintEnd_toEndOf="parent"

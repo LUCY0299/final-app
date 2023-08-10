@@ -9,8 +9,8 @@
 
 
     <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="580dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="32dp">
@@ -103,8 +103,5 @@
                 android:hint="題目難度"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -21,8 +21,8 @@
           android:layout_width="60dp"
           android:layout_height="60dp"
           android:layout_gravity="center_vertical"
-          android:layout_marginStart="310dp"
-          android:layout_marginTop="16dp"
+          android:layout_marginStart="301dp"
+          android:layout_marginTop="20dp"
           android:background="@drawable/ic_baseline_create_24" />
 
 
@@ -116,7 +116,7 @@
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="家庭成員稱謂"
+          android:hint="   家庭成員稱謂"
           android:singleLine="true"/>
 
    </com.google.android.material.textfield.TextInputLayout>
@@ -136,7 +136,7 @@
           android:layout_width="match_parent"
           android:layout_height="50dp"
           android:background="#408080"
-          android:hint="家人姓名"
+          android:hint="   家人姓名"
           android:singleLine="true"/>
 
       <TextView
@@ -155,7 +155,7 @@
       <Spinner
           android:id="@+id/sp"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="match_parent"
           android:entries="@array/option"
           />
       <TextView
@@ -174,7 +174,7 @@
       <Spinner
           android:id="@+id/sp1"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="match_parent"
           android:entries="@array/option1"
           />
 

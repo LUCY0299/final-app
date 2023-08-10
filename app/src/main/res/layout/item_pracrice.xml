@@ -25,7 +25,7 @@
         android:layout_height="140dp"
         android:background="@drawable/btn_background"
         android:text="流暢"
-        android:textSize="30sp"
+        android:textSize="30dp"
         android:textStyle="bold"
         android:textColor="#408080"
         android:layout_gravity="center" />

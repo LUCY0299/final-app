@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:stretchColumns="2">
 
-
         <TableRow>
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +94,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/questiontype"
+                android:id="@+id/questionType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="115dp"

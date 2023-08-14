@@ -51,11 +51,12 @@ class HistoryrecordActivity : AppCompatActivity() {
                     val date = dateTimeSnapshot.key.toString()
 
                     for (dataSnapshot in dateTimeSnapshot.children) {
-                        val practiceTime = dataSnapshot.child("時間").getValue(String::class.java) ?: ""
+                        val dateTime = dataSnapshot.child("日期時間").getValue(String::class.java) ?: ""
+                        val practiceTime = dataSnapshot.child("練習時間").getValue(String::class.java) ?: ""
                         val questionType = dataSnapshot.child("選擇類型").getValue(String::class.java) ?: ""
                         val questionDegree = dataSnapshot.child("難度").getValue(String::class.java) ?: ""
 
-                        val recordItem = RecordItem(date, practiceTime, questionType, questionDegree)
+                        val recordItem = RecordItem(dateTime, practiceTime, questionType, questionDegree)
                         recordList.add(recordItem)
                     }
                 }

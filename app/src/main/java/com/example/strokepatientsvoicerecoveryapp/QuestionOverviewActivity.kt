@@ -593,9 +593,14 @@ class QuestionOverviewActivity : AppCompatActivity() {
         val dateTimeRef: DatabaseReference = userRef.child(DateTime)
 
         val timeValueRef: DatabaseReference = dateTimeRef.child(timeValue.toString())
+
+        val dateRef: DatabaseReference = dateTimeRef.child("日期時間")
+        val PracTimeRef: DatabaseReference = dateTimeRef.child("練習時間")
         val degreeRef: DatabaseReference = dateTimeRef.child("難度")
         val typeRef: DatabaseReference = dateTimeRef.child("選擇類型")
         val commentRef: DatabaseReference = dateTimeRef.child("評語")
+        dateRef.setValue(timeValue.toString())
+        PracTimeRef.setValue(DateTime)
         degreeRef.setValue(sp1Selection)
         typeRef.setValue(selectedTitle)
         commentRef.setValue("")

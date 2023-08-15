@@ -1,6 +1,7 @@
 package com.example.strokepatientsvoicerecoveryapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,10 +48,8 @@ class HistoryrecordActivity : AppCompatActivity() {
 
                 // 直接在snapshot中找到指定使用者的資料
                 val userSnapshot = snapshot.child(username)
-                for (dateTimeSnapshot in userSnapshot.children) {
-                    val date = dateTimeSnapshot.key.toString()
-
-                    for (dataSnapshot in dateTimeSnapshot.children) {
+                for (dateSnapshot in userSnapshot.children) {
+                    for (dataSnapshot in dateSnapshot.children) {
                         val dateTime = dataSnapshot.child("日期時間").getValue(String::class.java) ?: ""
                         val practiceTime = dataSnapshot.child("練習時間").getValue(String::class.java) ?: ""
                         val questionType = dataSnapshot.child("選擇類型").getValue(String::class.java) ?: ""
@@ -69,6 +68,7 @@ class HistoryrecordActivity : AppCompatActivity() {
                 // Handle error
             }
         })
+
 
     }
 }

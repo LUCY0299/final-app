@@ -20,18 +20,21 @@ class Profile : AppCompatActivity() {
 
         //當按下變更密碼鍵就會跳轉到變更密碼畫面
         binding.editPassword.setOnClickListener {
-            val intent = Intent(this@Profile,Editpassword::class.java)
-            startActivity(intent)
+            navigateToNextPage(Editpassword::class.java)
         }
         //當按下編輯資料鍵就會跳轉到編輯資料畫面
         binding.editInfor.setOnClickListener {
-            val intent = Intent(this@Profile,Modify::class.java)
-            startActivity(intent)
+            navigateToNextPage(Modify::class.java)
         }
         //當按下歷史紀錄鍵就會跳轉到歷史紀錄畫面
         binding.history.setOnClickListener {
-            val intent = Intent(this@Profile,HistoryrecordActivity::class.java)
-            startActivity(intent)
+            navigateToNextPage(HistoryrecordActivity::class.java)
         }
+    }
+
+    private fun navigateToNextPage(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        intent.putExtra("username", username)
+        startActivity(intent)
     }
 }

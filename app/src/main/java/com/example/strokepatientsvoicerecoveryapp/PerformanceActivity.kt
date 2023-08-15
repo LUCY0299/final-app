@@ -24,6 +24,7 @@ import java.text.DecimalFormat
 class PerformanceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPerformanceBinding
+    private lateinit var username: String
     private lateinit var lineChart: LineChart
     private lateinit var PieChart: PieChart
 
@@ -35,10 +36,11 @@ class PerformanceActivity : AppCompatActivity() {
         lineChart = findViewById(R.id.lineChart)
         PieChart = findViewById(R.id.PieChart)
 
+        username = intent.getStringExtra("username") ?: ""
+
         //當按下一頁鍵就會跳轉到個人資料畫面
         binding.nextpage.setOnClickListener {
-            val intent = Intent(this@PerformanceActivity,Profile::class.java);
-            startActivity(intent)
+            navigateToNextPage(Profile::class.java);
         }
     //========================================Piechart==================================//
 
@@ -399,6 +401,12 @@ class PerformanceActivity : AppCompatActivity() {
             "生活" -> ContextCompat.getColor(this, R.color.pink)
             else -> Color.BLACK // 设置一个默认的颜色
         }
+    }
+
+    private fun navigateToNextPage(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        intent.putExtra("username", username)
+        startActivity(intent)
     }
 }
 

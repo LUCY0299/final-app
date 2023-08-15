@@ -30,7 +30,7 @@ class MainoptionActivity : AppCompatActivity() {
 
         //當按下個人資料就會跳轉到個人資料畫面
         binding.btnGotoProfile.setOnClickListener {
-            navigateToNextPage(Profile::class.java)
+            navigateToNextPage(PerformanceActivity::class.java)
         }
     }
 

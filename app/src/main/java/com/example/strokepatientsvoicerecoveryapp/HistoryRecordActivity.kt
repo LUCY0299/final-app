@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class HistoryrecordActivity : AppCompatActivity() {
+class HistoryRecordActivity : AppCompatActivity() {
 
     private lateinit var binding: HistoryRecordDetailBinding
     private lateinit var username: String
@@ -68,8 +68,6 @@ class HistoryrecordActivity : AppCompatActivity() {
                 // Handle error
             }
         })
-
-
     }
 }
 
@@ -115,6 +113,8 @@ class RecordAdapter(private val recordList: List<RecordItem>, private val onItem
             btnSee.setOnClickListener {
                 onItemClickListener.onItemClick(recordItem)
             }
+
+            Log.d("RecyclerViewDebug", "Binding record item: $recordItem")
         }
     }
 }

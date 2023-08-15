@@ -40,7 +40,7 @@
         <activity android:name=".QuestionOverviewActivity"/>
         <activity android:name=".QuestiondetailActivity"/>
         <activity android:name=".TimesupOverviewActivity"/>
-        <activity android:name=".HistoryrecordActivity"/>
+        <activity android:name=".HistoryRecordActivity"/>
         <activity android:name=".Editpassword"/>
         <activity android:name=".Feedback"/>
         <activity android:name=".Modify"/>

@@ -3,8 +3,6 @@ package com.example.strokepatientsvoicerecoveryapp
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.TypedValue
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.strokepatientsvoicerecoveryapp.databinding.ActivityPerformanceBinding

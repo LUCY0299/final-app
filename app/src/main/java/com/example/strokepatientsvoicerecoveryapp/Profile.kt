@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import com.example.strokepatientsvoicerecoveryapp.databinding.ActivityProfileBinding
-import com.example.strokepatientsvoicerecoveryapp.databinding.EditPasswordBinding
 
 class Profile : AppCompatActivity() {
 
@@ -28,7 +27,7 @@ class Profile : AppCompatActivity() {
         }
         //當按下歷史紀錄鍵就會跳轉到歷史紀錄畫面
         binding.history.setOnClickListener {
-            navigateToNextPage(HistoryrecordActivity::class.java)
+            navigateToNextPage(HistoryRecordActivity::class.java)
         }
     }
 

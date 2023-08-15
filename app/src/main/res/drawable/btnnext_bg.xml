@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@android:color/transparent" />
+
+    <size
+        android:width="90dp"
+        android:height="40dp" />
+
+    <solid
+        android:color="#FFDCB9"/>
+
+    <stroke
+        android:width="3dp"
+        android:color="#D26900" /> <!-- Change this color code to any red color you prefer -->
+</shape>

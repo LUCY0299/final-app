@@ -33,11 +33,6 @@ class HistoryRecordActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val reference = database.getReference("紀錄").child(username)
 
-        val onItemClickListener = object : RecordAdapter.OnItemClickListener {
-            override fun onItemClick(recordItem: RecordItem) {
-                // Handle item click
-            }
-        }
 
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -112,6 +107,7 @@ class RecordAdapter(
                 val intent = Intent(itemView.context, QuestiondetailActivity::class.java)
                 intent.putExtra("username", username)
                 intent.putExtra("dateTime", recordItem.date)
+                intent.putExtra("practiceTime", recordItem.practiceTime)
                 itemView.context.startActivity(intent)
             }
         }

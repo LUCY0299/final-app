@@ -4,358 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="20dp"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="50dp"
+            android:text="題目紀錄"
+            android:textColor="#000"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:stretchColumns="2" >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
-                    <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/question_num"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginStart="50dp"
-                            android:text="第0題"
-                            android:textColor="#000"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/correctAnswer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="正確答案"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/correctAnswer1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="50dp"
-                            android:layout_marginTop="30dp"
-                            android:text="請問你剛剛說什麼?"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/imageUrl"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="圖片"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/imageUrl1"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginTop="30dp"
-                            android:src="@drawable/animal"
-                            android:layout_marginStart="50dp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/question"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="題目"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/question1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="50dp"
-                            android:layout_marginTop="30dp"
-                            android:text="請問你剛剛說什麼?"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/questionNumber"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="題號"
-                            android:textSize="21sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/questionNumber1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="23"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="類型"
-                            android:textSize="21sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/type1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="復誦句子"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/userAnswer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="你的答案"
-                            android:textSize="21sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/userAnswer1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text=" "
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="10dp"
-                        android:background="#000" />
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/question_num2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginStart="50dp"
-                            android:text="第1題"
-                            android:textColor="#000"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/correctAnswer2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="正確答案"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/correctAnswer3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="50dp"
-                            android:layout_marginTop="30dp"
-                            android:text="請問你剛剛說什麼?"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/imageUrl2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="圖片"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/imageUrl3"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:src="@drawable/animal1"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/question2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="題目"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/question3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="50dp"
-                            android:layout_marginTop="30dp"
-                            android:text="請問你剛剛說什麼?"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/questionNumber2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="題號"
-                            android:textSize="21sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/questionNumber3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="23"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/type2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="類型"
-                            android:textSize="21sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/type3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="復誦句子"
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <TableRow>
-
-                        <TextView
-                            android:id="@+id/userAnswer2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text="你的答案"
-                            android:textSize="21sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/userAnswer3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="50dp"
-                            android:text=" "
-                            android:textSize="21sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="10dp"
-                        android:background="#000" />
-
-                    <Button
-                        android:id="@+id/btn_seequiz"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="45dp"
-                        android:layout_marginTop="50dp"
-                        android:background="#81C0C0"
-                        android:text="查看測驗表現"
-                        android:textColor="#000"
-                        android:textSize="21sp"
-                        android:textStyle="bold" />
-
-
-                </TableLayout>
-
-
-            </LinearLayout>
-    </HorizontalScrollView>
-
+            <Button
+                android:id="@+id/btn_seequiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="50dp"
+                android:background="#81C0C0"
+                android:text="查看測驗表現"
+                android:textColor="#000"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
 
 </ScrollView>

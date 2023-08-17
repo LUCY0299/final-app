@@ -1,7 +1,7 @@
 package com.example.strokepatientsvoicerecoveryapp
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.strokepatientsvoicerecoveryapp.databinding.HistoryRecordDetailBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class HistoryRecordActivity : AppCompatActivity() {
 
@@ -46,21 +43,18 @@ class HistoryRecordActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 recordList.clear()
 
-                // 直接在snapshot中找到指定使用者的資料
-                val userSnapshot = snapshot.child(username)
-                for (dateSnapshot in userSnapshot.children) {
-                    for (dataSnapshot in dateSnapshot.children) {
-                        val dateTime = dataSnapshot.child("日期時間").getValue(String::class.java) ?: ""
-                        val practiceTime = dataSnapshot.child("練習時間").getValue(String::class.java) ?: ""
-                        val questionType = dataSnapshot.child("選擇類型").getValue(String::class.java) ?: ""
-                        val questionDegree = dataSnapshot.child("難度").getValue(String::class.java) ?: ""
+                for (dataSnapshot in snapshot.children) {
+                    val dateTime = dataSnapshot.child("日期時間").getValue(String::class.java) ?: ""
+                    val practiceTime = dataSnapshot.child("練習時間").getValue(String::class.java) ?: ""
+                    val questionType = dataSnapshot.child("選擇類型").getValue(String::class.java) ?: ""
+                    val questionDegree = dataSnapshot.child("難度").getValue(String::class.java) ?: ""
 
-                        val recordItem = RecordItem(dateTime, practiceTime, questionType, questionDegree)
-                        recordList.add(recordItem)
-                    }
+                    val recordItem = RecordItem(dateTime, practiceTime, questionType, questionDegree)
+                    recordList.add(recordItem)
                 }
 
-                val adapter = RecordAdapter(recordList, onItemClickListener)
+
+                val adapter = RecordAdapter(username, recordList)
                 recyclerView.adapter = adapter
             }
 
@@ -72,13 +66,17 @@ class HistoryRecordActivity : AppCompatActivity() {
 }
 
 data class RecordItem(
-    val date: String,
-    val practiceTime: String,
-    val questionType: String,
-    val questionDegree: String
+    @PropertyName("日期時間") val date: String,
+    @PropertyName("練習時間") val practiceTime: String,
+    @PropertyName("選擇類型") val questionType: String,
+    @PropertyName("難度") val questionDegree: String
 )
 
-class RecordAdapter(private val recordList: List<RecordItem>, private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<RecordAdapter.RecordViewHolder>() {
+
+class RecordAdapter(
+    private val username: String,
+    private val recordList: List<RecordItem>)
+        : RecyclerView.Adapter<RecordAdapter.RecordViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(recordItem: RecordItem)
@@ -111,10 +109,11 @@ class RecordAdapter(private val recordList: List<RecordItem>, private val onItem
             questionTypeTextView.text = recordItem.questionType
 
             btnSee.setOnClickListener {
-                onItemClickListener.onItemClick(recordItem)
+                val intent = Intent(itemView.context, QuestiondetailActivity::class.java)
+                intent.putExtra("username", username)
+                intent.putExtra("dateTime", recordItem.date)
+                itemView.context.startActivity(intent)
             }
-
-            Log.d("RecyclerViewDebug", "Binding record item: $recordItem")
         }
     }
 }

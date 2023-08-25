@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Strokepatientsvoicerecoveryapp</string>
+    <string name="app_name">語我聊療</string>
 
     <string-array name="option">
         <item>請選擇症狀程度名稱</item>

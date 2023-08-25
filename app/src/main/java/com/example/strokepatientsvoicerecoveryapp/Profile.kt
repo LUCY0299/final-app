@@ -17,7 +17,7 @@ class Profile : AppCompatActivity() {
 
         username = intent.getStringExtra("username") ?: ""
 
-        //當按下變更密碼鍵就會跳轉到變更密碼畫面
+    /*    //當按下變更密碼鍵就會跳轉到變更密碼畫面
         binding.editPassword.setOnClickListener {
             navigateToNextPage(Editpassword::class.java)
         }
@@ -28,7 +28,7 @@ class Profile : AppCompatActivity() {
         //當按下歷史紀錄鍵就會跳轉到歷史紀錄畫面
         binding.history.setOnClickListener {
             navigateToNextPage(HistoryRecordActivity::class.java)
-        }
+        }*/
     }
 
     private fun navigateToNextPage(activityClass: Class<*>) {

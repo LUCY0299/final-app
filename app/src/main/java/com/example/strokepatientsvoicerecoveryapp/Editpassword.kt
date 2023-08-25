@@ -19,7 +19,7 @@ class Editpassword : AppCompatActivity() {
 
         //當按下儲存修改就會跳轉到前一個畫面
         binding.saveEdit.setOnClickListener {
-            val intent = Intent(this@Editpassword,Profile::class.java);
+            val intent = Intent(this@Editpassword,PerformanceActivity::class.java);
             startActivity(intent)
         }
     }

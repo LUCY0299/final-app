@@ -36,11 +36,20 @@ class PerformanceActivity : AppCompatActivity() {
 
         username = intent.getStringExtra("username") ?: ""
 
-        //當按下一頁鍵就會跳轉到個人資料畫面
-        binding.nextpage.setOnClickListener {
-            navigateToNextPage(Profile::class.java);
+
+        //當按下變更密碼鍵就會跳轉到變更密碼畫面
+        binding.editPassword.setOnClickListener {
+            navigateToNextPage(Editpassword::class.java)
         }
-    //========================================Piechart==================================//
+        //當按下編輯資料鍵就會跳轉到編輯資料畫面
+        binding.editInfor.setOnClickListener {
+            navigateToNextPage(Modify::class.java)
+        }
+        //當按下歷史紀錄鍵就會跳轉到歷史紀錄畫面
+        binding.history.setOnClickListener {
+            navigateToNextPage(HistoryRecordActivity::class.java)
+        }
+        //========================================Piechart==================================//
 
         val entries = ArrayList<PieEntry>()
         val colors = ArrayList<Int>()
@@ -70,38 +79,38 @@ class PerformanceActivity : AppCompatActivity() {
         PieChart.setHoleRadius(0f)
 
 
-     //=========================================LineChart==========================================//
+        //=========================================LineChart==========================================//
 
         // Green Line Data
-            val values = ArrayList<Entry>().apply {
-                add(Entry(1f, 60.65f))
-                add(Entry(2f, 70.69f))
-                add(Entry(3f, 66.69f))
-                add(Entry(4f, 71.69f))
-                add(Entry(5f, 80.58f))
-                add(Entry(6f, 90.58f))
-            }
+        val values = ArrayList<Entry>().apply {
+            add(Entry(1f, 60.65f))
+            add(Entry(2f, 70.69f))
+            add(Entry(3f, 66.69f))
+            add(Entry(4f, 71.69f))
+            add(Entry(5f, 80.58f))
+            add(Entry(6f, 90.58f))
+        }
         // purple Line  Data
-            val values1 = ArrayList<Entry>().apply {
-                add(Entry(1f, 66.63f))
-                add(Entry(2f, 77.65f))
-                add(Entry(3f, 88.66f))
-                add(Entry(4f, 60.53f))
-                add(Entry(5f, 90.53f))
-                add(Entry(6f, 70.00f))
-            }
+        val values1 = ArrayList<Entry>().apply {
+            add(Entry(1f, 66.63f))
+            add(Entry(2f, 77.65f))
+            add(Entry(3f, 88.66f))
+            add(Entry(4f, 60.53f))
+            add(Entry(5f, 90.53f))
+            add(Entry(6f, 70.00f))
+        }
 
-            // Pink Line Data
-            val values2 = ArrayList<Entry>().apply {
-                add(Entry(1f, 63.63f))
-                add(Entry(2f, 75.65f))
-                add(Entry(3f, 60.66f))
-                add(Entry(4f, 80.53f))
-                add(Entry(5f, 90.53f))
-                add(Entry(6f, 77.00f))
-            }
+        // Pink Line Data
+        val values2 = ArrayList<Entry>().apply {
+            add(Entry(1f, 63.63f))
+            add(Entry(2f, 75.65f))
+            add(Entry(3f, 60.66f))
+            add(Entry(4f, 80.53f))
+            add(Entry(5f, 90.53f))
+            add(Entry(6f, 77.00f))
+        }
 
-            // Green Line End Data
+        // Green Line End Data
         val values_end = ArrayList<Entry>().apply {
             add(Entry(6f, 90.58f))
         }
@@ -152,13 +161,13 @@ class PerformanceActivity : AppCompatActivity() {
         set.setDrawFilled(true)
         set.highLightColor = Color.RED
 
-      /*  // Green Line End Circle
-        set_end = LineDataSet(values_end, "")
-        set_end.color = ContextCompat.getColor(this, R.color.green)
-        set_end.circleRadius = 4f
-        set_end.setDrawCircles(true)
-        set.setDrawFilled(true)
-        set_end.setDrawValues(true)*/
+        /*  // Green Line End Circle
+          set_end = LineDataSet(values_end, "")
+          set_end.color = ContextCompat.getColor(this, R.color.green)
+          set_end.circleRadius = 4f
+          set_end.setDrawCircles(true)
+          set.setDrawFilled(true)
+          set_end.setDrawValues(true)*/
 
         // purple Line
         set2 = LineDataSet(values1, "流暢")
@@ -174,13 +183,13 @@ class PerformanceActivity : AppCompatActivity() {
         set2.setDrawFilled(true)
         set2.highLightColor = Color.RED
 
-      /*  // purple Line End Circle
-        set2_end = LineDataSet(values1_end, "")
-        set2_end.color = ContextCompat.getColor(this, R.color.purple_700)
-        set2_end.circleRadius = 4f
-        set2_end.setDrawCircles(true)
-        set2.setDrawFilled(true)
-        set2_end.setDrawValues(true)**/
+        /*  // purple Line End Circle
+          set2_end = LineDataSet(values1_end, "")
+          set2_end.color = ContextCompat.getColor(this, R.color.purple_700)
+          set2_end.circleRadius = 4f
+          set2_end.setDrawCircles(true)
+          set2.setDrawFilled(true)
+          set2_end.setDrawValues(true)**/
 
         // pink Line
         set3 = LineDataSet(values2, "理解")
@@ -197,12 +206,12 @@ class PerformanceActivity : AppCompatActivity() {
         set3.highLightColor = Color.RED
 
         // pink Line End Circle
-       /* set3_end = LineDataSet(values2_end, "")
-        set3_end.color = ContextCompat.getColor(this, R.color.pink)
-        set3_end.circleRadius = 4f
-        set3_end.setDrawCircles(true)
-        set3.setDrawFilled(true)
-        set3_end.setDrawValues(true)*/
+        /* set3_end = LineDataSet(values2_end, "")
+         set3_end.color = ContextCompat.getColor(this, R.color.pink)
+         set3_end.circleRadius = 4f
+         set3_end.setDrawCircles(true)
+         set3.setDrawFilled(true)
+         set3_end.setDrawValues(true)*/
 
         // Similar settings for purpleLine and its end circle
 
@@ -302,14 +311,16 @@ class PerformanceActivity : AppCompatActivity() {
         xAxis.textColor = Color.GRAY
         xAxis.textSize = 15f
         xAxis.labelCount = 6
+        xAxis.labelRotationAngle = -35f // 设置标签旋转角度
         xAxis.spaceMin = 0.5f
         xAxis.spaceMax = 0.5f
         xAxis.setDrawGridLines(false)
-        xAxis.setDrawLabels(true);//顯示X軸的對應標籤
+        xAxis.setDrawLabels(true);
 
         val xValue = arrayOf("", "8/3", "8/10", "8/17", "8/24", "8/25", "8/31")
         xAxis.valueFormatter = IndexAxisValueFormatter(xValue.toList())
     }
+
     //設定Y軸
     private fun initY() {
         val rightAxis = lineChart.axisRight
@@ -407,4 +418,3 @@ class PerformanceActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
-

@@ -3,6 +3,9 @@ package com.example.strokepatientsvoicerecoveryapp
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.strokepatientsvoicerecoveryapp.databinding.ActivityPerformanceBinding
@@ -17,6 +20,7 @@ import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.google.firebase.database.*
 import java.text.DecimalFormat
 
 class PerformanceActivity : AppCompatActivity() {
@@ -49,6 +53,21 @@ class PerformanceActivity : AppCompatActivity() {
         binding.history.setOnClickListener {
             navigateToNextPage(HistoryRecordActivity::class.java)
         }
+
+        //==================================Firebase==================================
+        val database = FirebaseDatabase.getInstance()
+        val reference = database.getReference("Users").child(username)
+
+
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val realnameFromDB = snapshot.child("realName").getValue(String::class.java)
+                binding.name1.text = "$realnameFromDB\n$username"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
         //========================================Piechart==================================//
 
         val entries = ArrayList<PieEntry>()

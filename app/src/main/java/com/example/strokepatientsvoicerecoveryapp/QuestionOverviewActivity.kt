@@ -149,6 +149,30 @@ class QuestionOverviewActivity : AppCompatActivity() {
             stopRecording()   //停止錄音
         }
 
+        binding.qSpeechImage.btnSpeech1.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_MICROPHONE)
+            } else {
+                // 启动SpeechActivity
+                startRecording() // 進行錄音
+            }
+        }
+        binding.qSpeechImage.btnStop1.setOnClickListener {
+            stopRecording()   //停止錄音
+        }
+
+        binding.qDescribeImage.btnSpeech2.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_MICROPHONE)
+            } else {
+                // 启动SpeechActivity
+                startRecording() // 進行錄音
+            }
+        }
+        binding.qDescribeImage.btnStop2.setOnClickListener {
+            stopRecording()   //停止錄音
+        }
+
     }
 
     private fun startRecording() {

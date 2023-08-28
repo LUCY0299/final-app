@@ -1,25 +1,42 @@
 package com.example.strokepatientsvoicerecoveryapp
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
+import android.media.MediaRecorder
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.strokepatientsvoicerecoveryapp.databinding.QuestionOverviewBinding
 import com.google.firebase.database.*
+import java.io.File
+import java.io.FileInputStream
 import java.io.InputStream
+import java.net.Socket
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
+import android.Manifest
+import android.content.ContextWrapper
+import android.os.*
+import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import android.os.Bundle
+import android.os.Environment
+
+
 
 class QuestionOverviewActivity : AppCompatActivity() {
 
@@ -58,6 +75,14 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private var originalXForOption6: Float = 0f
     private var originalYForOption6: Float = 0f
 
+    //speech
+    private val SPEECH_REQUEST_CODE = 0
+    private val REQUEST_MICROPHONE = 1
+    private var recorder: MediaRecorder? = null
+    private lateinit var textView: TextView
+    private var isRecording = false
+    private lateinit var storageReference: StorageReference
+    private var questionNumberStr: String = ""
 
     @Suppress("NAME_SHADOWING")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,7 +135,110 @@ class QuestionOverviewActivity : AppCompatActivity() {
             getTheQuizFromSheet(randomQnum)
         }
 
+        //speech
+
+        binding.qSpeech.btnSpeech.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_MICROPHONE)
+            } else {
+                // 启动SpeechActivity
+                startRecording() // 進行錄音
+            }
+        }
+        binding.qSpeech.btnStop.setOnClickListener {
+            stopRecording()   //停止錄音
+        }
+
     }
+
+    private fun startRecording() {
+        try {
+            isRecording = true
+            // 初始化 MediaRecorder 并开始录音
+            recorder = MediaRecorder()
+            recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+            recorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            //recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            val audioFile = getRecordingFile(questionNumberStr) // 获取包含檔名+檔案 的 File 对象
+            recorder?.setOutputFile(audioFile.absolutePath)
+
+            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            //recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            recorder?.prepare()
+            recorder?.start()
+
+            Toast.makeText(this, "Recording is started", Toast.LENGTH_LONG).show()
+        }
+        catch(e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopRecording() {
+        isRecording = false
+        // 录音结束后释放 MediaRecorder 资源
+        recorder?.stop()
+        recorder?.reset()
+        recorder?.release()
+        recorder = null
+
+        // 获取用户名
+        val username = intent.getStringExtra("username") ?: ""
+        val dateTime = DateTime
+
+        // 创建文件夹路径
+        val filePath = "recording/$username/$dateTime/${getRecordingFileName(questionNumberStr)}"
+
+        // 停止录音后，将录音文件发送到服务器进行转文字
+        GlobalScope.launch(Dispatchers.IO) {
+            sendAudioToServer()
+        }
+    }
+
+    private fun getRecordingFileName(questionNumber: String): String {
+        return "${questionNumber}.mp3"
+    }
+
+    private fun getRecordingFile(questionNumber: String): File  {
+        val contextWrapper = ContextWrapper(applicationContext)
+        val musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC)
+        val fileName = getRecordingFileName(questionNumberStr)
+        return File(musicDirectory, fileName)
+    }
+    private fun sendAudioToServer() {
+        thread {
+            val socket = Socket("163.13.201.83", 3000)
+            val outputStream = socket.getOutputStream()
+            val inputStream = socket.getInputStream()
+
+//            // 发送文件名给服务器
+            val filename =getRecordingFileName(questionNumberStr)
+            outputStream.write(filename.toByteArray(Charsets.UTF_8))
+
+            // 发送录音文件到服务器
+            val audioFile = getRecordingFile(questionNumberStr)
+            val audioFileStream = FileInputStream(audioFile)
+            val buffer = ByteArray(1024)
+            var bytesRead: Int  //用于存储每次从输入流 audioFileStream 中读取的字节数
+            while (audioFileStream.read(buffer).also { bytesRead = it } != -1) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+            audioFileStream.close()
+            outputStream.flush()
+
+//            // 等待服务器返回识别结果
+//            val responseBytes = ByteArray(1024)
+//            val responseBytesRead = inputStream.read(responseBytes)
+//            val responseData = String(responseBytes, 0, responseBytesRead)
+
+            socket.close()
+            // 添加延迟等待文件写入完成
+
+            Thread.sleep(1000)
+        }
+    }
+
+
     // =========================function=======================================
     private fun startTimer() {
         val textView = binding.countdownTimer
@@ -160,6 +288,16 @@ class QuestionOverviewActivity : AppCompatActivity() {
         super.onDestroy()
         // 確保在Activity被銷毀時停止計時
         timer.cancel()
+
+        if (isRecording) {
+            recorder?.apply {
+                stop()
+                reset()
+                release()
+            }
+            recorder = null
+            isRecording = false
+        }
     }
 
     // 初始畫面，全部隱藏
@@ -191,7 +329,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     // 打開正確的難度、類型的題目View
     @SuppressLint("ClickableViewAccessibility")
     private fun getTheQuizFromSheet(questionNumber: Int) {
-        val questionNumberStr = questionNumber.toString()
+        questionNumberStr = questionNumber.toString()
 
         readQuestionContent(questionNumberStr) { dataSnapshot ->
             currQuestion = dataSnapshot.value as? Map<*, *> ?: return@readQuestionContent
@@ -488,10 +626,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private fun isAnsCorrect(){
         when (type) {
             "複誦句子" -> {
-                val userAnswer = binding.qSpeech.editWord3.text.toString().trim()
-                if(Ans != userAnswer){ score-- }
+                //val userAnswer = binding.qSpeech.editWord3.text.toString().trim()
+                //if(Ans != userAnswer){ score-- }
                 val recordData = recordList.lastOrNull {it.type == type }
-                if (recordData != null) { recordData.userAnswer = userAnswer }
+                //if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "簡單應答" -> {
                 val userAnswer = binding.qSpeechImage.editWord.text.toString().trim()
@@ -627,6 +765,7 @@ data class RecordData(
     val imageUrl: String = "",
     val correctAnswer: String = "",
     var userAnswer: String = "",
-    val 評語: String = ""
+    val 評語: String = "",
+    val audioFileName: String = ""
 )
 

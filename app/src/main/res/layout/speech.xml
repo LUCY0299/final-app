@@ -38,14 +38,29 @@
 
         <Button
             android:id="@+id/btn_speech"
-            android:layout_width="200dp"
+            android:layout_width="72dp"
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:background="@drawable/textview_background"
+            android:contentDescription="開始錄音"
             android:drawableTop="@drawable/ic_baseline_mic_24"
             android:drawablePadding="50dp"
             android:gravity="center"
             android:padding="14dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/textview_background"
+            android:contentDescription="停止錄音"
+            android:drawablePadding="50dp"
+            android:gravity="center"
+            android:padding="14dp"
+            android:text="Stop"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -60,12 +75,19 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edit_word3"
-            android:layout_width="360dp"
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="新增文字輸入"
-            android:singleLine="true"/>
+            android:textSize="18sp"
+            android:layout_marginTop="16dp" />
+
+<!--        <EditText-->
+<!--            android:id="@+id/edit_word3"-->
+<!--            android:layout_width="360dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="新增文字輸入"-->
+<!--            android:singleLine="true"/>-->
 
     </LinearLayout>
 

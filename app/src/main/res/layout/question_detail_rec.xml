@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="第 "
                 android:textColor="#000"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="#000"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text=" 題"
                 android:textColor="#000"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="題目"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#000"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="圖片"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="類型"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#000"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="正確答案"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"
                 />
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#000"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"
                 />
@@ -153,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="你的答案"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:text="答案"
                 android:textColor="#000"
-                android:textSize="21sp"
+                android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -174,6 +174,4 @@
             android:layout_marginTop="20dp"
             android:background="#000" />
     </LinearLayout>
-
-
 </androidx.cardview.widget.CardView>

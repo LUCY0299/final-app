@@ -1,256 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@drawable/bg"
     android:fillViewport="true"
+    android:orientation="vertical"
     android:scrollbars="none">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/profile"
-        android:background="@drawable/image_bg"
-        android:layout_width="175dp"
-        android:src="@drawable/one"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_height="150dp"/>
-
-    <TextView
-        android:id="@+id/name1"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:layout_toRightOf="@+id/profile"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
-        android:text="王小明#0001"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        android:textStyle="bold"/>
-
-    <LinearLayout
-        android:id="@+id/Linearlayout0"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/profile"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/year"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:layout_marginEnd="10sp"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/text_drag_bg"
-            android:gravity="center"
-            android:text="年齡"
-            android:textColor="#000"
-            android:textSize="20dp"
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="175dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/image_bg"
+            android:src="@drawable/one" />
+
+        <TextView
+            android:id="@+id/name1"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="100dp"
+            android:layout_toRightOf="@+id/profile"
+            android:text="王小明
+            #0001"
+            android:textColor="@color/black"
+            android:textSize="25dp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/sickness"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:layout_marginEnd="10sp"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/text_drag_bg"
+        <LinearLayout
+            android:id="@+id/Linearlayout0"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/profile"
+            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="病症程度"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/year"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="年齡"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/sickness"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="病症程度"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
 
-    <Button
-        android:id="@+id/edit_infor"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/text_drag_bg"
-        android:gravity="center"
-        android:textColor="#000"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:text="編輯資料" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/edit_infor"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="編輯資料"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/practicetime"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:background="@drawable/image_bg"
-        android:textColor="@color/black"
-        android:textSize="24dp"
-        android:text="今天練習了:
+        <TextView
+            android:id="@+id/practicetime"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:layout_below="@+id/profile"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/image_bg"
+            android:gravity="center"
+            android:text="今天練習了:
         __小時__分鐘"
-        android:gravity="center"
-        android:layout_marginTop="120dp"
-        android:layout_marginStart="10dp"
-        android:layout_below="@+id/profile"
-        android:textStyle="bold"
-        />
-
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:background="@drawable/image_bg"
-        android:id="@+id/PieChart"
-        android:layout_marginTop="140dp"
-        android:layout_marginStart="10dp"
-        android:layout_width="190dp"
-        android:layout_below="@+id/name1"
-        android:layout_toRightOf="@+id/practicetime"
-        android:layout_height="190dp" />
-
-    <Button
-        android:id="@+id/btnUpdate"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/ic_baseline_cached_24"
-        android:layout_marginStart="370dp"
-        android:layout_below="@id/PieChart" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:background="@drawable/image_bg"
-        android:id="@+id/lineChart"
-        android:layout_marginTop="570dp"
-        android:layout_width="380dp"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="40dp"
-        android:layout_height="300dp" />
-
-
-    <LinearLayout
-        android:id="@+id/Linearlayout"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/lineChart"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_option1"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_drag_bg"
-            android:gravity="center"
-            android:text="重述"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            />
-
-        <Button
-            android:id="@+id/btn_option2"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_drag_bg"
-            android:gravity="center"
-            android:text="流暢"
-            android:textColor="#000"
-            android:layout_marginStart="10dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            />
-
-        <Button
-            android:id="@+id/btn_option3"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_drag_bg"
-            android:gravity="center"
-            android:text="理解"
-            android:layout_marginStart="10dp"
-            android:textColor="#000"
-            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:textSize="24dp"
             android:textStyle="bold" />
 
 
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center"
-        android:layout_below="@+id/Linearlayout"
-        android:orientation="horizontal">
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/PieChart"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:layout_below="@+id/name1"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="140dp"
+            android:layout_toRightOf="@+id/practicetime"
+            android:background="@drawable/image_bg" />
 
-    <Button
-        android:id="@+id/btn_option4"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/text_drag_bg"
-        android:gravity="center"
-        android:text="食物"
-        android:textColor="#000"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        />
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/PieChart"
+            android:layout_marginStart="370dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/ic_baseline_cached_24" />
 
-    <Button
-        android:id="@+id/btn_option5"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/text_drag_bg"
-        android:gravity="center"
-        android:text="生活"
-        android:textColor="#000"
-        android:layout_marginStart="10dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/history"
-        android:layout_width="300dp"
-        android:layout_height="54dp"
-        android:layout_below="@id/linearLayout2"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/brown"
-        android:text="歷史紀錄"
-        android:textColor="@color/white"
-        android:textSize="20dp" />
-
-    <Button
-        android:id="@+id/edit_password"
-        android:layout_width="300dp"
-        android:layout_height="54dp"
-        android:layout_below="@+id/history"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/brown"
-        android:text="變更密碼"
-        android:textColor="@color/white"
-        android:textSize="20dp" />
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="380dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="570dp"
+            android:background="@drawable/image_bg"
+            android:paddingBottom="40dp" />
 
 
-    <Button
-        android:id="@+id/log_out"
-        android:layout_width="300dp"
-        android:layout_height="54dp"
-        android:layout_below="@+id/edit_password"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/brown"
-        android:text="登出"
-        android:textColor="@color/white"
-        android:textSize="20dp" />
+        <LinearLayout
+            android:id="@+id/Linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/lineChart"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/btn_option1"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="重述"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_option2"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="流暢"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_option3"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="理解"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/Linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_option4"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="食物"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_option5"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/text_drag_bg"
+                android:gravity="center"
+                android:text="生活"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/history"
+            android:layout_width="300dp"
+            android:layout_height="54dp"
+            android:layout_below="@id/linearLayout2"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/brown"
+            android:text="歷史紀錄"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/edit_password"
+            android:layout_width="300dp"
+            android:layout_height="54dp"
+            android:layout_below="@+id/history"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/brown"
+            android:text="變更密碼"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+
+        <Button
+            android:id="@+id/log_out"
+            android:layout_width="300dp"
+            android:layout_height="54dp"
+            android:layout_below="@+id/edit_password"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/brown"
+            android:text="登出"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
 
 
 </ScrollView>

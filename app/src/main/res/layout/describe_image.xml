@@ -56,29 +56,26 @@
 
         <Button
             android:id="@+id/btn_speech2"
-            android:layout_width="85dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_margin="20dp"
             android:background="@drawable/textview_background"
             android:contentDescription="開始錄音"
             android:drawableTop="@drawable/ic_baseline_mic_24"
             android:drawablePadding="50dp"
             android:gravity="center"
-            android:padding="14dp"
+            android:padding="11dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_stop2"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/textview_background"
             android:contentDescription="停止錄音"
-            android:drawablePadding="50dp"
-            android:gravity="center"
-            android:padding="14dp"
             android:text="Stop"
+            android:layout_margin="20dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

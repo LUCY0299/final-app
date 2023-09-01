@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 import android.Manifest
 import android.content.ContextWrapper
+import android.net.Uri
 import android.os.*
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +36,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.os.Bundle
 import android.os.Environment
-
+import com.google.firebase.FirebaseApp
+import com.google.firebase.storage.FirebaseStorage
 
 
 class QuestionOverviewActivity : AppCompatActivity() {
@@ -80,15 +82,22 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private val REQUEST_MICROPHONE = 1
     private var recorder: MediaRecorder? = null
     private lateinit var textView: TextView
-    private var isRecording = false
     private lateinit var storageReference: StorageReference
     private var questionNumberStr: String = ""
 
     @Suppress("NAME_SHADOWING")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MyApp", "onCreate called")
+
         binding = QuestionOverviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 初始化 Firebase
+        FirebaseApp.initializeApp(this)
+
+        // 初始化 storageReference
+        storageReference = FirebaseStorage.getInstance().reference
 
         mainHandler.post {
             startTimer()
@@ -177,17 +186,16 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
     private fun startRecording() {
         try {
-            isRecording = true
             // 初始化 MediaRecorder 并开始录音
             recorder = MediaRecorder()
             recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-            recorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            //recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+//            recorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             val audioFile = getRecordingFile(questionNumberStr) // 获取包含檔名+檔案 的 File 对象
             recorder?.setOutputFile(audioFile.absolutePath)
 
-            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-            //recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+//            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
             recorder?.prepare()
             recorder?.start()
 
@@ -199,7 +207,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     }
 
     private fun stopRecording() {
-        isRecording = false
+        Log.d("MyApp", "stopRecording called")
         // 录音结束后释放 MediaRecorder 资源
         recorder?.stop()
         recorder?.reset()
@@ -217,10 +225,28 @@ class QuestionOverviewActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             sendAudioToServer()
         }
+
+        // 将录音音檔上傳至 Firebase Storage
+        val storageRef = storageReference.child(filePath)
+        val audioFile = getRecordingFile(questionNumberStr)
+        val fileUri = Uri.fromFile(audioFile)
+
+        // 輸出 fileUri 以檢查是否正確
+        Log.d("FileUriDebug", "File Uri: $fileUri")
+
+        storageRef.putFile(fileUri)
+            .addOnSuccessListener {
+                // 上傳成功，您可以處理相關邏輯，例如更新介面或資料庫等
+                Log.d("UploadDebug", "File uploaded successfully")
+            }
+            .addOnFailureListener { exception ->
+                // 上傳失敗，處理錯誤
+                Log.e("UploadError", "File upload failed: ${exception.message}")
+            }
     }
 
     private fun getRecordingFileName(questionNumber: String): String {
-        return "${questionNumber}.mp3"
+        return "${questionNumber}.3gp"
     }
 
     private fun getRecordingFile(questionNumber: String): File  {
@@ -312,16 +338,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
         super.onDestroy()
         // 確保在Activity被銷毀時停止計時
         timer.cancel()
-
-        if (isRecording) {
-            recorder?.apply {
-                stop()
-                reset()
-                release()
-            }
-            recorder = null
-            isRecording = false
-        }
     }
 
     // 初始畫面，全部隱藏

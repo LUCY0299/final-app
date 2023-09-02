@@ -184,109 +184,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
     }
 
-    private fun startRecording() {
-        try {
-            // 初始化 MediaRecorder 并开始录音
-            recorder = MediaRecorder()
-            recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-//            recorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            val audioFile = getRecordingFile(questionNumberStr) // 获取包含檔名+檔案 的 File 对象
-            recorder?.setOutputFile(audioFile.absolutePath)
-
-//            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            recorder?.prepare()
-            recorder?.start()
-
-            Toast.makeText(this, "Recording is started", Toast.LENGTH_LONG).show()
-        }
-        catch(e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun stopRecording() {
-        Log.d("MyApp", "stopRecording called")
-        // 录音结束后释放 MediaRecorder 资源
-        recorder?.stop()
-        recorder?.reset()
-        recorder?.release()
-        recorder = null
-
-        // 获取用户名
-        val username = intent.getStringExtra("username") ?: ""
-        val dateTime = DateTime
-
-        // 创建文件夹路径
-        val filePath = "recording/$username/$dateTime/${getRecordingFileName(questionNumberStr)}"
-
-        // 停止录音后，将录音文件发送到服务器进行转文字
-        GlobalScope.launch(Dispatchers.IO) {
-            sendAudioToServer()
-        }
-
-        // 将录音音檔上傳至 Firebase Storage
-        val storageRef = storageReference.child(filePath)
-        val audioFile = getRecordingFile(questionNumberStr)
-        val fileUri = Uri.fromFile(audioFile)
-
-        // 輸出 fileUri 以檢查是否正確
-        Log.d("FileUriDebug", "File Uri: $fileUri")
-
-        storageRef.putFile(fileUri)
-            .addOnSuccessListener {
-                // 上傳成功，您可以處理相關邏輯，例如更新介面或資料庫等
-                Log.d("UploadDebug", "File uploaded successfully")
-            }
-            .addOnFailureListener { exception ->
-                // 上傳失敗，處理錯誤
-                Log.e("UploadError", "File upload failed: ${exception.message}")
-            }
-    }
-
-    private fun getRecordingFileName(questionNumber: String): String {
-        return "${questionNumber}.3gp"
-    }
-
-    private fun getRecordingFile(questionNumber: String): File  {
-        val contextWrapper = ContextWrapper(applicationContext)
-        val musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC)
-        val fileName = getRecordingFileName(questionNumberStr)
-        return File(musicDirectory, fileName)
-    }
-    private fun sendAudioToServer() {
-        thread {
-            val socket = Socket("163.13.201.83", 3000)
-            val outputStream = socket.getOutputStream()
-            val inputStream = socket.getInputStream()
-
-//            // 发送文件名给服务器
-            val filename =getRecordingFileName(questionNumberStr)
-            outputStream.write(filename.toByteArray(Charsets.UTF_8))
-
-            // 发送录音文件到服务器
-            val audioFile = getRecordingFile(questionNumberStr)
-            val audioFileStream = FileInputStream(audioFile)
-            val buffer = ByteArray(1024)
-            var bytesRead: Int  //用于存储每次从输入流 audioFileStream 中读取的字节数
-            while (audioFileStream.read(buffer).also { bytesRead = it } != -1) {
-                outputStream.write(buffer, 0, bytesRead)
-            }
-            audioFileStream.close()
-            outputStream.flush()
-
-//            // 等待服务器返回识别结果
-//            val responseBytes = ByteArray(1024)
-//            val responseBytesRead = inputStream.read(responseBytes)
-//            val responseData = String(responseBytes, 0, responseBytesRead)
-
-            socket.close()
-            // 添加延迟等待文件写入完成
-
-            Thread.sleep(1000)
-        }
-    }
 
 
     // =========================function=======================================
@@ -491,6 +388,119 @@ class QuestionOverviewActivity : AppCompatActivity() {
             )
         }
     }
+    //-------------------------------------speech recording--------------------------------------
+    private fun startRecording() {
+        try {
+            // 初始化 MediaRecorder 并开始录音
+            recorder = MediaRecorder()
+            recorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+            recorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//            recorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            val audioFile = getRecordingFile(questionNumberStr) // 获取包含檔名+檔案 的 File 对象
+            recorder?.setOutputFile(audioFile.absolutePath)
+
+            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+//            recorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            recorder?.prepare()
+            recorder?.start()
+
+            Toast.makeText(this, "開始錄音嘍~", Toast.LENGTH_LONG).show()
+        }
+        catch(e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopRecording() {
+        Log.d("MyApp", "stopRecording called")
+
+
+
+        // 录音结束后释放 MediaRecorder 资源
+        recorder?.stop()
+        recorder?.reset()
+        recorder?.release()
+        recorder = null
+
+        // 在主執行緒上顯示 Toast
+        runOnUiThread {
+            Toast.makeText(this, "錄音停止嘍~", Toast.LENGTH_LONG).show()
+        }
+
+        // 获取用户名
+        val username = intent.getStringExtra("username") ?: ""
+        val dateTime = DateTime
+
+        // 创建文件夹路径
+        val filePath = "recording/$username/$dateTime/${getRecordingFileName(questionNumberStr)}"
+
+        // 停止录音后，将录音文件发送到服务器进行转文字
+        GlobalScope.launch(Dispatchers.IO) {
+            sendAudioToServer()
+        }
+
+        // 将录音音檔上傳至 Firebase Storage
+        val storageRef = storageReference.child(filePath)
+        val audioFile = getRecordingFile(questionNumberStr)
+        val fileUri = Uri.fromFile(audioFile)
+
+        // 輸出 fileUri 以檢查是否正確
+        Log.d("FileUriDebug", "File Uri: $fileUri")
+
+        storageRef.putFile(fileUri)
+            .addOnSuccessListener {
+                // 上傳成功，您可以處理相關邏輯，例如更新介面或資料庫等
+                Log.d("UploadDebug", "File uploaded successfully")
+            }
+            .addOnFailureListener { exception ->
+                // 上傳失敗，處理錯誤
+                Log.e("UploadError", "File upload failed: ${exception.message}")
+            }
+    }
+
+    private fun getRecordingFileName(questionNumber: String): String {
+        return "${questionNumber}.mp3"
+    }
+
+    private fun getRecordingFile(questionNumber: String): File  {
+        val contextWrapper = ContextWrapper(applicationContext)
+        val musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC)
+        val fileName = getRecordingFileName(questionNumberStr)
+        return File(musicDirectory, fileName)
+    }
+    private fun sendAudioToServer() {
+        thread {
+            val socket = Socket("163.13.201.83", 3000)
+            val outputStream = socket.getOutputStream()
+            val inputStream = socket.getInputStream()
+
+//            // 发送文件名给服务器
+            val filename =getRecordingFileName(questionNumberStr)
+            outputStream.write(filename.toByteArray(Charsets.UTF_8))
+
+            // 发送录音文件到服务器
+            val audioFile = getRecordingFile(questionNumberStr)
+            val audioFileStream = FileInputStream(audioFile)
+            val buffer = ByteArray(1024)
+            var bytesRead: Int  //用于存储每次从输入流 audioFileStream 中读取的字节数
+            while (audioFileStream.read(buffer).also { bytesRead = it } != -1) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+            audioFileStream.close()
+            outputStream.flush()
+
+//            // 等待服务器返回识别结果
+//            val responseBytes = ByteArray(1024)
+//            val responseBytesRead = inputStream.read(responseBytes)
+//            val responseData = String(responseBytes, 0, responseBytesRead)
+
+            socket.close()
+            // 添加延迟等待文件写入完成
+
+            Thread.sleep(1000)
+        }
+    }
+
     private fun resetOptionsPosition() {
         // 將選項移回它們的原始位置
         binding.qDragText.tvOption4.x = originalXForOption4

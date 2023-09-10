@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="登入"
-        android:textSize="30dp"
+        android:textSize="33dp"
         android:textStyle="bold"
         android:textColor="#408080"
         android:background="@drawable/btn_background"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="註冊"
-        android:textSize="30dp"
+        android:textSize="33dp"
         android:textStyle="bold"
         android:textColor="#408080"
         android:background="@drawable/btn_background" />

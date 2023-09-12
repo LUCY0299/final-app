@@ -245,6 +245,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
         binding.q4Evdashimg.visibility = View.GONE
         binding.q5Evdashimg.visibility = View.GONE
         binding.q6Evdashimg.visibility = View.GONE
+
+        binding.qSpeechImage.editWord.text.clear()
+        binding.qDescribeImage.editWord2.text.clear()
     }
 
     // 開資料庫

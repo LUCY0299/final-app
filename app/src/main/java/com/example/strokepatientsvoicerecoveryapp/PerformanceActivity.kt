@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.firebase.database.*
 import java.text.DecimalFormat
@@ -53,6 +54,11 @@ class PerformanceActivity : AppCompatActivity() {
         binding.history.setOnClickListener {
             navigateToNextPage(HistoryRecordActivity::class.java)
         }
+        //當按下登出鍵就會跳轉到主頁畫面
+        binding.logOut.setOnClickListener {
+            navigateToNextPage(MainActivity::class.java)
+            finishAffinity()
+        }
 
         //==================================Firebase==================================
         val database = FirebaseDatabase.getInstance()
@@ -69,7 +75,6 @@ class PerformanceActivity : AppCompatActivity() {
             }
         })
         //========================================Piechart==================================//
-
         val entries = ArrayList<PieEntry>()
         val colors = ArrayList<Int>()
         val dataSet = PieDataSet(entries,"")
@@ -139,11 +144,11 @@ class PerformanceActivity : AppCompatActivity() {
             add(Entry(6f, 70.00f))
         }
         // pink Line End Data
-        val values2_end = ArrayList<Entry>().apply {
+       val values2_end = ArrayList<Entry>().apply {
             add(Entry(6f, 77.00f))
         }
 
-        initDataSet(values, values1,values2 ,values_end, values1_end,values2_end)
+        initDataSet(values, values1 , values2,values_end, values1_end,values2_end)
         initX()
         initY()
         initChartFormat()
@@ -257,7 +262,7 @@ class PerformanceActivity : AppCompatActivity() {
             setupLineChartData(values2,"理解")
             updateChartTitle("理解") // 更新标题为"理解"
         }
-
+/*
         binding.btnOption4.setOnClickListener {
             // 设置 LineChart 数据
             setupLineChartData(values2,"食物")
@@ -267,7 +272,7 @@ class PerformanceActivity : AppCompatActivity() {
             // 设置 LineChart 数据
             setupLineChartData(values2,"生活")
             updateChartTitle("生活") // 更新标题为"生活"
-        }
+        }*/
 
         binding.btnUpdate.setOnClickListener {
             // 更新 LineChart 数据
@@ -425,8 +430,8 @@ class PerformanceActivity : AppCompatActivity() {
             "重述" -> ContextCompat.getColor(this, R.color.green)
             "流暢" -> ContextCompat.getColor(this, R.color.purple_700)
             "理解" -> ContextCompat.getColor(this, R.color.pink)
-            "食物" -> ContextCompat.getColor(this, R.color.pink)
-            "生活" -> ContextCompat.getColor(this, R.color.pink)
+         //   "食物" -> ContextCompat.getColor(this, R.color.pink)
+           // "生活" -> ContextCompat.getColor(this, R.color.pink)
             else -> Color.BLACK // 设置一个默认的颜色
         }
     }

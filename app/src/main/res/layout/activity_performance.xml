@@ -18,7 +18,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/image_bg"
-            android:src="@drawable/one" />
+            android:src="@drawable/profileimage" />
 
         <TextView
             android:id="@+id/name1"
@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:text="年齡"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <Button
@@ -68,7 +68,7 @@
                 android:gravity="center"
                 android:text="病症程度"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
 
@@ -80,7 +80,7 @@
                 android:gravity="center"
                 android:text="編輯資料"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -96,7 +96,7 @@
             android:text="今天練習了:
         __小時__分鐘"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
 
@@ -147,7 +147,7 @@
                 android:gravity="center"
                 android:text="重述"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Button
@@ -159,7 +159,7 @@
                 android:gravity="center"
                 android:text="流暢"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Button
@@ -171,7 +171,7 @@
                 android:gravity="center"
                 android:text="理解"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
 
@@ -191,22 +191,12 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/text_drag_bg"
                 android:gravity="center"
-                android:text="食物"
+                android:text="類型"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btn_option5"
-                android:layout_width="125dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/text_drag_bg"
-                android:gravity="center"
-                android:text="生活"
-                android:textColor="#000"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+
         </LinearLayout>
 
         <Button
@@ -219,7 +209,7 @@
             android:background="@drawable/brown"
             android:text="歷史紀錄"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/edit_password"
@@ -232,7 +222,7 @@
             android:background="@drawable/brown"
             android:text="變更密碼"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
 
         <Button
@@ -245,7 +235,7 @@
             android:background="@drawable/brown"
             android:text="登出"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

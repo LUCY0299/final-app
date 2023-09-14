@@ -36,6 +36,7 @@ class TimesupOverviewActivity : AppCompatActivity() {
             intent.putExtra("username", username)
             intent.putExtra("sp1Selection", sp1Selection)
             startActivity(intent)
+            finishAffinity()
         }
     }
 }

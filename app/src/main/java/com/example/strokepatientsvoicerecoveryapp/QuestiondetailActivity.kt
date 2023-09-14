@@ -35,11 +35,7 @@ class QuestiondetailActivity : AppCompatActivity() {
         dateTime = intent.getStringExtra("dateTime") ?: ""
         practiceTime = intent.getStringExtra("practiceTime") ?: ""
 
-        //當按查看測驗表現鍵就會跳轉到測驗表現畫面
-        binding.btnSeequiz.setOnClickListener {
-            val intent = Intent(this@QuestiondetailActivity,Feedback::class.java);
-            startActivity(intent)
-        }
+
 
         // 设置RecyclerView
         val recyclerView = binding.recyclerView

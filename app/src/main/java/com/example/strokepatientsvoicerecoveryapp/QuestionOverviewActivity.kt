@@ -27,6 +27,8 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipDescription
 import android.content.ContextWrapper
 import android.net.Uri
 import android.os.*
@@ -36,6 +38,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.os.Bundle
 import android.os.Environment
+import android.view.DragEvent
 import com.google.firebase.FirebaseApp
 import com.google.firebase.storage.FirebaseStorage
 
@@ -89,6 +92,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("MyApp", "onCreate called")
 
+
         binding = QuestionOverviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -139,8 +143,22 @@ class QuestionOverviewActivity : AppCompatActivity() {
             }
 
             initView()
+            // 在初始化界面时保存按钮的原始背景
+            val originalBackgroundOption1 = binding.qDragText.tvOption1.background
+            val originalBackgroundOption2 = binding.qDragText.tvOption2.background
+            val originalBackgroundOption3 = binding.qDragText.tvOption3.background
             val randomQnum = (1..QuizTotalSum).random()
             getTheQuizFromSheet(randomQnum)
+
+            binding.qDragText.tvOption1.text = "" // 清除 tvOption1 的文本内容
+            binding.qDragText.tvOption2.text = ""
+            binding.qDragText.tvOption3.text = ""
+
+            binding.qDragText.tvOption1.background = originalBackgroundOption1
+            binding.qDragText.tvOption2.background = originalBackgroundOption2
+            binding.qDragText.tvOption3.background = originalBackgroundOption3
+            resetViews() // 调用重置函数，如之前提到的 resetViews()
+            // 进入下一题的逻辑
         }
 
         //speech
@@ -244,6 +262,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
         binding.q4Evdashimg.visibility = View.GONE
         binding.q5Evdashimg.visibility = View.GONE
         binding.q6Evdashimg.visibility = View.GONE
+
+        binding.qSpeechImage.editWord.text.clear()
+        binding.qDescribeImage.editWord2.text.clear()
     }
 
     // 開資料庫
@@ -327,10 +348,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     }
                     LoadImage(currQuestion?.get("圖片3")?.toString()) { drawable ->
                         binding.qDragText.tvImage10.setImageDrawable(drawable)
-                    }
+                    }/*
                     binding.qDragText.tvOption4.setOnTouchListener(DragTouchListener())
                     binding.qDragText.tvOption5.setOnTouchListener(DragTouchListener())
-                    binding.qDragText.tvOption6.setOnTouchListener(DragTouchListener())
+                    binding.qDragText.tvOption6.setOnTouchListener(DragTouchListener())*/
 
                     binding.qDragText.tvOption4.post {
                         originalXForOption4 = binding.qDragText.tvOption4.x
@@ -345,6 +366,27 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     binding.qDragText.tvOption6.post {
                         originalXForOption6 = binding.qDragText.tvOption6.x
                         originalYForOption6 = binding.qDragText.tvOption6.y
+                    }
+                    // 设置拖动源的 OnTouchListener
+                    val draggableViews = listOf(
+                        binding.qDragText.tvOption4,
+                        binding.qDragText.tvOption5,
+                        binding.qDragText.tvOption6
+                    )
+
+                    for (view in draggableViews) {
+                        view.setOnTouchListener(DragTouchListener())
+                    }
+
+                    // 设置拖放目标的 OnDragListener
+                    val targetViews = listOf(
+                        binding.qDragText.tvOption1,
+                        binding.qDragText.tvOption2,
+                        binding.qDragText.tvOption3
+                    )
+
+                    for (view in targetViews) {
+                        view.setOnDragListener(DragListener())
                     }
                 }
                 "口語描述" -> {
@@ -499,129 +541,94 @@ class QuestionOverviewActivity : AppCompatActivity() {
         binding.qDragText.tvOption5.setBackgroundResource(R.drawable.text_drag_bg)
         binding.qDragText.tvOption6.setBackgroundResource(R.drawable.text_drag_bg)
 
+        binding.qDragText.tvOption1.setBackgroundResource(R.drawable.text_drag_bg)
+        binding.qDragText.tvOption2.setBackgroundResource(R.drawable.text_drag_bg)
+        binding.qDragText.tvOption3.setBackgroundResource(R.drawable.text_drag_bg)
+
         binding.qDragText.tvOption4.isSelected = false
         binding.qDragText.tvOption5.isSelected = false
         binding.qDragText.tvOption6.isSelected = false
 
     }
 
+
     private inner class DragTouchListener : View.OnTouchListener {
-        private var offsetX = 0
-        private var offsetY = 0
-        private var isMoved = false
-        private var originalX = 0f
-        private var originalY = 0f
-
-        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-            when (motionEvent.action) {
+        override fun onTouch(view: View, event: MotionEvent): Boolean {
+            when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    // Record the touch point's offset for maintaining position during drag
-                    offsetX = motionEvent.rawX.toInt() - view.x.toInt()
-                    offsetY = motionEvent.rawY.toInt() - view.y.toInt()
-                    isMoved = false
-                    originalX = view.x
-                    originalY = view.y
+                    val clipData = ClipData.newPlainText("", "")
+                    val dragShadowBuilder = View.DragShadowBuilder(view)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        view.startDragAndDrop(clipData, dragShadowBuilder, view, 0)
+                    } else {
+                        view.startDrag(clipData, dragShadowBuilder, view, 0)
+                    }
+                    view.performClick() // 处理点击事件
+                    return true
                 }
-                MotionEvent.ACTION_MOVE -> {
-                    // Update the position of the view being dragged
-                    val newX = motionEvent.rawX.toInt() - offsetX
-                    val newY = motionEvent.rawY.toInt() - offsetY
-                    view.x = newX.toFloat()
-                    view.y = newY.toFloat()
-                    isMoved = true
-
-                    // Check if the dragged view is close to valid target options, and change border color accordingly
-                    val validTargetOptions = arrayOf(
-                        binding.qDragText.tvOption4,
-                        binding.qDragText.tvOption5,
-                        binding.qDragText.tvOption6
-                    )
-                    val margin = 50
-                    var isAnyOverlapping = false
-                    validTargetOptions.forEach { tvOption ->
-                        if (tvOption != view && isViewCloseTo(view, tvOption, margin)) {
-                            val selectedOption = tvOption.text.toString()
-                            if (selectedOption == Ans) {
-                                view.setBackgroundResource(R.drawable.green_border)
-                                tvOption.setBackgroundResource(R.drawable.green_border)
-                            } else {
-                                view.setBackgroundResource(R.drawable.red_border)
-                                tvOption.setBackgroundResource(R.drawable.red_border)
-                            }
-                            isAnyOverlapping = true
-                        } else {
-                            tvOption.setBackgroundResource(R.drawable.text_drag_bg)
-                        }
-                    }
-                    if (!isAnyOverlapping) {
-                        view.setBackgroundResource(R.drawable.text_drag_bg)
-                    }
-                }
-                MotionEvent.ACTION_UP -> {
-                    // On lifting the finger, check if there is an overlapping view and snap the dragged view to its position
-                    val validTargetOptions = arrayOf(
-                        binding.qDragText.tvOption4,
-                        binding.qDragText.tvOption5,
-                        binding.qDragText.tvOption6
-                    )
-                    var isOverlapping = false
-                    validTargetOptions.forEach { tvOption ->
-                        if (isViewOverlapping(view, tvOption)) {
-                            view.x = tvOption.x
-                            view.y = tvOption.y
-
-                            // Check if the dragged option is correct
-                            val selectedOption = tvOption.text.toString()
-                            if (selectedOption == Ans) {
-                                view.setBackgroundResource(R.drawable.green_border)
-                                tvOption.setBackgroundResource(R.drawable.green_border)
-                            } else {
-                                view.setBackgroundResource(R.drawable.red_border)
-                                tvOption.setBackgroundResource(R.drawable.red_border)
-                            }
-
-                            isOverlapping = true
-                        }
-                    }
-                    if (!isOverlapping && isMoved) {
-                        // If the view is not overlapping any options and it was moved, reset it to the original position
-                        view.x = originalX
-                        view.y = originalY
-
-                        // Check if the dragged option is tvOption1, tvOption2, or tvOption3
-                        val nonTargetOptions = arrayOf(
-                            binding.qDragText.tvOption1,
-                            binding.qDragText.tvOption2,
-                            binding.qDragText.tvOption3
-                        )
-                        if (nonTargetOptions.contains(view)) {
-                            view.setBackgroundResource(R.drawable.red_border)
-                        }
-                    }
-                }
+                else -> return false
             }
-            return true
-        }
-        // 檢查兩個View是否重疊
-        private fun isViewOverlapping(view1: View, view2: View): Boolean {
-            val rect1 = Rect(view1.left, view1.top, view1.right, view1.bottom)
-            val rect2 = Rect(view2.left, view2.top, view2.right, view2.bottom)
-            return rect1.intersect(rect2)
-        }
-
-        // 檢查兩個View是否接近，可以根據自己的需求調整邊界值
-        private fun isViewCloseTo(view1: View, view2: View, margin: Int): Boolean {
-            val centerX1 = view1.x + view1.width / 2
-            val centerY1 = view1.y + view1.height / 2
-            val centerX2 = view2.x + view2.width / 2
-            val centerY2 = view2.y + view2.height / 2
-
-            val distanceX = Math.abs(centerX1 - centerX2)
-            val distanceY = Math.abs(centerY1 - centerY2)
-
-            return distanceX < margin && distanceY < margin
         }
     }
+    private var originalBackground: Drawable? = null
+    private inner class DragListener : View.OnDragListener {
+        override fun onDrag(v: View, event: DragEvent): Boolean {
+            when (event.action) {
+                DragEvent.ACTION_DRAG_STARTED -> {
+                    if (event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                        // 保存原始背景
+                        originalBackground = v.background
+                        return true
+                    }
+                    return false
+                }
+
+                DragEvent.ACTION_DRAG_ENTERED -> {
+                    v.setBackgroundResource(R.drawable.green_border)
+                    return true
+                }
+                DragEvent.ACTION_DRAG_EXITED -> {
+                    v.background = originalBackground
+                    return true
+                }
+
+                DragEvent.ACTION_DROP -> {
+                    val draggedView = event.localState as TextView
+                    val targetView = v as TextView
+                    val droppedText = draggedView.text.toString()
+
+                    // 检查目标视图的文本是否与已有的文本相同
+                    val isTextAlreadyExist = binding.qDragText.tvOption1.text.toString() == droppedText ||
+                            binding.qDragText.tvOption2.text.toString() == droppedText ||
+                            binding.qDragText.tvOption3.text.toString() == droppedText
+
+                    if (!isTextAlreadyExist) {
+                        targetView.text = droppedText
+                        v.background = originalBackground
+                        return true
+                    } else {
+                        // 文本重复，不允许拖放
+                        return false
+                    }
+                }
+                DragEvent.ACTION_DRAG_ENDED -> {
+                    return true
+                }
+                else -> return false
+            }
+        }
+    }
+
+    private fun resetViews() {
+        binding.qDragText.tvOption1.background = originalBackground
+        binding.qDragText.tvOption2.background = originalBackground
+        binding.qDragText.tvOption3.background = originalBackground
+        binding.qDragText.tvOption1.isSelected = false
+        binding.qDragText.tvOption2.isSelected = false
+        binding.qDragText.tvOption3.isSelected = false
+        // 可以添加其他重置逻辑，例如重置拖拽的内容
+    }
+
 
 
     private fun LoadImage(url: String?, callback: (Drawable?) -> Unit) {
@@ -704,6 +711,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 }
             }
             "圖物配對" -> {
+                var userAnswer = ""
                 val selectedOption = when {
                     binding.qDragText.tvOption4.isSelected -> binding.qDragText.tvOption4.text.toString()
                     binding.qDragText.tvOption5.isSelected -> binding.qDragText.tvOption5.text.toString()
@@ -711,23 +719,30 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     else -> ""
                 }
 
+                if (selectedOption.isNotEmpty()) {
+                    // 如果有选项被拖放到了 tvOption1、tvOption2、tvOption3 中
+                    if (binding.qDragText.tvOption1.text.isEmpty()) {
+                        binding.qDragText.tvOption1.text = selectedOption
+                        userAnswer = binding.qDragText.tvOption1.text.toString() // 记录用户答案到 userAnswer
+                    } else if (binding.qDragText.tvOption2.text.isEmpty()) {
+                        binding.qDragText.tvOption2.text = selectedOption
+                        userAnswer = binding.qDragText.tvOption2.text.toString() // 记录用户答案到 userAnswer
+                    } else if (binding.qDragText.tvOption3.text.isEmpty()) {
+                        binding.qDragText.tvOption3.text = selectedOption
+                        userAnswer = binding.qDragText.tvOption3.text.toString() // 记录用户答案到 userAnswer
+                    }
+                }
+
                 Log.d("isAnsCorrect", "selectedOption: $selectedOption")
 
-                if (selectedOption == Ans) {
-                    binding.qDragText.tvOption4.setBackgroundResource(R.drawable.green_border)
-                    binding.qDragText.tvOption5.setBackgroundResource(R.drawable.green_border)
-                    binding.qDragText.tvOption6.setBackgroundResource(R.drawable.green_border)
-                } else {
-                    binding.qDragText.tvOption4.setBackgroundResource(R.drawable.red_border)
-                    binding.qDragText.tvOption5.setBackgroundResource(R.drawable.red_border)
-                    binding.qDragText.tvOption6.setBackgroundResource(R.drawable.red_border)
-                    score--
-                }
+                if (selectedOption != Ans) { score-- }
+
                 val recordData = recordList.lastOrNull { it.type == type }
                 if (recordData != null) {
-                    recordData.userAnswer = selectedOption
+                    recordData.userAnswer = userAnswer
                 }
             }
+
 
             "口語描述" -> {
                 val userAnswer = binding.qDescribeImage.editWord2.text.toString().trim()
@@ -800,4 +815,3 @@ data class RecordData(
     val 評語: String = "",
     val audioFileName: String = ""
 )
-

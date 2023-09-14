@@ -45,9 +45,7 @@
         <activity android:name=".TimesupOverviewActivity"/>
         <activity android:name=".HistoryRecordActivity"/>
         <activity android:name=".Editpassword"/>
-        <activity android:name=".Feedback"/>
         <activity android:name=".Modify"/>
-        <activity android:name=".Profile"/>
         <activity android:name=".PerformanceActivity"/>
 
     </application>

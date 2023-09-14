@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:textSize="25dp"
-        android:text="測驗1"/>
+        android:text="測驗"/>
 
     <View
         android:layout_width="match_parent"
@@ -136,43 +136,13 @@
             android:textSize="25dp"
             android:text="做的很棒呦!"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/ic_baseline_check_24"/>
-
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="80dp"
-            android:background="@drawable/ic_baseline_close_24"/>
-
-
-        <ProgressBar
-            android:id="@+id/pro_true"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="300dp"
-            android:scaleY="2.5"
-            android:layout_gravity="center_horizontal"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-          />
-
-        <ProgressBar
-            android:id="@+id/pro_false"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="350dp"
-            android:scaleY="2.5"
-            android:layout_gravity="center_horizontal"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            />
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/good"
+            android:layout_marginTop="80dp"/>
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/ratingbar"
@@ -180,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="200dp"
-            android:rating="4"/>
+            android:rating="5"/>
 
 
 

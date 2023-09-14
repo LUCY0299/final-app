@@ -460,7 +460,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     // 發送錄音檔案到後端server
     private fun sendAudioToServer(dateTime: String) {
         thread {
-            val socket = Socket("163.13.201.83", 3000)   //163.13.201.83  172.20.10.4
+            val socket = Socket("163.13.201.83", 3000)  
             val outputStream = socket.getOutputStream()
 
             val username = intent.getStringExtra("username") ?: ""

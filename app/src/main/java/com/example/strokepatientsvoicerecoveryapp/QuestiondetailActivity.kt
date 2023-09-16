@@ -119,7 +119,6 @@ class DetailRecordAdapter(
             correctAnswerTextView.text = recordItem.correctAnswer
             questionTextView.text = recordItem.question
             typeTextView.text = recordItem.type
-            userAnswerTextView.text = recordItem.userAnswer
 
             // Load image into the imageView using Glide or Picasso library
             if (recordItem.imageUrl.isNotEmpty()) {
@@ -128,9 +127,17 @@ class DetailRecordAdapter(
                         imageUrlImageView.setImageDrawable(drawable)
                     }
                 }
-            } else {
-                // imageUrlImageView.setImageResource(R.drawable.default_image) // Replace with your default image resource
             }
+            if(recordItem.userAnswer.endsWith(".jpg")){
+                LoadImage(recordItem.userAnswer) { drawable ->
+                    imageUrlImageView.post {
+                        imageUrlImageView.setImageDrawable(drawable)
+                    }
+                }
+            }else{
+                userAnswerTextView.text = recordItem.userAnswer
+            }
+
 
             itemView.setOnClickListener {
                 onItemClickListener(recordItem)

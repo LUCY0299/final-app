@@ -132,13 +132,13 @@ class DetailRecordAdapter(
 
             // Check if correctAnswer is an image (ends with ".jpg")
             if (recordItem.correctAnswer.endsWith(".jpg")) {
-                // correctAnswerView.visibility = View.GONE
                 LoadImage(recordItem.correctAnswer) { drawable ->
                     correctAnswerImageView.post {
                         correctAnswerImageView.setImageDrawable(drawable)
                     }
                 }
             } else {
+                correctAnswerImageView.visibility = View.GONE
                 correctAnswerView.text = recordItem.correctAnswer
             }
 
@@ -150,6 +150,7 @@ class DetailRecordAdapter(
                     }
                 }
             } else {
+                userAnswerImageView.visibility = View.GONE
                 userAnswerView.text = recordItem.userAnswer
             }
 

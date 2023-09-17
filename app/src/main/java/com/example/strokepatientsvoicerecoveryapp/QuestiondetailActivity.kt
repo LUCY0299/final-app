@@ -105,18 +105,19 @@ class DetailRecordAdapter(
 
     inner class RecordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val questionNumTextView: TextView = itemView.findViewById(R.id.question_num)
-        private val correctAnswerTextView: TextView = itemView.findViewById(R.id.correctAnswer)
-        private val imageUrlImageView: ImageView = itemView.findViewById(R.id.imageUrl)
         private val questionTextView: TextView = itemView.findViewById(R.id.question)
         private val typeTextView: TextView = itemView.findViewById(R.id.type)
-        private val userAnswerTextView: TextView = itemView.findViewById(R.id.userAnswer)
+        private val correctAnswerView: TextView = itemView.findViewById(R.id.correctAnswer)
+        private val correctAnswerImageView: ImageView = itemView.findViewById(R.id.correctAnswerImg)
+        private val userAnswerView: TextView = itemView.findViewById(R.id.userAnswer)
+        private val userAnswerImageView: ImageView = itemView.findViewById(R.id.userAnswerImg)
+        private val imageUrlImageView: ImageView = itemView.findViewById(R.id.imageUrl)
 
         fun bind(recordItem: RecordItemClass) {
             // Set the question number
             questionNumTextView.text = (adapterPosition + 1).toString()
 
             // Set other data from recordItem
-            correctAnswerTextView.text = recordItem.correctAnswer
             questionTextView.text = recordItem.question
             typeTextView.text = recordItem.type
 
@@ -128,16 +129,29 @@ class DetailRecordAdapter(
                     }
                 }
             }
-            if(recordItem.userAnswer.endsWith(".jpg")){
-                LoadImage(recordItem.userAnswer) { drawable ->
-                    imageUrlImageView.post {
-                        imageUrlImageView.setImageDrawable(drawable)
+
+            // Check if correctAnswer is an image (ends with ".jpg")
+            if (recordItem.correctAnswer.endsWith(".jpg")) {
+                // correctAnswerView.visibility = View.GONE
+                LoadImage(recordItem.correctAnswer) { drawable ->
+                    correctAnswerImageView.post {
+                        correctAnswerImageView.setImageDrawable(drawable)
                     }
                 }
-            }else{
-                userAnswerTextView.text = recordItem.userAnswer
+            } else {
+                correctAnswerView.text = recordItem.correctAnswer
             }
 
+            // Check if userAnswer is an image (ends with ".jpg")
+            if (recordItem.userAnswer.endsWith(".jpg")) {
+                LoadImage(recordItem.userAnswer) { drawable ->
+                    userAnswerImageView.post {
+                        userAnswerImageView.setImageDrawable(drawable)
+                    }
+                }
+            } else {
+                userAnswerView.text = recordItem.userAnswer
+            }
 
             itemView.setOnClickListener {
                 onItemClickListener(recordItem)

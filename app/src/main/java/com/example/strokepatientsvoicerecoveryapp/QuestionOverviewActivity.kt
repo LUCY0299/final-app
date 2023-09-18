@@ -866,6 +866,6 @@ data class RecordData(
     val imageUrl: String = "",
     val correctAnswer: String = "",
     var userAnswer: String = "",
-    val 評語: String = "",
+    // val 評語: String = "",
     val audioFileName: String = ""
 )

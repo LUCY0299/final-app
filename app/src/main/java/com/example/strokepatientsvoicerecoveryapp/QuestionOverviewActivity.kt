@@ -38,6 +38,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.os.Bundle
 import android.os.Environment
+import android.speech.tts.TextToSpeech
 import android.view.DragEvent
 import com.google.firebase.FirebaseApp
 import com.google.firebase.storage.FirebaseStorage
@@ -86,11 +87,26 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private lateinit var textView: TextView
     private lateinit var storageReference: StorageReference
     private var questionNumberStr: String = ""
+    private var textToSpeech: TextToSpeech? = null
 
     @Suppress("NAME_SHADOWING")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("MyApp", "onCreate called")
+
+        textToSpeech = TextToSpeech(this) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val locale = Locale.getDefault()
+                val result = textToSpeech?.setLanguage(locale)
+                if (result == TextToSpeech.LANG_MISSING_DATA ||
+                    result == TextToSpeech.LANG_NOT_SUPPORTED
+                ) {
+                    Log.e("TTS", "Language is not supported.")
+                }
+            } else {
+                Log.e("TTS", "Initialization failed.")
+            }
+        }
 
 
         binding = QuestionOverviewBinding.inflate(layoutInflater)
@@ -140,9 +156,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 score = 10
                 SaveRecData()
 
-                // 清空text
-                 binding.qSpeechImage.editWord.text.clear()
-                 binding.qDescribeImage.editWord2.text.clear()
+
 
                 resetOptionsPosition()
             }
@@ -174,10 +188,12 @@ class QuestionOverviewActivity : AppCompatActivity() {
             } else {
                 // 启动SpeechActivity
                 startRecording() // 進行錄音
+                binding.qSpeech.btnSpeech.setBackgroundResource(R.drawable.btn_background_yellow)
             }
         }
         binding.qSpeech.btnStop.setOnClickListener {
             stopRecording()   //停止錄音
+            binding.qSpeech.btnSpeech.setBackgroundResource(R.drawable.btn_background_teal)
         }
 
         binding.qSpeechImage.btnSpeech1.setOnClickListener {
@@ -186,10 +202,12 @@ class QuestionOverviewActivity : AppCompatActivity() {
             } else {
                 // 启动SpeechActivity
                 startRecording() // 進行錄音
+                binding.qSpeechImage.btnSpeech1.setBackgroundResource(R.drawable.btn_background_yellow)
             }
         }
         binding.qSpeechImage.btnStop1.setOnClickListener {
             stopRecording()   //停止錄音
+            binding.qSpeechImage.btnSpeech1.setBackgroundResource(R.drawable.btn_background_teal)
         }
 
         binding.qDescribeImage.btnSpeech2.setOnClickListener {
@@ -198,10 +216,12 @@ class QuestionOverviewActivity : AppCompatActivity() {
             } else {
                 // 启动SpeechActivity
                 startRecording() // 進行錄音
+                binding.qDescribeImage.btnSpeech2.setBackgroundResource(R.drawable.btn_background_yellow)
             }
         }
         binding.qDescribeImage.btnStop2.setOnClickListener {
             stopRecording()   //停止錄音
+            binding.qDescribeImage.btnSpeech2.setBackgroundResource(R.drawable.btn_background_teal)
         }
 
     }
@@ -284,6 +304,15 @@ class QuestionOverviewActivity : AppCompatActivity() {
             }
         })
     }
+    private fun speakText(textToSpeak: String) {
+        // 设置文本到语音引擎的语音输出参数
+        val speechParams = HashMap<String, String>()
+        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "option"
+
+        // 使用TTS引擎朗读文本
+        textToSpeech?.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, speechParams)
+    }
+
 
     // 打開正確的難度、類型的題目View
     @SuppressLint("ClickableViewAccessibility")
@@ -306,8 +335,23 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
             when (type) {
                 "複誦句子" -> {
+                    // 朗读 "跟著說"
+                    val followText = "跟著說"
+                    val followSpeechParams = HashMap<String, String>()
+                    followSpeechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "follow"
+                    textToSpeech?.speak(followText, TextToSpeech.QUEUE_FLUSH, followSpeechParams)
+
                     binding.qSpeech.tvImage1.text = currQuestion?.get("題目")?.toString() ?: ""
                 }
+
+                   /* // 设置文本到语音引擎的语音输出参数
+                    val speechParams = HashMap<String, String>()
+                    speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question"
+
+                    // 使用TTS引擎朗读题目文本
+                    textToSpeech?.speak(questionText, TextToSpeech.QUEUE_ADD, speechParams)*/
+
+
                 "簡單應答" -> {
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qSpeechImage.tvImage2.setImageDrawable(drawable)
@@ -403,6 +447,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     binding.qChooseSentence.tvOptionThree.text = currQuestion?.get("選項3")?.toString() ?: ""
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qChooseSentence.tvImage.setImageDrawable(drawable)
+
                     }
                 }
             }
@@ -504,7 +549,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     // 發送錄音檔案到後端server
     private fun sendAudioToServer(dateTime: String) {
         thread {
-            val socket = Socket("163.13.201.83", 3000)  
+            val socket = Socket("163.13.201.83", 3000)
             val outputStream = socket.getOutputStream()
 
             val username = intent.getStringExtra("username") ?: ""
@@ -600,13 +645,18 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     val droppedText = draggedView.text.toString()
 
                     // 检查目标视图的文本是否与已有的文本相同
-                    val isTextAlreadyExist = binding.qDragText.tvOption1.text.toString() == droppedText ||
-                            binding.qDragText.tvOption2.text.toString() == droppedText ||
-                            binding.qDragText.tvOption3.text.toString() == droppedText
+                    val isTextAlreadyExist =
+                        binding.qDragText.tvOption1.text.toString() == droppedText ||
+                                binding.qDragText.tvOption2.text.toString() == droppedText ||
+                                binding.qDragText.tvOption3.text.toString() == droppedText
 
                     if (!isTextAlreadyExist) {
                         targetView.text = droppedText
                         v.background = originalBackground
+
+                        // 使用TTS引擎朗读文本
+                        textToSpeech?.speak(droppedText, TextToSpeech.QUEUE_FLUSH, null, null)
+
                         return true
                     } else {
                         // 文本重复，不允许拖放
@@ -651,12 +701,14 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
     private fun showHint() {
         if (hints.isEmpty()) {
-            Toast.makeText(this@QuestionOverviewActivity, "沒有提示囉~", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@QuestionOverviewActivity, "沒有提示囉~", Toast.LENGTH_LONG).show()
+            speakText("沒有提示囉~")
         } else {
             val hintToShow = hints.removeAt(0)
             score--
             runOnUiThread {
-                Toast.makeText(this@QuestionOverviewActivity, hintToShow, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QuestionOverviewActivity, hintToShow, Toast.LENGTH_LONG).show()
+                speakText(hintToShow)
             }
         }
         if (hints.isEmpty()) {
@@ -673,10 +725,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 //if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "簡單應答" -> {
-                val userAnswer = binding.qSpeechImage.editWord.text.toString().trim()
-                if(Ans != userAnswer){ score-- }
+                //val userAnswer = binding.qSpeechImage.editWord.text.toString().trim()
+               // if(Ans != userAnswer){ score-- }
                 val recordData = recordList.lastOrNull {it.type == type }
-                if (recordData != null) { recordData.userAnswer = userAnswer }
+                //if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "聽覺理解" -> {
                 binding.qChooseImage.tvImage4.setOnClickListener {
@@ -747,10 +799,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
 
             "口語描述" -> {
-                val userAnswer = binding.qDescribeImage.editWord2.text.toString().trim()
-                if(Ans != userAnswer){ score-- }
+               // val userAnswer = binding.qDescribeImage.editWord2.text.toString().trim()
+                //if(Ans != userAnswer){ score-- }
                 val recordData = recordList.lastOrNull {it.type == type }
-                if (recordData != null) { recordData.userAnswer = userAnswer }
+               // if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "詞語表達" -> {
                 val selectedOption = when {
@@ -764,7 +816,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 if (recordData != null) {
                     recordData.userAnswer = selectedOption
                 }
-                binding.qChooseSentence.tvOptionOne.setOnClickListener { binding.next.performClick() }
+                binding.qChooseSentence.tvOptionOne.setOnClickListener { binding.next.performClick()  }
                 binding.qChooseSentence.tvOptionTwo.setOnClickListener { binding.next.performClick() }
                 binding.qChooseSentence.tvOptionThree.setOnClickListener { binding.next.performClick() }
             }

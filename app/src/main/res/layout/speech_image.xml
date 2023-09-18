@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+<androidx.appcompat.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
-    android:background="@drawable/bg">
+ >
 
 
     <LinearLayout
@@ -14,6 +21,19 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_text4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="輸入上方圖片內的物品名稱"
+            android:textColor="#363A43"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
 
         <ImageView
             android:id="@+id/tv_image2"
@@ -30,13 +50,31 @@
 
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:text="點擊錄音"
+            android:textColor="#0000E3"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
 
         <Button
             android:id="@+id/btn_speech1"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_margin="20dp"
-            android:background="@drawable/textview_background"
+            android:background="@drawable/btn_background_teal"
             android:contentDescription="開始錄音"
             android:drawableTop="@drawable/ic_baseline_mic_24"
             android:drawablePadding="50dp"
@@ -49,32 +87,20 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_margin="20dp"
-            android:background="@drawable/textview_background"
+            android:background="@drawable/btn_background_teal"
             android:contentDescription="停止錄音"
             android:gravity="center"
-            android:text="Stop"
+            android:drawablePadding="50dp"
+            android:drawableTop="@drawable/ic_outline_stop_circle_24"
+            android:padding="14dp"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="18sp" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_text4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="輸入上方圖片內的物品名稱"
-            android:textColor="#363A43"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_word"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="新增文字輸入"
-            android:singleLine="true"/>
 
 
     </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>

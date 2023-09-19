@@ -95,6 +95,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("MyApp", "onCreate called")
 
+        //TTS
         textToSpeech = TextToSpeech(this) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 val locale = Locale.getDefault()
@@ -148,7 +149,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
         }
 
         binding.next.setOnClickListener{
-            // 將操作放在非UI線程中
             mainHandler.post {
                 isAnsCorrect()
                 TotalScore += score
@@ -177,8 +177,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             binding.qDragText.tvOption1.background = originalBackgroundOption1
             binding.qDragText.tvOption2.background = originalBackgroundOption2
             binding.qDragText.tvOption3.background = originalBackgroundOption3
-            resetViews() // 调用重置函数，如之前提到的 resetViews()
-            // 进入下一题的逻辑
+            resetViews()
         }
 
         //speech
@@ -187,7 +186,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_MICROPHONE)
             } else {
-                // 启动SpeechActivity
+                // 啟动SpeechActivity
                 startRecording() // 進行錄音
                 binding.qSpeech.btnSpeech.setBackgroundResource(R.drawable.btn_background_yellow)
             }
@@ -201,7 +200,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_MICROPHONE)
             } else {
-                // 启动SpeechActivity
+                // 啟动SpeechActivity
                 startRecording() // 進行錄音
                 binding.qSpeechImage.btnSpeech1.setBackgroundResource(R.drawable.btn_background_yellow)
             }
@@ -215,7 +214,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_MICROPHONE)
             } else {
-                // 启动SpeechActivity
+                // 啟动SpeechActivity
                 startRecording() // 進行錄音
                 binding.qDescribeImage.btnSpeech2.setBackgroundResource(R.drawable.btn_background_yellow)
             }
@@ -252,7 +251,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
                             ),
                     millis
                 )
-                // 將計時的顯示更新放在主UI線程中
                 mainHandler.post {
                     textView.text = timerText
                 }
@@ -306,11 +304,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
         })
     }
     private fun speakText(textToSpeak: String) {
-        // 设置文本到语音引擎的语音输出参数
         val speechParams = HashMap<String, String>()
         speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "option"
 
-        // 使用TTS引擎朗读文本
+        // 使用TTS引擎朗讀文本
         textToSpeech?.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, speechParams)
     }
 
@@ -343,11 +340,9 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
                     binding.qSpeech.tvImage1.text= currQuestion?.get("題目")?.toString() ?: ""
                    val question= binding.qSpeech.tvImage1.text
-                            // 设置朗读的参数
                             val speechParams = HashMap<String, String>()
                             speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = " question"
-
-                            // 使用 TextToSpeech 朗读题目文本
+                            // 使用 TextToSpeech
                             textToSpeech?.speak(question.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
                         }
 
@@ -412,7 +407,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                         originalXForOption6 = binding.qDragText.tvOption6.x
                         originalYForOption6 = binding.qDragText.tvOption6.y
                     }
-                    // 设置拖动源的 OnTouchListener
+                    // 设置拖動源的 OnTouchListener
                     val draggableViews = listOf(
                         binding.qDragText.tvOption4,
                         binding.qDragText.tvOption5,
@@ -423,7 +418,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                         view.setOnTouchListener(DragTouchListener())
                     }
 
-                    // 设置拖放目标的 OnDragListener
+                    // 设置拖放目標的 OnDragListener
                     val targetViews = listOf(
                         binding.qDragText.tvOption1,
                         binding.qDragText.tvOption2,
@@ -440,11 +435,8 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     }
                     binding.qDescribeImage.tvText3.text = currQuestion?.get("題目")?.toString() ?: ""
                     val questions= binding.qDescribeImage.tvText3.text
-                    // 设置朗读的参数
                     val speechParams = HashMap<String, String>()
                     speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "questions"
-
-                    // 使用 TextToSpeech 朗读题目文本
                     textToSpeech?.speak(questions.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
                 }
                 "詞語表達" -> {
@@ -616,7 +608,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     } else {
                         view.startDrag(clipData, dragShadowBuilder, view, 0)
                     }
-                    view.performClick() // 处理点击事件
+                    view.performClick()
                     return true
                 }
                 else -> return false
@@ -650,7 +642,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     val targetView = v as TextView
                     val droppedText = draggedView.text.toString()
 
-                    // 检查目标视图的文本是否与已有的文本相同
                     val isTextAlreadyExist =
                         binding.qDragText.tvOption1.text.toString() == droppedText ||
                                 binding.qDragText.tvOption2.text.toString() == droppedText ||
@@ -660,12 +651,12 @@ class QuestionOverviewActivity : AppCompatActivity() {
                         targetView.text = droppedText
                         v.background = originalBackground
 
-                        // 使用TTS引擎朗读文本
+                        // 使用TTS引擎朗讀文本
                         textToSpeech?.speak(droppedText, TextToSpeech.QUEUE_FLUSH, null, null)
 
                         return true
                     } else {
-                        // 文本重复，不允许拖放
+                        // 文本重復，不允许拖放
                         return false
                     }
                 }
@@ -684,7 +675,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
         binding.qDragText.tvOption1.isSelected = false
         binding.qDragText.tvOption2.isSelected = false
         binding.qDragText.tvOption3.isSelected = false
-        // 可以添加其他重置逻辑，例如重置拖拽的内容
+        // 可以添加其他重置邏輯
     }
 
 
@@ -780,16 +771,16 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 }
 
                 if (selectedOption.isNotEmpty()) {
-                    // 如果有选项被拖放到了 tvOption1、tvOption2、tvOption3 中
+                    // 如果有選项被拖放到了 tvOption1、tvOption2、tvOption3 中
                     if (binding.qDragText.tvOption1.text.isEmpty()) {
                         binding.qDragText.tvOption1.text = selectedOption
-                        userAnswer = binding.qDragText.tvOption1.text.toString() // 记录用户答案到 userAnswer
+                        userAnswer = binding.qDragText.tvOption1.text.toString() // 记錄用户答案到 userAnswer
                     } else if (binding.qDragText.tvOption2.text.isEmpty()) {
                         binding.qDragText.tvOption2.text = selectedOption
-                        userAnswer = binding.qDragText.tvOption2.text.toString() // 记录用户答案到 userAnswer
+                        userAnswer = binding.qDragText.tvOption2.text.toString() // 记錄用户答案到 userAnswer
                     } else if (binding.qDragText.tvOption3.text.isEmpty()) {
                         binding.qDragText.tvOption3.text = selectedOption
-                        userAnswer = binding.qDragText.tvOption3.text.toString() // 记录用户答案到 userAnswer
+                        userAnswer = binding.qDragText.tvOption3.text.toString() // 记錄用户答案到 userAnswer
                     }
                 }
 

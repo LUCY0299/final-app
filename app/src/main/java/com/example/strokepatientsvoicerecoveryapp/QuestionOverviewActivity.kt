@@ -44,6 +44,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.storage.FirebaseStorage
 
 
+
 class QuestionOverviewActivity : AppCompatActivity() {
 
     // for another thread
@@ -335,21 +336,28 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
             when (type) {
                 "複誦句子" -> {
-                    // 朗读 "跟著說"
-                    val followText = "跟著說"
+                    val followText = binding.qSpeech.tvText1.text
                     val followSpeechParams = HashMap<String, String>()
                     followSpeechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "follow"
-                    textToSpeech?.speak(followText, TextToSpeech.QUEUE_FLUSH, followSpeechParams)
+                    textToSpeech?.speak(followText.toString(), TextToSpeech.QUEUE_FLUSH, followSpeechParams)
 
-                    binding.qSpeech.tvImage1.text = currQuestion?.get("題目")?.toString() ?: ""
-                }
+                    binding.qSpeech.tvImage1.text= currQuestion?.get("題目")?.toString() ?: ""
+                   val question= binding.qSpeech.tvImage1.text
+                            // 设置朗读的参数
+                            val speechParams = HashMap<String, String>()
+                            speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = " question"
 
-                   /* // 设置文本到语音引擎的语音输出参数
-                    val speechParams = HashMap<String, String>()
-                    speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question"
+                            // 使用 TextToSpeech 朗读题目文本
+                            textToSpeech?.speak(question.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                        }
 
-                    // 使用TTS引擎朗读题目文本
-                    textToSpeech?.speak(questionText, TextToSpeech.QUEUE_ADD, speechParams)*/
+
+                /* // 设置文本到语音引擎的语音输出参数
+                 val speechParams = HashMap<String, String>()
+                 speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question"
+
+                 // 使用TTS引擎朗读题目文本
+                 textToSpeech?.speak(questionText, TextToSpeech.QUEUE_ADD, speechParams)*/
 
 
                 "簡單應答" -> {
@@ -726,7 +734,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
             }
             "簡單應答" -> {
                 //val userAnswer = binding.qSpeechImage.editWord.text.toString().trim()
-               // if(Ans != userAnswer){ score-- }
+                // if(Ans != userAnswer){ score-- }
                 val recordData = recordList.lastOrNull {it.type == type }
                 //if (recordData != null) { recordData.userAnswer = userAnswer }
             }
@@ -799,10 +807,10 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
 
             "口語描述" -> {
-               // val userAnswer = binding.qDescribeImage.editWord2.text.toString().trim()
+                // val userAnswer = binding.qDescribeImage.editWord2.text.toString().trim()
                 //if(Ans != userAnswer){ score-- }
                 val recordData = recordList.lastOrNull {it.type == type }
-               // if (recordData != null) { recordData.userAnswer = userAnswer }
+                // if (recordData != null) { recordData.userAnswer = userAnswer }
             }
             "詞語表達" -> {
                 val selectedOption = when {

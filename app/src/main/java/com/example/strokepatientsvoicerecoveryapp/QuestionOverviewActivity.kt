@@ -351,15 +351,6 @@ class QuestionOverviewActivity : AppCompatActivity() {
                             textToSpeech?.speak(question.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
                         }
 
-
-                /* // 设置文本到语音引擎的语音输出参数
-                 val speechParams = HashMap<String, String>()
-                 speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question"
-
-                 // 使用TTS引擎朗读题目文本
-                 textToSpeech?.speak(questionText, TextToSpeech.QUEUE_ADD, speechParams)*/
-
-
                 "簡單應答" -> {
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qSpeechImage.tvImage2.setImageDrawable(drawable)
@@ -448,6 +439,13 @@ class QuestionOverviewActivity : AppCompatActivity() {
                         binding.qDescribeImage.tvImage3.setImageDrawable(drawable)
                     }
                     binding.qDescribeImage.tvText3.text = currQuestion?.get("題目")?.toString() ?: ""
+                    val questions= binding.qDescribeImage.tvText3.text
+                    // 设置朗读的参数
+                    val speechParams = HashMap<String, String>()
+                    speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "questions"
+
+                    // 使用 TextToSpeech 朗读题目文本
+                    textToSpeech?.speak(questions.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
                 }
                 "詞語表達" -> {
                     binding.qChooseSentence.tvOptionOne.text = currQuestion?.get("選項1")?.toString() ?: ""

@@ -335,7 +335,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 "複誦句子" -> {
                     val followText = binding.qSpeech.tvText1.text
                     val followSpeechParams = HashMap<String, String>()
-                    followSpeechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "follow"
+                    followSpeechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "followText"
                     textToSpeech?.speak(followText.toString(), TextToSpeech.QUEUE_FLUSH, followSpeechParams)
 
                     binding.qSpeech.tvImage1.text= currQuestion?.get("題目")?.toString() ?: ""
@@ -344,6 +344,14 @@ class QuestionOverviewActivity : AppCompatActivity() {
                             speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = " question"
                             // 使用 TextToSpeech
                             textToSpeech?.speak(question.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+
+                    binding.qSpeech.tvImage1.setOnClickListener {
+                        val question= binding.qSpeech.tvImage1.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = " question"
+                        // 使用 TextToSpeech
+                        textToSpeech?.speak(question.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                            }
                         }
 
                 "簡單應答" -> {
@@ -439,6 +447,51 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     for (view in targetViews) {
                         view.setOnDragListener(DragListener())
                     }
+                    binding.qDragText.tvImage8.setOnClickListener {
+                        showHint()
+                    }
+                    binding.qDragText.tvImage9.setOnClickListener {
+                        showHint()
+                    }
+                    binding.qDragText.tvImage10.setOnClickListener {
+                        showHint()
+                    }
+                    binding.qDragText.tvOption1.setOnClickListener {
+                        val question11= binding.qDragText.tvOption1.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question11"
+                        textToSpeech?.speak(question11.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
+                    binding.qDragText.tvOption2.setOnClickListener {
+                        val question22= binding.qDragText.tvOption2.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question22"
+                        textToSpeech?.speak(question22.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
+                    binding.qDragText.tvOption3.setOnClickListener {
+                        val question33= binding.qDragText.tvOption3.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question33"
+                        textToSpeech?.speak(question33.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
+                    binding.qDragText.tvOption4.setOnClickListener {
+                        val question1= binding.qDragText.tvOption4.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question1"
+                        textToSpeech?.speak(question1.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
+                    binding.qDragText.tvOption5.setOnClickListener {
+                        val question2= binding.qDragText.tvOption5.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question2"
+                        textToSpeech?.speak(question2.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
+                    binding.qDragText.tvOption6.setOnClickListener {
+                        val question3= binding.qDragText.tvOption6.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "question3"
+                        textToSpeech?.speak(question3.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
                 }
                 "口語描述" -> {
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
@@ -459,6 +512,27 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     val speechParams = HashMap<String, String>()
                     speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "tvquestions"
                     textToSpeech?.speak(tvquestions.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+
+                    /*
+                    binding.qChooseSentence.tvOptionOne.setOnClickListener {
+                        val questionOne=binding.qChooseSentence.tvOptionOne.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "questionOne"
+                        textToSpeech?.speak(questionOne.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
+                    binding.qChooseSentence.tvOptionTwo.setOnClickListener {
+                        val questionTwo=binding.qChooseSentence.tvOptionTwo.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "questionTwo"
+                        textToSpeech?.speak(questionTwo.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }
+
+                    binding.qChooseSentence.tvOptionThree.setOnClickListener {
+                        val questionThree=binding.qChooseSentence.tvOptionThree.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "questionThree"
+                        textToSpeech?.speak(questionThree.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+                    }*/
 
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qChooseSentence.tvImage.setImageDrawable(drawable)
@@ -636,6 +710,7 @@ class QuestionOverviewActivity : AppCompatActivity() {
     private inner class DragListener : View.OnDragListener {
         override fun onDrag(v: View, event: DragEvent): Boolean {
             when (event.action) {
+                //拖动开始时
                 DragEvent.ACTION_DRAG_STARTED -> {
                     if (event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
                         // 保存原始背景
@@ -644,16 +719,17 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     }
                     return false
                 }
-
+                //拖动的View进入监听的View时
                 DragEvent.ACTION_DRAG_ENTERED -> {
                     v.setBackgroundResource(R.drawable.green_border)
                     return true
                 }
+                //拖动的View离开在监听的View中时
                 DragEvent.ACTION_DRAG_EXITED -> {
                     v.background = originalBackground
                     return true
                 }
-
+                //拖动放下时
                 DragEvent.ACTION_DROP -> {
                     val draggedView = event.localState as TextView
                     val targetView = v as TextView
@@ -671,12 +747,17 @@ class QuestionOverviewActivity : AppCompatActivity() {
                         // 使用TTS引擎朗讀文本
                         textToSpeech?.speak(droppedText, TextToSpeech.QUEUE_FLUSH, null, null)
 
+                        /*// 更新 tvOption4, tvOption5, tvOption6 的背景颜色
+                        binding.qDragText.tvOption4.setBackgroundResource(R.drawable.text_drag_bgblack)
+                        binding.qDragText.tvOption5.setBackgroundResource(R.drawable.text_drag_bgblack)
+                        binding.qDragText.tvOption6.setBackgroundResource(R.drawable.text_drag_bgblack)*/
                         return true
                     } else {
                         // 文本重復，不允许拖放
-                        return false
+                        return true
                     }
                 }
+                //拖动结束时
                 DragEvent.ACTION_DRAG_ENDED -> {
                     return true
                 }

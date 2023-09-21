@@ -349,6 +349,12 @@ class QuestionOverviewActivity : AppCompatActivity() {
                 "簡單應答" -> {
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qSpeechImage.tvImage2.setImageDrawable(drawable)
+
+                        val tvquestion= binding.qSpeechImage.tvText4.text
+                        val speechParams = HashMap<String, String>()
+                        speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "tvquestion"
+                        // 使用 TextToSpeech
+                        textToSpeech?.speak(tvquestion.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
                     }
                 }
                 "聽覺理解" -> {
@@ -365,6 +371,11 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     LoadImage(currQuestion?.get("圖片4")?.toString()) { drawable ->
                         binding.qChooseImage.tvImage7.setImageDrawable(drawable)
                     }
+                    val tv_question= binding.qChooseImage.tvText2.text
+                    val speechParams = HashMap<String, String>()
+                    speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "tv_question"
+                    // 使用 TextToSpeech
+                    textToSpeech?.speak(tv_question.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
                 }
                 "圖物配對" -> {
                     val answerList = mutableListOf(
@@ -443,6 +454,12 @@ class QuestionOverviewActivity : AppCompatActivity() {
                     binding.qChooseSentence.tvOptionOne.text = currQuestion?.get("選項1")?.toString() ?: ""
                     binding.qChooseSentence.tvOptionTwo.text = currQuestion?.get("選項2")?.toString() ?: ""
                     binding.qChooseSentence.tvOptionThree.text = currQuestion?.get("選項3")?.toString() ?: ""
+
+                    val tvquestions= binding.qChooseSentence.tvQuestion.text
+                    val speechParams = HashMap<String, String>()
+                    speechParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "tvquestions"
+                    textToSpeech?.speak(tvquestions.toString(), TextToSpeech.QUEUE_FLUSH, speechParams)
+
                     LoadImage(currQuestion?.get("圖片1")?.toString()) { drawable ->
                         binding.qChooseSentence.tvImage.setImageDrawable(drawable)
 

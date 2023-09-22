@@ -134,12 +134,12 @@ class QuestionOverviewActivity : AppCompatActivity() {
 
         // 選題目
         when (selectedTitle) {
-            "食物" -> QuizTotalSum = 148
-            "生活" -> QuizTotalSum = 107
-            "流暢" -> QuizTotalSum = 141
-            "理解" -> QuizTotalSum = 114
-            "重述-簡單" -> QuizTotalSum = 27
-            "重述-困難" -> QuizTotalSum = 22
+            "食物" -> QuizTotalSum = 153
+            "生活" -> QuizTotalSum = 122
+            "流暢" -> QuizTotalSum = 147
+            "理解" -> QuizTotalSum = 127
+            "重述-簡單" -> QuizTotalSum = 26
+            "重述-困難" -> QuizTotalSum = 23
         }
         val randomQnum = (1..QuizTotalSum).random()
         getTheQuizFromSheet(randomQnum)
